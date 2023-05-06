@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
+
+<svg
+   width="800px"
+   height="800px"
+   viewBox="0 -0.5 17 17"
+   version="1.1"
+   class="si-glyph si-glyph-eject"
+   id="svg1407"
+   sodipodi:docname="eject.svg"
+   inkscape:version="1.2.2 (b0a8486, 2022-12-01)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1409"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     showgrid="false"
+     inkscape:zoom="1.0225"
+     inkscape:cx="399.511"
+     inkscape:cy="556.47922"
+     inkscape:window-width="1912"
+     inkscape:window-height="1012"
+     inkscape:window-x="0"
+     inkscape:window-y="30"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg1407" />
+  <title
+     id="title1395">1240</title>
+  <defs
+     id="defs1397" />
+  <g
+     stroke="none"
+     stroke-width="1"
+     fill="none"
+     fill-rule="evenodd"
+     id="g1405"
+     transform="matrix(0.59898411,0,0,-0.58922847,3.1134146,15.718442)"
+     style="fill:#eceff4;fill-opacity:1">
+    <g
+       transform="translate(1,1)"
+       fill="#434343"
+       id="g1403"
+       style="fill:#eceff4;fill-opacity:1">
+      <path
+         d="m 1.152,0.004 c -0.546,0 -0.988,0.443 -0.988,0.99 v 1.979 c 0,0.547 0.442,0.99 0.988,0.99 h 13.855 c 0.548,0 0.99,-0.443 0.99,-0.99 V 0.994 c 0,-0.547 -0.442,-0.99 -0.99,-0.99 z"
+         class="si-glyph-fill"
+         id="path1399"
+         style="fill:#eceff4;fill-opacity:1" />
+      <path
+         d="m 9.051,14.561 c -0.582,0.58 -1.523,0.58 -2.104,0 L 0.504,8.116 c -0.582,-0.58 -0.838,-2.102 1,-2.102 h 12.988 c 1.902,0 1.582,1.521 1.002,2.102 z"
+         class="si-glyph-fill"
+         id="path1401"
+         style="fill:#eceff4;fill-opacity:1" />
+    </g>
+  </g>
+</svg>

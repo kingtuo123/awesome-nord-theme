@@ -78,7 +78,7 @@ theme.fg_minimize   = "#ffffff"
 theme.useless_gap   = dpi(3)
 theme.border_width  = dpi(4)
 theme.border_normal = "#3b4252"
-theme.border_focus  = theme.bg
+theme.border_focus  = "#242933"
 theme.border_marked = "#91231c"
 
 theme.wibar_bg			= theme.bg
@@ -177,7 +177,7 @@ theme.titlebar_height = dpi(30)
 theme.titlebar_fg_normal = "#e5eaf066"
 theme.titlebar_bg_normal = "#3b4252"
 theme.titlebar_fg_focus	  = theme.fg
-theme.titlebar_bg_focus	  = theme.bg
+theme.titlebar_bg_focus	  = "#242933"
 
 
 theme.titlebar_close_button_normal = theme.icon_dir .. "titlebar/titlebutton-close-normal.svg"

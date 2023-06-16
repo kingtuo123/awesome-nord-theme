@@ -84,7 +84,7 @@ end
 
 
 battery.timer = {
-	timeout   = 60,
+	timeout   = 15,
     call_now  = true,
     autostart = true,
     callback  = battery.update

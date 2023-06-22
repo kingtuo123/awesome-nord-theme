@@ -4,10 +4,11 @@ local xresources = require("beautiful.xresources")
 local dpi 		 = xresources.apply_dpi
 
 
-
 theme					= {}
+theme.style 			= "light"
+--theme.style 			= "dark"
 theme.dir               = os.getenv("HOME") .. "/.config/awesome/"
-theme.icon_dir          = os.getenv("HOME") .. "/.config/awesome/icons/light/"
+theme.icon_dir          = os.getenv("HOME") .. "/.config/awesome/icons/" .. theme.style .. "/"
 
 
 --dark
@@ -34,17 +35,93 @@ theme.color13 = "#ebcb8b"
 theme.color14 = "#a3be8c"
 theme.color15 = "#b48ead"
 
-theme.fg	 = theme.color6
-theme.bg	 = "#242933"
+theme.color16 = "#242933"
+
+
+if theme.style == "dark" then
+	theme.fg	 = theme.color6
+	theme.bg	 = theme.color16
+	theme.border_normal = theme.color1
+	theme.border_focus  = theme.color16
+	theme.titlebar_fg_normal = theme.color3
+	theme.titlebar_bg_normal = theme.color1
+	theme.titlebar_fg_focus  = theme.fg
+	theme.titlebar_bg_focus  = theme.color16
+
+	theme.taglist_fg_focus    = theme.color6
+	theme.taglist_bg_focus    = theme.color2
+	theme.taglist_fg_occupied = theme.color4
+	theme.taglist_bg_occupied = theme.color0
+	theme.taglist_bg_empty    = theme.bg
+	theme.taglist_fg_empty    = theme.color1
+	theme.taglist_bg_hover 	  = theme.color3
+
+	theme.tasklist_bg_focus    = theme.color1
+	theme.tasklist_bg_normal   = theme.bg
+	theme.tasklist_bg_minimize = theme.bg
+	theme.tasklist_bg_line     = theme.color3
+	theme.tasklist_bg_hover    = theme.color2
+
+	theme.promptbox_bg = theme.color0
+	theme.promptbox_border = theme.color3
+	theme.prompt_fg = theme.fg
+	theme.prompt_bg = theme.promptbox_bg
+
+	theme.widget_bg_hover = theme.color0
+	theme.popup_border_color	  = theme.color3
+
+	theme.widget_bg = theme.color3
+else
+	theme.fg	 = theme.color2
+	theme.bg	 = theme.color6
+	theme.border_normal = theme.color4
+	theme.border_focus  = theme.color6
+	theme.titlebar_fg_normal = theme.color6
+	theme.titlebar_bg_normal = theme.color4
+	theme.titlebar_fg_focus  = theme.fg
+	theme.titlebar_bg_focus  = theme.color6
+
+	theme.taglist_fg_focus    = theme.color2
+	theme.taglist_bg_focus    = theme.color2 .. "44"
+	theme.taglist_fg_occupied = theme.color2
+	theme.taglist_bg_occupied = theme.color4
+	theme.taglist_bg_empty    = theme.bg
+	theme.taglist_fg_empty    = theme.color4
+	theme.taglist_bg_hover 	  = theme.color2 .. "55"
+
+	theme.tasklist_bg_focus    = theme.color4
+	theme.tasklist_bg_normal   = theme.bg
+	theme.tasklist_bg_minimize = theme.bg
+	theme.tasklist_bg_line     = theme.color10
+	theme.tasklist_bg_hover    = theme.color2 .. "33"
+
+	theme.promptbox_bg = theme.color6
+	theme.promptbox_border = theme.color4
+	theme.prompt_fg = theme.fg
+	theme.prompt_bg = theme.promptbox_bg
+
+	theme.widget_bg_hover = theme.color1 .. "33"
+	theme.popup_border_color	  = theme.color4
+
+	theme.widget_bg = theme.color4
+end
+
 
 theme.wibar_height		 = dpi(30)
+
 theme.popup_margin_top	 = theme.wibar_height + dpi(5)
 theme.popup_border_width = dpi(2)
 theme.popup_rounded		 = dpi(5)
 
+theme.titlebar_height = dpi(30)
 
+theme.taglist_spacing                           = dpi(0)
 
-theme.docker_icon = theme.icon_dir .. "docker/docker.svg"
+theme.tasklist_icon_size  = dpi(30)
+theme.tasklist_line_width = dpi(50)
+theme.tasklist_spacing    = dpi(3)
+theme.tasklist_disable_task_name = true
+
 
 
 
@@ -64,39 +141,10 @@ theme.icon_theme		= "Fluent"
 theme.font				= "Microsoft YaHei Bold 9"
 theme.prompt_font		= "Microsoft YaHei Bold 10"
 
-theme.bg_normal     = "#222222"
-theme.bg_focus      = "#535d6c"
-theme.bg_urgent     = theme.color11
-theme.bg_minimize   = "#444444"
-theme.bg_systray    = theme.bg_normal
-
-theme.fg_normal     = "#aaaaaa"
-theme.fg_focus      = "#ffffff"
-theme.fg_urgent     = "#ffffff"
-theme.fg_minimize   = "#ffffff"
-
 theme.useless_gap   = dpi(3)
 theme.border_width  = dpi(4)
-theme.border_normal = "#3b4252"
-theme.border_focus  = "#242933"
-theme.border_marked = "#91231c"
 
-theme.wibar_bg			= theme.bg
-theme.wibar_fg			= theme.fg
-theme.widget_font		= "Microsoft YaHei Bold 9"
-theme.widget_shape_border_width = dpi(5)
-theme.widget_shape_border_round = dpi(0)
 
-theme.widget_shape_border_color = "#00000000"
-theme.widget_bg_active_color = "#2e3440"
-theme.widget_bg_inactive_color = "#00000000"
-
-theme.menu_font =  "Microsoft YaHei Bold 10"
-theme.menu_height = dpi(30)
-theme.menu_width = dpi(300)
-theme.menu_border_width = dpi(2)
-theme.menu_bg_normal = "#2e3440"
-theme.menu_bg_focus = "#4c566a"
 
 
 
@@ -158,26 +206,11 @@ theme.layout_fairh = theme.icon_dir .. "layouts/fairh.svg"
 --theme.taglist_squares_sel   = theme.icon_dir .. "layouts/fairv.svg"
 --theme.taglist_squares_unsel = theme.icon_dir .. "layouts/fairh.svg"
 
-theme.taglist_fg_focus                          = "#eceff4"
-theme.taglist_bg_focus                          = theme.color2
-
-theme.taglist_fg_occupied                          = "#d8dee9"
-theme.taglist_bg_occupied                          = "#2e3440"
-theme.taglist_bg_empty                          = theme.bg
-theme.taglist_fg_empty                          = theme.color1
-theme.taglist_bg_hover 							= "#434c5e"
-
-theme.taglist_spacing                           = dpi(0)
 
 
 theme.snap_bg = "#eceff4"
 theme.snap_border_width = dpi(2)
 
-theme.titlebar_height = dpi(30)
-theme.titlebar_fg_normal = "#e5eaf066"
-theme.titlebar_bg_normal = "#3b4252"
-theme.titlebar_fg_focus	  = theme.fg
-theme.titlebar_bg_focus	  = "#242933"
 
 
 theme.titlebar_close_button_normal = theme.icon_dir .. "titlebar/titlebutton-close-normal.svg"
@@ -247,28 +280,6 @@ theme.titlebar_sticky_button_normal_inactive_hover = theme.icon_dir .. "titlebar
 
 theme.terminal_icon	= theme.icon_dir .. "promptbox/terminal.svg"
 
-
-theme.tasklist_icon_size = dpi(30)
-theme.tasklist_spacing = dpi(3)
---theme.tasklist_shape = function(cr, width, height)
---	gears.shape.rounded_rect(cr, width, height, dpi(2))
---end
-theme.tasklist_disable_task_name = true
---theme.tasklist_shape_border_width = dpi(2)
-
-theme.tasklist_shape_border_color_focus = "#d8dee9"
-theme.tasklist_bg_focus = theme.color1
-
-
-theme.tasklist_fg_normal = "#ffffff55"
-theme.tasklist_bg_normal = theme.bg
-theme.tasklist_shape_border_color = "#3b4252"
-
-
-theme.tasklist_fg_minimize = "#ffffff55"
-theme.tasklist_bg_minimize = theme.bg
-theme.tasklist_shape_border_color_minimized = "#4c566a"
-theme.tasklist_line_width  = dpi(50)
 
 --theme.tasklist_bg_image_focus = theme.icon_dir .. "tasklist/bg_focus.svg"
 --theme.tasklist_bg_image_normal = theme.icon_dir .. "tasklist/bg_normal.svg"

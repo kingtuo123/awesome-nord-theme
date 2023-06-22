@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="83.999825"
+   height="83.999825"
+   version="1.1"
+   id="svg950"
+   sodipodi:docname="titlebutton-close-active.svg"
+   viewBox="0 0 13.999971 13.999971"
+   inkscape:version="1.2.2 (b0a8486, 2022-12-01)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs954" />
+  <sodipodi:namedview
+     id="namedview952"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     showgrid="false"
+     inkscape:zoom="6.875"
+     inkscape:cx="3.0545455"
+     inkscape:cy="13.963636"
+     inkscape:window-width="1912"
+     inkscape:window-height="1012"
+     inkscape:window-x="0"
+     inkscape:window-y="30"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg950" />
+  <g
+     transform="matrix(3.7795,0,0,3.7795,-323.00049,-581.58214)"
+     id="g948">
+    <g
+       transform="matrix(0.34018,0,0,0.34018,84.931,153.33)"
+       enable-background="new"
+       id="g944">
+      <g
+         transform="translate(-5,-1033.4)"
+         id="g942">
+        <g
+           fill-rule="evenodd"
+           id="g940">
+          <path
+             d="m 12.003,1045.9 c 3.0068,0 5.4444,-2.4375 5.4444,-5.4444 0,-3.0069 -2.4376,-5.4445 -5.4444,-5.4445 -3.0069,0 -5.4445,2.4376 -5.4445,5.4445 0,3.0069 2.4376,5.4444 5.4445,5.4444"
+             fill="#cb4e43"
+             stroke-width="0.77778"
+             id="path938"
+             style="fill:#b54a54;fill-opacity:1" />
+        </g>
+      </g>
+    </g>
+    <path
+       d="m 86.564,154.96 c -0.10365,0.10364 -0.10365,0.27051 0,0.37417 l 0.37417,0.37418 -0.37417,0.37417 c -0.10365,0.10366 -0.10365,0.27054 0,0.37417 0.10364,0.10367 0.27053,0.10367 0.37417,0 l 0.37418,-0.37417 0.37418,0.37417 c 0.10364,0.10367 0.27053,0.10367 0.37417,0 0.10365,-0.10363 0.10365,-0.27051 0,-0.37417 l -0.37417,-0.37417 0.37417,-0.37418 c 0.10365,-0.10366 0.10365,-0.27053 0,-0.37417 -0.10364,-0.10367 -0.27053,-0.10367 -0.37417,0 l -0.37418,0.37417 -0.37418,-0.37417 c -0.10364,-0.10367 -0.27053,-0.10367 -0.37417,0 z"
+       enable-background="new"
+       opacity="0.5"
+       id="path946" />
+  </g>
+</svg>

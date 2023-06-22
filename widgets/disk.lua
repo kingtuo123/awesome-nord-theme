@@ -224,7 +224,7 @@ disk.panel = wibox.widget{
 						max_value     	 = 100,
 						value         	 = args.fsuse,
 						color			 = part.barcolor,
-						background_color = theme.color3,
+						background_color = theme.widget_bg,
 						forced_height	 = dpi(5),
 						forced_width	 = part.barwidth,
 						border_width	 = 0,
@@ -268,14 +268,14 @@ disk.panel = wibox.widget{
 
 				layout = wibox.layout.fixed.horizontal,
 			},
-			bg = theme.color0,
+			bg = theme.bg,
 			widget = wibox.container.background,
 		}
 		wdg:connect_signal('mouse::enter',function (self) 
-			wdg.bg = theme.color1
+				wdg.bg = theme.widget_bg_hover
 		end)
 		wdg:connect_signal('mouse::leave',function (self) 
-			wdg.bg = theme.color0
+			wdg.bg = theme.bg
 		end)
 
 
@@ -313,10 +313,11 @@ disk.panel = wibox.widget{
 
 disk.popup = awful.popup{
 	widget			= disk.panel,
-	border_color	= theme.color3,
+	border_color	= theme.popup_border_color,
     border_width	= theme.popup_border_width,
 	visible			= false,
-	bg				= theme.color0,
+	bg				= theme.bg,
+	fg				= theme.fg,
 	ontop			= true,
 	shape			= function(cr, width, height)
 		gears.shape.rounded_rect(cr, width, height, theme.popup_rounded)

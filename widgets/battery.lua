@@ -45,7 +45,7 @@ battery.widget = wibox.widget {
 		id           = "mytb",
 		text         = " 100%",
 		visible		 = false,
-		font 		 = theme.widget_font,
+		font 		 = theme.font,
 		widget       = wibox.widget.textbox,
 	},
 	layout = wibox.layout.fixed.horizontal,
@@ -98,8 +98,8 @@ battery.brightness_progressbar = wibox.widget{
 			value				= 0.5,
 			forced_height		= dpi(50),
 			forced_width		= dpi(100),
-			color				= "#eceff4",
-			background_color	= "#2e3440",
+			color				= theme.color6,
+			background_color	= theme.widget_bg .. "cc",
 			widget				= wibox.widget.progressbar,
 		},
 		direction	= "east",
@@ -141,7 +141,7 @@ battery.brightness_progressbar = wibox.widget{
 
 battery.popup = awful.popup{
 	widget			= battery.brightness_progressbar,
-	border_color	= theme.color3,
+	border_color	= theme.popup_border_color,
     border_width	= theme.popup_border_width,
 	visible			= false,
 	bg				= theme.color0,

@@ -66,7 +66,7 @@ single_cpu_bar = function()
 			bar_border_width = 0,
 			forced_height	 = dpi(8),
 			color			 = theme.color10,
-			background_color = theme.color3,
+			background_color = theme.widget_bg,
 			shape			 = function(cr, width, height)
 				gears.shape.rounded_rect(cr, width, height, dpi(2))
 			end,

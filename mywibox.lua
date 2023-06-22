@@ -66,12 +66,12 @@ local add_wdg = function(d,t,l,r,b)
 	}
 
 	ret:connect_signal('mouse::enter',function() 
-		ret.bg = theme.color0
+		ret.bg = theme.widget_bg_hover
 	end)
 	ret:connect_signal('mouse::leave',function(self) 
 		if d.popup ~= nil then
 			if d.popup.visible then
-				ret.bg = theme.color0
+				ret.bg = theme.widget_bg_hover
 			else
 				ret.bg = theme.bg
 			end
@@ -199,11 +199,11 @@ function at_screen_connect(s)
             widget = wibox.container.margin,
 			create_callback = function(self, c3, index, objects)
 				self:connect_signal("mouse::enter", function()
-					if self.background_role.bg ~= theme.color3 then
+					if self.background_role.bg ~= theme.taglist_bg_hover  then
 						self.backup     = self.background_role.bg
 						self.has_backup = true
 					end
-					self.background_role.bg = theme.color3
+					self.background_role.bg = theme.taglist_bg_hover 
 				end)
 				self:connect_signal("mouse::leave", function()
 					if self.has_backup then 
@@ -253,8 +253,9 @@ function at_screen_connect(s)
 	-- mypromptbox
 	s.mypromptbox = awful.widget.prompt{
 		prompt = "  ",
-		bg	= theme.color0,
-		fg	= theme.color6,
+		--bg	= theme.color0,
+		--fg	= theme.color6,
+		bg_cursor = theme.prompt_fg,
 		done_callback = function() s.mypromptbox_popup.visible = false
 	end}
 
@@ -279,8 +280,8 @@ function at_screen_connect(s)
 			s.mypromptbox,
 			layout = wibox.layout.fixed.horizontal,
 		},
-		border_color	= theme.color3,
-		bg				= theme.color0,
+		border_color	= theme.promptbox_border,
+		bg				= theme.promptbox_bg,
 		border_width	= theme.popup_border_width,
 		visible			= false,
 		ontop			= true,
@@ -373,7 +374,7 @@ function at_screen_connect(s)
 								widget = wibox.widget.textbox,
 							},
 							id = "linebg",
-							bg = theme.color3,
+							bg = theme.tasklist_bg_line,
 							widget = wibox.container.background,
 						},
 						halign = 'center',
@@ -421,13 +422,13 @@ function at_screen_connect(s)
 				local background_role = self:get_children_by_id('background_role')[1]
 				self:connect_signal("mouse::enter", function()
 					if c == client.focus then
-						background_role.bg = theme.color2
+						background_role.bg = theme.tasklist_bg_hover
 						linebg.opacity = 1
 					elseif c.minimized then
-						background_role.bg = theme.color1
+						background_role.bg = theme.tasklist_bg_focus
 						linebg.opacity = 0
 					else
-						background_role.bg = theme.color1
+						background_role.bg = theme.tasklist_bg_focus
 					end
 					line.forced_width = theme.tasklist_line_width
 				end)
@@ -475,7 +476,7 @@ function at_screen_connect(s)
 
 
 
-    s.mywibox = awful.wibar({ position = "top", screen = s, height = theme.wibar_height, fg = theme.wibar_fg, bg = theme.wibar_bg})
+    s.mywibox = awful.wibar({ position = "top", screen = s, height = theme.wibar_height, fg = theme.fg, bg = theme.bg})
     s.mywibox:setup {
         layout = wibox.layout.align.horizontal,
         {

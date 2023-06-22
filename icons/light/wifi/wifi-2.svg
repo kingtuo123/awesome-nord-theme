@@ -44,8 +44,8 @@
      inkscape:deskcolor="#d1d1d1"
      showgrid="false"
      inkscape:zoom="4.09"
-     inkscape:cx="92.542787"
-     inkscape:cy="66.870416"
+     inkscape:cx="92.420538"
+     inkscape:cy="67.114914"
      inkscape:window-width="1912"
      inkscape:window-height="1012"
      inkscape:window-x="0"
@@ -57,7 +57,7 @@
      p-id="2945"
      fill="#eceff4"
      id="path16934"
-     style="fill:#eceff4;fill-opacity:0.3"
+     style="fill:#4c566a;fill-opacity:0.3019608"
      sodipodi:insensitive="true"
      clip-path="url(#clipPath17348)" />
   <path
@@ -65,5 +65,6 @@
      p-id="2945"
      fill="#eceff4"
      id="path17016"
-     clip-path="url(#clipPath17324)" />
+     clip-path="url(#clipPath17324)"
+     style="fill:#4c566a;fill-opacity:1" />
 </svg>

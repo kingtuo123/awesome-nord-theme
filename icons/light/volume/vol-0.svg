@@ -45,7 +45,7 @@
      showgrid="false"
      inkscape:zoom="5.6568542"
      inkscape:cx="38.890873"
-     inkscape:cy="53.740116"
+     inkscape:cy="53.828504"
      inkscape:window-width="1912"
      inkscape:window-height="1012"
      inkscape:window-x="0"
@@ -64,7 +64,7 @@
      style="display:none;fill:#808080;fill-opacity:0.9;stroke-width:0.543784"
      d="m 173.21,44.394363 c -7.35415,-0.85066 -15.14836,1.36835 -21.27,7.49 L 55.18,148.62436 h -111 c -14.42115,0 -26.1,11.67885 -26.1,26.1 v 156.61 c 0,14.41027 11.67885,26.1 26.1,26.1 h 111 l 96.76,96.74 c 16.34614,16.34614 44.56,4.86745 44.56,-18.45 V 70.344363 c 0,-14.587 -11.03309,-24.53223 -23.29,-25.95 z" />
   <rect
-     style="fill:#eceff4;fill-opacity:1;stroke:#666666;stroke-width:0"
+     style="fill:#4c566a;fill-opacity:1;stroke:#666666;stroke-width:0"
      id="rect1082"
      width="54.846806"
      height="629.74744"
@@ -75,13 +75,13 @@
      transform="rotate(-45.018425)" />
   <path
      id="path1511"
-     style="fill:#eceff4;fill-opacity:1;stroke-width:0.543784"
+     style="fill:#4c566a;fill-opacity:1;stroke-width:0.543784"
      d="m 517.91,303.37 c -7.35415,-0.85066 -15.14836,1.36835 -21.27,7.49 l -96.76,96.74 h -111 c -14.42115,0 -26.1,11.67885 -26.1,26.1 v 156.61 c 0,14.41027 11.67885,26.1 26.1,26.1 h 111 l 96.76,96.74 c 16.34614,16.34614 44.56,4.86745 44.56,-18.45 V 329.32 c 0,-14.587 -11.03309,-24.53223 -23.29,-25.95 z"
      clip-path="url(#clipPath1585)"
      transform="translate(-180.86,-228.25564)" />
   <path
      id="path1589"
-     style="fill:#eceff4;fill-opacity:1;stroke-width:0.543784"
+     style="fill:#4c566a;fill-opacity:1;stroke-width:0.543784"
      d="m 517.91,303.37 c -7.35415,-0.85066 -15.14836,1.36835 -21.27,7.49 l -96.76,96.74 h -111 c -14.42115,0 -26.1,11.67885 -26.1,26.1 v 156.61 c 0,14.41027 11.67885,26.1 26.1,26.1 h 111 l 96.76,96.74 c 16.34614,16.34614 44.56,4.86745 44.56,-18.45 V 329.32 c 0,-14.587 -11.03309,-24.53223 -23.29,-25.95 z"
      clip-path="url(#clipPath1593)"
      transform="translate(-180.86,-228.25564)" />

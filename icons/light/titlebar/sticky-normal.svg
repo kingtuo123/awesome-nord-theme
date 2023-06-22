@@ -7,7 +7,7 @@
    viewBox="0 0 5.8333337 5.8333339"
    version="1.1"
    id="svg5179"
-   sodipodi:docname="floating-normal.svg"
+   sodipodi:docname="sticky-normal.svg"
    inkscape:version="1.2.2 (b0a8486, 2022-12-01)"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
@@ -26,7 +26,7 @@
      showgrid="false"
      inkscape:zoom="6.2858585"
      inkscape:cx="64.907602"
-     inkscape:cy="62.998555"
+     inkscape:cy="63.078098"
      inkscape:window-width="1912"
      inkscape:window-height="1012"
      inkscape:window-x="0"
@@ -67,7 +67,7 @@
      transform="translate(-1.2207708,-5.1728549)"
      style="fill:#1a1a1a;fill-opacity:0.9">
     <rect
-       style="fill:#000000;fill-opacity:0;fill-rule:nonzero;stroke:#4c566a;stroke-width:0.470784;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;paint-order:normal"
+       style="fill:#000000;fill-opacity:0;fill-rule:nonzero;stroke:#4c566a;stroke-width:0.470784;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:0.30000001;paint-order:normal"
        id="rect6142"
        width="5.3342824"
        height="5.3342824"
@@ -87,8 +87,8 @@
        style="font-size:75.259px;white-space:pre;shape-inside:url(#rect5400);display:inline;fill:#333333;fill-opacity:0;stroke:#666666;stroke-width:0;stroke-dasharray:none"><tspan
          x="32.667969"
          y="183.7684"
-         id="tspan1700"><tspan
+         id="tspan2754"><tspan
            style="font-weight:bold;font-family:'Microsoft YaHei';-inkscape-font-specification:'Microsoft YaHei Bold'"
-           id="tspan1698">F</tspan></tspan></text>
+           id="tspan2752">F</tspan></tspan></text>
   </g>
 </svg>

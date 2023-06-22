@@ -7,7 +7,7 @@
    height="14.973251"
    viewBox="0 0 19.999434 14.973251"
    version="1.1"
-   id="svg1013"
+   id="svg900"
    sodipodi:docname="netspeed-up.svg"
    inkscape:version="1.2.2 (b0a8486, 2022-12-01)"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
@@ -15,9 +15,9 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:svg="http://www.w3.org/2000/svg">
   <defs
-     id="defs1017" />
+     id="defs904" />
   <sodipodi:namedview
-     id="namedview1015"
+     id="namedview902"
      pagecolor="#ffffff"
      bordercolor="#000000"
      borderopacity="0.25"
@@ -27,16 +27,16 @@
      inkscape:deskcolor="#d1d1d1"
      showgrid="false"
      inkscape:zoom="0.72301668"
-     inkscape:cx="219.22039"
-     inkscape:cy="262.78785"
+     inkscape:cx="142.45868"
+     inkscape:cy="233.05133"
      inkscape:window-width="1912"
      inkscape:window-height="1012"
      inkscape:window-x="0"
      inkscape:window-y="30"
      inkscape:window-maximized="1"
-     inkscape:current-layer="svg1013" />
+     inkscape:current-layer="svg900" />
   <path
      d="M 1.0005735,14.97325 H 19.000574 a 1.002,1.002 0 0 0 0.823,-1.569 l -9,-13 c -0.373,-0.539 -1.2710005,-0.539 -1.6450005,0 l -8.99999997,13 a 0.999,0.999 0 0 0 0.82199997,1.569 z"
-     id="path1011"
-     style="fill:#4c566a;fill-opacity:1" />
+     id="path898"
+     style="fill:#4c566a;fill-opacity:1;opacity:0.3" />
 </svg>

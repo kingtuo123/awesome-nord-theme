@@ -23,7 +23,6 @@ local colors = {
 	theme.color11,
 }
 
-
 mem.widget = wibox.widget {
 	{
 		id					= "bar",
@@ -33,7 +32,7 @@ mem.widget = wibox.widget {
 		bar_border_width	= 0,
 		forced_width  		= dpi(55),
 		color				= theme.color10,
-		background_color	= theme.color3,
+		background_color	= theme.widget_bg,
 		shape				= function(cr, width, height)
 			gears.shape.rounded_rect(cr, width, height, dpi(2))
 		end,

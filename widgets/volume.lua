@@ -142,8 +142,8 @@ volume.progressbar = wibox.widget{
 			value				= 0.5,
 			forced_height		= dpi(50),
 			forced_width		= dpi(100),
-			color				= "#eceff4",
-			background_color	= "#2e3440",
+			color				= theme.color6,
+			background_color	= theme.widget_bg .. "cc",
 			widget				= wibox.widget.progressbar,
 		},
 		direction	= "east",
@@ -190,7 +190,7 @@ volume.progressbar = wibox.widget{
 
 volume.popup = awful.popup{
 	widget			= volume.progressbar,
-	border_color	= theme.color3,
+	border_color	= theme.popup_border_color,
     border_width	= theme.popup_border_width,
 	visible			= false,
 	bg				= theme.color0,

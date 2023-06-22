@@ -5,9 +5,9 @@
    fill="#000000"
    width="19.999434"
    height="14.973251"
-   viewBox="0 0 19.999434 14.973252"
+   viewBox="0 0 19.999434 14.973251"
    version="1.1"
-   id="svg1013"
+   id="svg900"
    sodipodi:docname="netspeed-down.svg"
    inkscape:version="1.2.2 (b0a8486, 2022-12-01)"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
@@ -15,9 +15,9 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:svg="http://www.w3.org/2000/svg">
   <defs
-     id="defs1017" />
+     id="defs904" />
   <sodipodi:namedview
-     id="namedview1015"
+     id="namedview902"
      pagecolor="#ffffff"
      bordercolor="#000000"
      borderopacity="0.25"
@@ -26,17 +26,17 @@
      inkscape:pagecheckerboard="0"
      inkscape:deskcolor="#d1d1d1"
      showgrid="false"
-     inkscape:zoom="0.72301668"
-     inkscape:cx="219.22039"
-     inkscape:cy="262.78785"
+     inkscape:zoom="16.36"
+     inkscape:cx="16.259169"
+     inkscape:cy="16.778729"
      inkscape:window-width="1912"
      inkscape:window-height="1012"
      inkscape:window-x="0"
      inkscape:window-y="30"
      inkscape:window-maximized="1"
-     inkscape:current-layer="svg1013" />
+     inkscape:current-layer="svg900" />
   <path
-     d="M 1.0005735,1.2391848e-6 H 19.000574 A 1.002,1.002 0 0 1 19.823574,1.5690012 l -9,12.9999998 c -0.373,0.539 -1.2710005,0.539 -1.6450005,0 L 0.17857351,1.5690012 A 0.999,0.999 0 0 1 1.0005735,1.2391848e-6 Z"
-     id="path1011"
-     style="fill:#4c566a;fill-opacity:1" />
+     d="M 1.0005735,1.2391533e-6 H 19.000574 A 1.002,1.002 0 0 1 19.823574,1.5690012 l -9,12.9999998 c -0.373,0.539 -1.2710005,0.539 -1.6450005,0 L 0.17857351,1.5690012 A 0.999,0.999 0 0 1 1.0005735,1.2391533e-6 Z"
+     id="path898"
+     style="fill:#4c566a;fill-opacity:1;opacity:0.3" />
 </svg>

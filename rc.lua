@@ -154,7 +154,8 @@ globalkeys = gears.table.join(
 
     -- Standard program
     awful.key({ modkey,           }, "Return", function () awful.spawn(terminal) end),
-    awful.key({ modkey,   "Shift" }, "Return", function () awful.spawn(floating_terminal) end),
+    awful.key({ modkey, "Shift"   }, "Return", function () awful.spawn(floating_terminal) end),
+    awful.key({ modkey,           }, "s"     , function () awful.spawn("flameshot gui") end),
     awful.key({ modkey, "Control" }, "r"     , awesome.restart),
     awful.key({ modkey, "Shift"   }, "q"     , awesome.quit),
     --awful.key({ modkey,           }, "l"     , function () awful.tag.incmwfact( 0.02) end),
@@ -343,7 +344,7 @@ awful.rules.rules = {
       }, properties = { titlebars_enabled = true }
     },
 
-    { rule_any = {class = { "floating-terminal" , "thunar","Thunar"}
+    { rule_any = {class = { "floating-terminal", "thunar", "Thunar", "flameshot"}
       }, properties = { floating = true , ontop = true}
     },
     { rule_any = {class = {"xarchiver", "Xarchiver"}

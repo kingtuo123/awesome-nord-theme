@@ -91,11 +91,11 @@ volume.widget = wibox.widget {
 
 
 volume.buttons = awful.util.table.join (
-	awful.button({}, 1, function() 
-		volume.progressbar.value = volume.widget.volume
-		volume.popup.visible	 = true
-		volume.clean_popup()
-	end),
+	--awful.button({}, 1, function() 
+	--	volume.progressbar.value = volume.widget.volume
+	--	volume.popup.visible	 = true
+	--	volume.clean_popup()
+	--end),
 	awful.button({}, 2, function() 
 		volume.toggle()
 	end),

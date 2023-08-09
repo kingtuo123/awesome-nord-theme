@@ -107,7 +107,7 @@ local cal = wibox.widget {
 		long_weekdays	= true,
 		widget			= wibox.widget.calendar.month,
 	},
-	bottom = dpi(-20),
+	--bottom = dpi(-20),
 	widget  = wibox.container.margin,
 }
 --end of calendar

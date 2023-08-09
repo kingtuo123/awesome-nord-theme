@@ -36,6 +36,7 @@ theme.color14 = "#a3be8c"
 theme.color15 = "#b48ead"
 
 theme.color16 = "#242933"
+theme.color17 = "#ffffff"
 
 
 if theme.style == "dark" then
@@ -100,7 +101,7 @@ else
 	theme.prompt_fg = theme.fg
 	theme.prompt_bg = theme.promptbox_bg
 
-	theme.widget_bg_hover = theme.color1 .. "33"
+	theme.widget_bg_hover = theme.color17 .. "dd"
 	theme.popup_border_color	  = theme.color4
 
 	theme.widget_bg = theme.color4

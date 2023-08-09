@@ -190,11 +190,11 @@ end
 
 
 battery.buttons = awful.util.table.join (
-	awful.button({}, 1, function() 
-		battery.brightness_progressbar.value = battery.widget.brightness
-		battery.popup.visible = true
-		battery.clean_popup()
-	end),
+	--awful.button({}, 1, function() 
+	--	battery.brightness_progressbar.value = battery.widget.brightness
+	--	battery.popup.visible = true
+	--	battery.clean_popup()
+	--end),
 	awful.button({}, 3, function() 
 		battery.widget.mytb.visible = not battery.widget.mytb.visible
 	end),

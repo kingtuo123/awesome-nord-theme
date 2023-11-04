@@ -2,26 +2,28 @@ local awful = require("awful")
 local wibox = require("wibox")
 local gears = require("gears")
 local theme = require("theme")
-local beautiful	 = require("beautiful")
-local xresources = require("beautiful.xresources")
-local dpi 		 = xresources.apply_dpi
-
-
-
-
+local dpi	= require("beautiful.xresources").apply_dpi
 
 
 local battery = {}
 
 
-local bat_icon = function(value,chg,ac)
-	local v = math.floor((tonumber(value) + 5) / 10) * 10
-	if chg == "Charging" then
-		return theme.icon_dir .. "battery/bat-charging-" .. v .. ".svg"
+local path_ac             = "/sys/class/power_supply/AC/online"
+local path_status         = "/sys/class/power_supply/BAT0/status"
+local path_capacity       = "/sys/class/power_supply/BAT0/capacity"
+local cmd_get_brightness  = "xbacklight -get"
+local cmd_set_brightness  = "xbacklight -set " 
+battery.update_timeout    = 15
+
+
+local bat_icon = function(value,status,ac)
+	local level = math.floor((tonumber(value) + 5) / 10) * 10
+	if status == "Charging" then
+		return theme.icon_dir .. "battery/bat-charging-" .. level .. ".svg"
 	elseif tonumber(ac) == 1 then
 		return theme.icon_dir .. "battery/bat-charging-100.svg"
 	else
-		return theme.icon_dir .. "battery/bat-" .. v .. ".svg"
+		return theme.icon_dir .. "battery/bat-" .. level .. ".svg"
 	end
 end
 
@@ -36,70 +38,114 @@ end
 
 battery.widget = wibox.widget {
 	{
-		id     = "myib",
-		image  = theme.bat_100_icon,
-		resize = true,
-		widget = wibox.widget.imagebox
+		{
+			{
+				id     = "icon",
+				image  = theme.bat_100_icon,
+				resize = true,
+				widget = wibox.widget.imagebox
+			},
+			{
+				id           = "capacity",
+				text         = " 100%",
+				visible		 = false,
+				font 		 = theme.font,
+				widget       = wibox.widget.textbox,
+			},
+			layout = wibox.layout.fixed.horizontal,
+		},
+		id      = "margin",
+		widget	= wibox.container.margin
 	},
-	{
-		id           = "mytb",
-		text         = " 100%",
-		visible		 = false,
-		font 		 = theme.font,
-		widget       = wibox.widget.textbox,
-	},
-	layout = wibox.layout.fixed.horizontal,
-	charging = "",
-	ac = 0,
+	shape = function(cr, width, height)
+		gears.shape.rounded_rect(cr, width, height, theme.widget_rounded)
+	end,
+	shape_border_width = theme.widget_border_width,
+	shape_border_color = theme.widget_border_color,
+	widget = wibox.container.background,
+
+	backup_ac = 0,
+	backup_status = "",
 	backup_brightness = 0,
-	set_battery = function(self, val)
+	backup_capacity = 0,
+	backup_icon = "",
+
+	set_ac = function(self, val)
+		self.backup_ac = val
+	end,
+	set_status = function(self, str)
+		self.backup_status = str
+	end,
+	set_capacity = function(self, val)
 		val = tonumber(val)
-		self.mytb.text  = "  " .. val .."%"
-		self.myib.image  = bat_icon(val,self.charging,self.ac)
+		self.backup_capacity = val
+		self.backup_icon = bat_icon(val, self.status, self.ac)
+		self:get_children_by_id("icon")[1].image  = self.backup_icon
+		self:get_children_by_id("capacity")[1].text  = "  " .. val .."%"
 	end,
 	set_brightness = function(self,val)
 		if val > 100 then
 			self.backup_brightness = 100
-		elseif val < 10 then
-			self.backup_brightness = 10
+		elseif val < 5 then
+			self.backup_brightness = 5
 		else
 			self.backup_brightness = val
 		end
-		awful.spawn.with_shell("xbacklight -set " .. val)
+		awful.spawn.with_shell(cmd_set_brightness .. self.backup_brightness)
 	end,
 	get_brightness = function(self)
 		return self.backup_brightness
+	end,
+	get_capacity = function(self)
+		return self.backup_capacity
+	end,
+	get_status = function(self)
+		return self.backup_status
+	end,
+	get_ac = function(self)
+		return self.backup_ac
+	end,
+	get_icon = function(self)
+		return self.backup_icon
 	end
 }
 
 
 battery.update = function()
-	battery.widget.ac       = get_line("/sys/class/power_supply/AC/online")
-	battery.widget.charging = get_line("/sys/class/power_supply/BAT0/status")
-	battery.widget.battery  = get_line("/sys/class/power_supply/BAT0/capacity")
-	awful.spawn.easy_async_with_shell("xbacklight -get", function(out)
+	battery.widget.ac       = get_line(path_ac)
+	battery.widget.status   = get_line(path_status)
+	battery.widget.capacity = get_line(path_capacity)
+	awful.spawn.easy_async_with_shell(cmd_get_brightness, function(out)
 		battery.widget.brightness = tonumber(out)
 	end)
 end
 
 
-battery.timer = {
-	timeout   = 15,
-    call_now  = true,
-    autostart = true,
-    callback  = battery.update
-}
-
-
 battery.brightness_progressbar = wibox.widget{
+	{
+		top = dpi(10),
+		widget = wibox.container.margin 
+	},
+	{
+		{
+			id		= "value",
+			text	= "100",
+			font	= theme.font,
+			widget	= wibox.widget.textbox,
+		},
+		valign = "center",
+		halign = "center",
+		widget = wibox.container.place,
+	},
 	{
 		{
 			id					= "bar",
 			value				= 0.5,
 			forced_height		= dpi(50),
-			forced_width		= dpi(100),
-			color				= theme.color6,
-			background_color	= theme.widget_bg .. "cc",
+			forced_width		= dpi(150),
+			margins             = {top = dpi(17), left = dpi(15), right = dpi(15), bottom = dpi(17)},
+			color				= theme.popup_fg_progressbar,
+			background_color	= theme.popup_bg_progressbar,
 			widget				= wibox.widget.progressbar,
 		},
 		direction	= "east",
@@ -110,9 +156,9 @@ battery.brightness_progressbar = wibox.widget{
 			{
 				id	   = "icon",
 				image  = theme.vol_bar0_icon,
-				resize = true,
-				forced_width = dpi(25),
-				forced_height = dpi(25),
+				--resize = true,
+				forced_width = dpi(23),
+				forced_height = dpi(23),
 				halign = "center",
 				valign = "center",
 				widget = wibox.widget.imagebox,
@@ -121,11 +167,13 @@ battery.brightness_progressbar = wibox.widget{
 			valign = "center",
 			layout = wibox.container.place
 		},
-		top = dpi(100),
-		bottom = dpi(12),
+		top    = dpi(0),
+		left   = dpi(0),
+		right  = dpi(0),
+		bottom = dpi(10),
 		widget = wibox.container.margin 
 	},
-	layout = wibox.layout.stack,
+	layout = wibox.layout.fixed.vertical,
 	set_value	= function(self,val)
 		local icon = self:get_children_by_id('icon')[1]
 		if val <= 30 then
@@ -136,18 +184,21 @@ battery.brightness_progressbar = wibox.widget{
 			icon.image = theme.brightness_3_icon
 		end
 		self:get_children_by_id('bar')[1].value = val / 100
+		self:get_children_by_id('value')[1].text = val
 	end,
 }
+
 
 battery.popup = awful.popup{
 	widget			= battery.brightness_progressbar,
 	border_color	= theme.popup_border_color,
     border_width	= theme.popup_border_width,
 	visible			= false,
-	bg				= theme.color0,
+	bg				= theme.bg,
+	fg              = theme.fg,
 	ontop			= true,
 	shape			= function(cr, width, height)
-		gears.shape.rounded_rect(cr, width, height, dpi(10))
+		gears.shape.rounded_rect(cr, width, height, theme.popup_rounded)
 	end,
     placement		= function(wdg,args)  
 		awful.placement.top_right(wdg, {margins = { top = theme.popup_margin_top ,right = dpi(5)}}) 
@@ -155,20 +206,23 @@ battery.popup = awful.popup{
 }
 
 
-battery.auto_clean_popup = true
-battery.clean_popup_timer = gears.timer {
+battery.popup_close_timer = gears.timer {
 	timeout   = 2,
 	call_now  = false,
 	autostart = false,
 	callback  = function(self)
 		print("clean popup")
-		self:stop()
 		battery.popup.visible = false
+		self:stop()
 	end
 }
-battery.clean_popup = function()
+
+
+battery.popup_enable = true
+battery.popup_close_count_down = function()
+	battery.popup.visible = battery.popup_enable
 	if battery.popup.visible then
-		battery.clean_popup_timer:again()
+		battery.popup_close_timer:again()
 	end
 end
 
@@ -176,36 +230,47 @@ end
 battery.brightness_up = function()
 	battery.widget.brightness = battery.widget.brightness + 5
 	battery.brightness_progressbar.value = battery.widget.brightness
-	battery.popup.visible = true
-	battery.clean_popup()
+	battery.popup_close_count_down()
 end
 
 
 battery.brightness_down = function()
 	battery.widget.brightness = battery.widget.brightness - 5
 	battery.brightness_progressbar.value = battery.widget.brightness
-	battery.popup.visible = true
-	battery.clean_popup()
+	battery.popup_close_count_down()
 end
 
 
-battery.buttons = awful.util.table.join (
-	--awful.button({}, 1, function() 
-	--	battery.brightness_progressbar.value = battery.widget.brightness
-	--	battery.popup.visible = true
-	--	battery.clean_popup()
-	--end),
-	awful.button({}, 3, function() 
-		battery.widget.mytb.visible = not battery.widget.mytb.visible
-	end),
-	awful.button({}, 4, function() 
-		battery.brightness_up()
-	end),
-	awful.button({}, 5, function() 
-		battery.brightness_down()
-	end)
-)
 
+
+battery.setup = function(mt,ml,mr,mb)
+	battery.widget.margin.top    = dpi(mt or 0)
+	battery.widget.margin.left   = dpi(ml or 0)
+	battery.widget.margin.right  = dpi(mr or 0)
+	battery.widget.margin.bottom = dpi(mb or 0)
+
+	battery.widget:buttons(awful.util.table.join(
+		awful.button({}, 3, function() 
+			local wdg = battery.widget:get_children_by_id("capacity")[1]
+			wdg.visible = not wdg.visible
+		end),
+		awful.button({}, 4, function() 
+			battery.brightness_up()
+		end),
+		awful.button({}, 5, function() 
+			battery.brightness_down()
+		end)
+	))
+
+	gears.timer({
+		timeout   = battery.update_timeout,
+		call_now  = true,
+		autostart = true,
+		callback  = battery.update
+	})
+
+	return battery.widget
+end
 
 
 

@@ -24,12 +24,12 @@
      inkscape:deskcolor="#d1d1d1"
      showgrid="false"
      inkscape:zoom="6.875"
-     inkscape:cx="93.236363"
-     inkscape:cy="55.563636"
-     inkscape:window-width="1912"
-     inkscape:window-height="1012"
+     inkscape:cx="93.236364"
+     inkscape:cy="55.636364"
+     inkscape:window-width="1920"
+     inkscape:window-height="1047"
      inkscape:window-x="0"
-     inkscape:window-y="30"
+     inkscape:window-y="33"
      inkscape:window-maximized="1"
      inkscape:current-layer="svg2742" />
   <path
@@ -38,7 +38,7 @@
      fill-rule="evenodd"
      stroke-width="2.9396"
      id="path2738"
-     style="fill:#a3be8c;fill-opacity:1" />
+     style="fill:#ebcb8b;fill-opacity:1" />
   <path
      d="m 5.4088,3.9801 4.586,4.586 V 4.9802 c 0,-0.41552 -0.5845,-0.99998 -1,-0.99998 z m -1.414,1.4141 v 3.5859 c 0,0.41552 0.58446,1 0.99998,1 h 3.5859 z"
      opacity="0.5"

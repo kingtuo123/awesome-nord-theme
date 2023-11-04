@@ -25,11 +25,11 @@
      showgrid="false"
      inkscape:zoom="6.875"
      inkscape:cx="61.381818"
-     inkscape:cy="57.818182"
-     inkscape:window-width="1912"
-     inkscape:window-height="1012"
+     inkscape:cy="57.963636"
+     inkscape:window-width="1920"
+     inkscape:window-height="1017"
      inkscape:window-x="0"
-     inkscape:window-y="30"
+     inkscape:window-y="33"
      inkscape:window-maximized="1"
      inkscape:current-layer="svg2662" />
   <rect
@@ -47,5 +47,5 @@
      fill="#59c837"
      fill-rule="evenodd"
      id="path2660"
-     style="fill:#4c566a;fill-opacity:0.30000001" />
+     style="fill:#d8dee9;fill-opacity:1" />
 </svg>

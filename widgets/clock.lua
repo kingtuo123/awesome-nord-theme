@@ -82,7 +82,7 @@ calendar.widget = wibox.widget {
 clock.widget = wibox.widget {
 	{
 		{
-			format	= '%Y-%m-%d  %H:%M  %a',
+			format	= '%b %d   %H:%M',
 			align	= "center",
 			font	= theme.font,
 			widget	= wibox.widget.textclock,

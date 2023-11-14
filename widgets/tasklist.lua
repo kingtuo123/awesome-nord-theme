@@ -88,7 +88,7 @@ tasklist.setup = function(s)
 				 if c.instance == nil then
 					icon = menubar.utils.lookup_icon("application-default-icon")
 				else
-					icon = lookup(c.instance) or lookup(c.instance:lower())
+					icon = lookup(c.instance) or lookup(c.class)
 				end
 				if icon ~= nil then
 					my_icon_role.image = icon

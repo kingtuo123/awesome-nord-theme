@@ -10,8 +10,9 @@ local tasklist  = require("widgets.tasklist")
 local clock     = require("widgets.clock")
 local promptbox = require("widgets.promptbox")
 local netspeed  = require("widgets.netspeed")
-local mem	    = require("widgets.mem")
-local cpu	    = require("widgets.cpu")
+local mem		= require("widgets.mem")
+local cpu		= require("widgets.cpu")
+local gpu       = require("widgets.gpu")
 local disk      = require("widgets.disk")
 local vpn       = require("widgets.vpn")
 local wifi      = require("widgets.wifi")
@@ -38,7 +39,7 @@ topbar.setup = function(s)
 		layout = wibox.layout.align.horizontal,
 		{
 			layout = wibox.layout.fixed.horizontal,
-			forced_width = dpi(875),
+			forced_width = dpi(900),
 			taglist.setup(s),
 			wibox.widget.textbox("  "),
 			tasklist.setup(s),
@@ -49,15 +50,16 @@ topbar.setup = function(s)
 
 		{ 
 			layout = wibox.layout.align.horizontal,
-			forced_width = dpi(875),
+			forced_width = dpi(900),
 			nil,
 			nil,
 			{
 				-- Right widgets
 				layout = wibox.layout.fixed.horizontal,
-				netspeed.setup(7,8,0,7),
-				mem.setup(8,7,7,8),
-				cpu.setup(8,7,7,8),
+				netspeed.setup(6,8,0,6),
+				mem.setup(5,6,6,5),
+				cpu.setup(5,6,6,5),
+				gpu.setup(5,6,6,5),
 				disk.setup(10,8,8,10),
 				vpn.setup(9,8,8,9),
 				{

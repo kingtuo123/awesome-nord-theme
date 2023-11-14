@@ -109,6 +109,16 @@ theme.popup_fg_progressbar = sel_col( theme.blue3 ,  theme.blue3 )
 theme.popup_bg_progressbar = sel_col( theme.dark3 ,  theme.light0 )
 
 
+
+---------------------------------------------------------------------------------------
+----------------------------------- cpu -----------------------------------------------
+---------------------------------------------------------------------------------------
+theme.cpu_graph_mask_img = theme.icon_dir .. "cpu/cpu_graph_mask.svg"
+theme.thread_graph_mask_img = theme.icon_dir .. "cpu/thread_graph_mask.svg"
+theme.bg_graph = sel_col( theme.dark1 , theme.dark4 )
+theme.widget_bg_graph = sel_col( theme.dark2 , theme.dark4 )
+
+
 ---------------------------------------------------------------------------------------
 --------------------------------- tasklist --------------------------------------------
 ---------------------------------------------------------------------------------------
@@ -139,9 +149,9 @@ theme.titlebar_bg_focus  = sel_col( theme.dark0  , theme.bg )
 ---------------------------------- calendar -------------------------------------------
 ---------------------------------------------------------------------------------------
 theme.cal_fg_normal  = sel_col( theme.fg      , theme.fg     ) 
-theme.cal_bg_focus   = sel_col( theme.blue1   , theme.red    ) 
+theme.cal_bg_focus   = sel_col( theme.blue0   , theme.red    ) 
 theme.cal_header_fg  = sel_col( theme.fg      , theme.fg     ) 
-theme.cal_weekday_fg = sel_col( theme.blue3   , theme.blue3  ) 
+theme.cal_weekday_fg = sel_col( theme.blue0   , theme.blue3  ) 
 theme.cal_week_06_bg = sel_col( theme.dark1   , theme.light1 ) 
 
 

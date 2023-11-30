@@ -58,7 +58,7 @@ mem.widget = wibox.widget {
 								color = colors[5],
 								min_value = 0,
 								max_value = 20,
-								step_width = dpi(1),
+								step_width = dpi(2),
 								step_spacing = 0,
 								scale  = false,
 								background_color = "",
@@ -69,7 +69,7 @@ mem.widget = wibox.widget {
 								color = colors[1],
 								min_value = 0,
 								max_value = 20,
-								step_width = dpi(1),
+								step_width = dpi(2),
 								step_spacing = 0,
 								scale  = false,
 								background_color = "",
@@ -173,12 +173,38 @@ mem.dashboard = wibox.widget{
 				widget = wibox.container.mirror
 			},
 			{
+				margins = dpi(5),
+				widget = wibox.container.margin,
+			},
+			{
+				{
+					{
+						check_border_width = 0,
+						border_color = "",
+						forced_height = dpi(10),
+						forced_width = dpi(10),
+						widget        = wibox.widget.checkbox,
+					},
+					id = "fc",
+					bg = theme.fg .. "44",
+					widget = wibox.container.background,
+				},
+				{
+					{
+						text = "  free",
+						font = "Microsoft YaHei Bold 8",
+						widget = wibox.widget.textbox,
+					},
+					fg = theme.fg .. "aa",
+					widget = wibox.container.background,
+				},
 				{
 					{
 						{
-							id   = "used",
+							id   = "free",
 							text = "-- MB",
-							font = theme.font,
+							--font = theme.font,
+							font = "Microsoft YaHei Bold 8",
 							widget = wibox.widget.textbox,
 						},
 						halign = "right",
@@ -187,8 +213,11 @@ mem.dashboard = wibox.widget{
 					fg = theme.fg,
 					widget = wibox.container.background,
 				},
-				top    = dpi(3),
-				bottom = dpi(0),
+				forced_height = dpi(10),
+				layout = wibox.layout.align.horizontal,
+			},
+			{
+				margins = dpi(5),
 				widget = wibox.container.margin,
 			},
 			{
@@ -211,10 +240,25 @@ mem.dashboard = wibox.widget{
 						widget = wibox.widget.textbox,
 					},
 					fg = theme.fg .. "aa",
-					forced_height = dpi(10),
 					widget = wibox.container.background,
 				},
-				layout = wibox.layout.fixed.horizontal,
+				{
+					{
+						{
+							id   = "buff",
+							text = "-- MB",
+							--font = theme.font,
+							font = "Microsoft YaHei Bold 8",
+							widget = wibox.widget.textbox,
+						},
+						halign = "right",
+						widget = wibox.container.place,
+					},
+					fg = theme.fg,
+					widget = wibox.container.background,
+				},
+				forced_height = dpi(10),
+				layout = wibox.layout.align.horizontal,
 			},
 			{
 				margins = dpi(5),
@@ -240,10 +284,25 @@ mem.dashboard = wibox.widget{
 						widget = wibox.widget.textbox,
 					},
 					fg = theme.fg .. "aa",
-					forced_height = dpi(10),
 					widget = wibox.container.background,
 				},
-				layout = wibox.layout.fixed.horizontal,
+				{
+					{
+						{
+							id   = "used",
+							text = "-- MB",
+							--font = theme.font,
+							font = "Microsoft YaHei Bold 8",
+							widget = wibox.widget.textbox,
+						},
+						halign = "right",
+						widget = wibox.container.place,
+					},
+					fg = theme.fg,
+					widget = wibox.container.background,
+				},
+				forced_height = dpi(10),
+				layout = wibox.layout.align.horizontal,
 			},
 			layout = wibox.layout.fixed.vertical,
 		},
@@ -256,12 +315,12 @@ mem.dashboard = wibox.widget{
 	},
 	bg = theme.bg,
 	widget = wibox.container.background,
-	set_mem = function(self, mem)
-		local buff = math.ceil(20 * (mem.buf_cache + mem.used) / mem.total)
-		local used = math.ceil(20 * mem.used / mem.total)
+	set_mem = function(self, all)
+		local buff = math.ceil(20 * (all.buf_cache + all.used) / all.total)
+		local used = math.ceil(20 * all.used / all.total)
 		self:get_children_by_id("buff graph")[1]:add_value(buff)
 		self:get_children_by_id("used graph")[1]:add_value(used)
-		local color = colors[math.ceil(10 * mem.used / mem.total)]
+		local color = colors[math.ceil(10 * all.used / all.total)]
 		self:get_children_by_id("used graph")[1].color = color
 		self:get_children_by_id("uc")[1].bg = color
 		if color == theme.yellow then
@@ -271,7 +330,9 @@ mem.dashboard = wibox.widget{
 		end
 		self:get_children_by_id("buff graph")[1].color = color
 		self:get_children_by_id("bc")[1].bg = color
-		self:get_children_by_id("used")[1].text = math.ceil(mem.used / 1024) .. " MB"
+		self:get_children_by_id("free")[1].text = math.ceil(all.free / 1024) .. " MB"
+		self:get_children_by_id("buff")[1].text = math.ceil(all.buf_cache / 1024) .. " MB"
+		self:get_children_by_id("used")[1].text = math.ceil(all.used / 1024) .. " MB"
 	end
 }
 
@@ -303,18 +364,13 @@ mem.update = function()
 		{ 24, "srec"   }
 	}
 	n = 1
-	for i,v in pairs(lines) do
-		if n == v[1] then
-			mem_now[v[2]] = string.match(file:read(), "(%d+)")
-			n = n + 1
-		else
-			while n < v[1] do
-				file:read()
-				n = n + 1
-			end
-			mem_now[v[2]] = string.match(file:read(), "(%d+)")
+	for _,v in pairs(lines) do
+		while n < v[1] do
+			file:read()
 			n = n + 1
 		end
+		mem_now[v[2]] = string.match(file:read(), "(%d+)")
+		n = n + 1
 	end
     file:close()
 	mem_now.buf_cache = mem_now.buffer + mem_now.cached + mem_now.srec

@@ -34,8 +34,12 @@ netspeed.widget = wibox.widget{
 					widget = wibox.container.place,
 				},
 				{
+					left = dpi(5),
+					widget	= wibox.container.margin,
+				},
+				{
 					id   = "sent",
-					text = " 0 KB/s ",
+					text = "0 KB/s",
 					font = "Terminus Bold 7",
 					forced_width = dpi(55),
 					widget = wibox.widget.textbox,
@@ -56,8 +60,12 @@ netspeed.widget = wibox.widget{
 					widget = wibox.container.place,
 				},
 				{
+					left = dpi(5),
+					widget	= wibox.container.margin,
+				},
+				{
 					id   = "recv",
-					text = " 0 KB/s ",
+					text = "0 KB/s",
 					font = "Terminus Bold 7",
 					forced_width = dpi(55),
 					widget = wibox.widget.textbox,
@@ -85,9 +93,9 @@ netspeed.widget = wibox.widget{
 			self:get_children_by_id('up')[1].image = theme.netspeed_up_active_icon
 		end
 		if value < 1048576 then
-			text = string.format(" %d", math.floor(value / 1024)) .. " KB/s "
+			text = string.format("%d", math.floor(value / 1024)) .. " KB/s"
 		else
-			text = string.format(" %.1f", value / 1048576) .. " MB/s "
+			text = string.format("%.1f", value / 1048576) .. " MB/s"
 		end
 		self:get_children_by_id('sent')[1].text = text
 	end,
@@ -99,9 +107,9 @@ netspeed.widget = wibox.widget{
 			self:get_children_by_id('down')[1].image = theme.netspeed_down_active_icon
 		end
 		if value < 1048576 then
-			text = string.format(" %d", math.floor(value / 1024)) .. " KB/s "
+			text = string.format("%d", math.floor(value / 1024)) .. " KB/s"
 		else
-			text = string.format(" %.1f", value / 1048576) .. " MB/s "
+			text = string.format("%.1f", value / 1048576) .. " MB/s"
 		end
 		self:get_children_by_id('recv')[1].text = text
 	end,

@@ -110,7 +110,7 @@ globalkeys = gears.table.join(
     -- Standard program
     awful.key({ modkey,           }, "Return", function () awful.spawn(terminal) end),
     awful.key({ modkey, "Shift"   }, "Return", function () awful.spawn(floating_terminal) end),
-    awful.key({ modkey,           }, "s"     , function () awful.spawn("flameshot gui") end),
+    awful.key({ modkey, "Control" }, "s"     , function () awful.spawn("flameshot gui") end),
     awful.key({ modkey, "Control" }, "r"     , awesome.restart),
     awful.key({ modkey, "Shift"   }, "q"     , awesome.quit),
     --awful.key({ modkey,           }, "l"     , function () awful.tag.incmwfact( 0.02) end),
@@ -135,6 +135,7 @@ globalkeys = gears.table.join(
 )
 
 clientkeys = gears.table.join(
+    awful.key({ modkey,           }, "c"     , function (c) awful.placement.centered(c) end),
     awful.key({ modkey,           }, "f"     , function (c) c.fullscreen = not c.fullscreen c:raise() end),
     awful.key({ modkey, "Shift"   }, "c"     , function (c) c:kill() end),
     awful.key({ modkey, "Control" }, "space" , awful.client.floating.toggle),
@@ -155,10 +156,56 @@ clientkeys = gears.table.join(
     awful.key({ modkey,           }, "Down"  , function (c) awful.client.focus.bydirection("down", client.focus) end),
     awful.key({ modkey,           }, "Right" , function (c) awful.client.focus.bydirection("right", client.focus) end),
     awful.key({ modkey,           }, "Left"  , function (c) awful.client.focus.bydirection("left", client.focus) end),
-    awful.key({ modkey, "Shift"   }, "="     , function (c) c.width = c.width + dpi(100) end),
-    awful.key({ modkey, "Shift"   }, "-"     , function (c) c.width = c.width - dpi(100) end),
-    awful.key({ modkey, "Control" }, "="     , function (c) c.height = c.height + dpi(100) end),
-    awful.key({ modkey, "Control" }, "-"     , function (c) c.height = c.height - dpi(100) end),
+    awful.key({ modkey,           }, "="     , function (c) 
+		layout = awful.layout.get(awful.screen.focused())
+		if c.floating or layout == awful.layout.suit.floating then
+			w = c.width * 0.1  
+			h = c.height * 0.1  
+			c.width = c.width + w  
+			c.height = c.height + h  
+			c.x = c.x - (w / 2)  
+			c.y = c.y - (h / 2) 
+		elseif c == awful.client.getmaster() then
+			awful.tag.incmwfact(0.05)
+		else
+			awful.client.incwfact(0.1)
+		end
+	end),
+    awful.key({ modkey,           }, "-"     , function (c) 
+		layout = awful.layout.get(awful.screen.focused())
+		if c.floating or layout == awful.layout.suit.floating then
+			w = c.width * 0.1  
+			h = c.height * 0.1  
+			c.width = c.width - w  
+			c.height = c.height - h  
+			c.x = c.x + (w / 2)  
+			c.y = c.y + (h / 2) 
+		elseif c == awful.client.getmaster() then
+			awful.tag.incmwfact(-0.05)
+		else
+			awful.client.incwfact(-0.1)
+		end
+	end),
+    awful.key({ modkey, "Shift"   }, "="     , function (c) 
+		w = c.width * 0.1
+		c.width = c.width + w 
+		c.x = c.x - (w / 2)
+	end),
+    awful.key({ modkey, "Shift"   }, "-"     , function (c) 
+		w = c.width * 0.1
+		c.width = c.width - w 
+		c.x = c.x + (w / 2)
+	end),
+    awful.key({ modkey, "Control" }, "="     , function (c) 
+		h = c.height * 0.1
+		c.height = c.height + h 
+		c.y = c.y - (h / 2)
+	end),
+    awful.key({ modkey, "Control" }, "-"     , function (c) 
+		h = c.height * 0.1
+		c.height = c.height - h 
+		c.y = c.y + (h / 2)
+	end),
     awful.key({ modkey,           }, "`"     , awful.titlebar.toggle)
 )
 
@@ -242,9 +289,9 @@ clientbuttons = gears.table.join(
 		c:emit_signal("request::activate", "titlebar", {raise = true})
 		if mouse.screen.selected_tag.layout.name ~= "floating" and not c.maximized and not c.floating then
 			if awful.client.getmaster() == c then
-				awful.tag.incmwfact(0.02)
+				awful.tag.incmwfact(0.05)
 			else
-				awful.client.incwfact(0.03)
+				awful.client.incwfact(0.1)
 			end
 		end
 	end),
@@ -252,9 +299,9 @@ clientbuttons = gears.table.join(
 		c:emit_signal("request::activate", "titlebar", {raise = true})
 		if mouse.screen.selected_tag.layout.name ~= "floating" and not c.maximized and not c.floating then
 			if awful.client.getmaster() == c then
-				awful.tag.incmwfact(-0.02)
+				awful.tag.incmwfact(-0.05)
 			else
-				awful.client.incwfact(-0.03)
+				awful.client.incwfact(-0.1)
 			end
 		end
 	end)

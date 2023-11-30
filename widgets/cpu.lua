@@ -279,7 +279,7 @@ local function single_vertical_bar()
 			bar_border_width = 0,
 			forced_height	 = dpi(4),
 			color			 = colors[1],
-			background_color = theme.widget_bg_graph,
+			background_color = "",--theme.widget_bg_graph,
 			--shape			 = function(cr, width, height)
 			--	gears.shape.rounded_rect(cr, width, height, dpi(2))
 			--end,
@@ -305,7 +305,7 @@ local function single_horizontal_bar()
 				forced_width  = dpi(100),
 				margins       = {top = dpi(6), left = dpi(0), right = dpi(5), bottom = dpi(6)},
 				color         = colors[1],
-				background_color = theme.bg_graph,
+				background_color = theme.popup_bg_progressbar,
 				widget = wibox.widget.progressbar,	
 		},
 		{

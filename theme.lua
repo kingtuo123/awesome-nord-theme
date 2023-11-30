@@ -72,7 +72,7 @@ theme.widget_border_color   = ""
 theme.widget_rounded        = dpi(0)
 theme.widget_bg_hover       = sel_col( theme.dark1          , theme.light2         )
 theme.widget_bg_press       = sel_col( theme.dark2 .. "cc"  , theme.light1         )
-theme.widget_bg_progressbar = sel_col( theme.dark3          , theme.light1         )
+--theme.widget_bg_progressbar = sel_col( theme.dark1          , theme.light1         )
 
 
 
@@ -105,8 +105,8 @@ theme.popup_border_color = sel_col( theme.dark1 , theme.light2 )
 ---------------------------------------------------------------------------------------
 ----------------------------------- volume --------------------------------------------
 ---------------------------------------------------------------------------------------
-theme.popup_fg_progressbar = sel_col( theme.blue3 ,  theme.blue3 )
-theme.popup_bg_progressbar = sel_col( theme.dark3 ,  theme.light0 )
+theme.popup_fg_progressbar = sel_col( theme.blue0 ,  theme.blue3 )
+theme.popup_bg_progressbar = sel_col( theme.dark1 ,  theme.light0 )
 
 
 
@@ -115,8 +115,8 @@ theme.popup_bg_progressbar = sel_col( theme.dark3 ,  theme.light0 )
 ---------------------------------------------------------------------------------------
 theme.cpu_graph_mask_img = theme.icon_dir .. "cpu/cpu_graph_mask.svg"
 theme.thread_graph_mask_img = theme.icon_dir .. "cpu/thread_graph_mask.svg"
-theme.bg_graph = sel_col( theme.dark1 , theme.dark4 )
-theme.widget_bg_graph = sel_col( theme.dark2 , theme.dark4 )
+theme.bg_graph = sel_col( theme.dark1 , theme.light1 )
+theme.widget_bg_graph = sel_col( "#00000044" , theme.dark4 )
 
 
 ---------------------------------------------------------------------------------------

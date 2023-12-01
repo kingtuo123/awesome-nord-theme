@@ -56,7 +56,7 @@ theme.titlebar_height   = dpi(30)
 theme.snap_border_width = dpi(2)
 
 theme.fg                = sel_col( theme.light3  , theme.dark4  )
-theme.bg                = sel_col( theme.dark0   , theme.light3 )
+theme.bg                = sel_col( theme.dark0   , theme.light1 )
 theme.border_normal     = sel_col( theme.dark2   , theme.light1 )
 theme.border_focus      = sel_col( theme.dark0   , theme.light3 )
 theme.snap_bg           = sel_col( theme.light3  , theme.blue1  )
@@ -106,7 +106,7 @@ theme.popup_border_color = sel_col( theme.dark1 , theme.light2 )
 ----------------------------------- volume --------------------------------------------
 ---------------------------------------------------------------------------------------
 theme.popup_fg_progressbar = sel_col( theme.blue0 ,  theme.blue3 )
-theme.popup_bg_progressbar = sel_col( theme.dark1 ,  theme.light0 )
+theme.popup_bg_progressbar = sel_col( theme.dark1 ,  theme.light3 )
 
 
 
@@ -115,8 +115,8 @@ theme.popup_bg_progressbar = sel_col( theme.dark1 ,  theme.light0 )
 ---------------------------------------------------------------------------------------
 theme.cpu_graph_mask_img = theme.icon_dir .. "cpu/cpu_graph_mask.svg"
 theme.thread_graph_mask_img = theme.icon_dir .. "cpu/thread_graph_mask.svg"
-theme.bg_graph = sel_col( theme.dark1 , theme.light1 )
-theme.widget_bg_graph = sel_col( "#00000044" , theme.dark4 )
+theme.bg_graph = sel_col( theme.dark1 , theme.dark3 )
+theme.widget_bg_graph = sel_col( "#00000066" , theme.dark3 )
 
 
 ---------------------------------------------------------------------------------------
@@ -173,13 +173,14 @@ theme.panel_bg_progressbar = sel_col( theme.dark3         , theme.light3 )
 ---------------------------------------------------------------------------------------
 ----------------------------------- disk popup ----------------------------------------
 ---------------------------------------------------------------------------------------
-theme.disk_part_bg_normal  = sel_col( theme.dark1          , theme.light1 )
-theme.disk_part_bg_hover   = sel_col( theme.dark2          , theme.light0 )
-theme.disk_part_bg_mounted = sel_col( theme.dark2          , theme.light0 )
+theme.disk_part_bg_normal  = sel_col( theme.dark1 .. "00"          , theme.light1 )
+theme.disk_part_bg_hover   = sel_col( theme.dark1          , theme.light0 )
+theme.disk_part_bg_mounted = sel_col( theme.dark1          , theme.light0 )
 -- theme.disk_part_bg_press   = sel_col( theme.dark1          , theme.light1 )
-theme.disk_eject_bg_normal = sel_col( theme.dark3          , theme.light0 )
+theme.disk_eject_bg_normal = sel_col( theme.dark2          , theme.light3 )
 theme.disk_eject_bg_hover  = sel_col( theme.blue3          , theme.blue2  )
-theme.disk_bg_progressbar  = sel_col( theme.dark3          , theme.light3 )
+theme.disk_bg_progressbar_normal = sel_col( theme.dark1          , theme.light1 )
+theme.disk_bg_progressbar_hover  = sel_col( theme.dark2          , theme.light1 )
 
 
 
@@ -235,8 +236,11 @@ theme.netspeed_down_active_icon	= theme.icon_dir .. "netspeed/netspeed-down-acti
 theme.disk_icon					= theme.icon_dir .. "disk/disk.svg"
 theme.hhd_icon					= theme.icon_dir .. "disk/hhd.svg"
 theme.usb_icon					= theme.icon_dir .. "disk/usb.svg"
+theme.ssd_icon					= theme.icon_dir .. "disk/ssd.svg"
 theme.mount_icon				= theme.icon_dir .. "disk/mount.svg"
 theme.eject_icon				= theme.icon_dir .. "disk/eject.svg"
+theme.folder_icon               = theme.icon_dir .. "disk/folder.svg"
+theme.serial_icon					= theme.icon_dir .. "disk/serial.svg"
 
 
 

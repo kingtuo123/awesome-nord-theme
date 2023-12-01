@@ -23,7 +23,7 @@ local colors = {
 
 
 local partition_ignore = {"sda4"}
-local eject_ignore = {"nvme0n1"}
+--local eject_ignore = {"nvme0n1"}
 local cmd_lsblk	   = "lsblk -o NAME,SIZE,MOUNTPOINTS,FSAVAIL,FSUSE%,FSUSED,FSTYPE,HOTPLUG,LABEL,MODEL,PARTLABEL,UUID,PARTUUID -x NAME -J|sed s/%//g"
 local cmd_mount    = function(name) return "udisksctl   mount -b /dev/" .. name end
 local cmd_umount   = function(name) return "udisksctl unmount -b /dev/" .. name end
@@ -89,28 +89,56 @@ disk.device = wibox.widget{
 	},
 	{
 		id	   = "footer",
-		bottom = dpi(10),
+		bottom = dpi(0),
 		widget = wibox.container.margin,
 	},
 	layout = wibox.layout.fixed.vertical,
 
 	parts = {},
-	add_model = function(self,index,model)
+	add_model = function(self,index,model,hotplug)
+		if hotplug then
+			model_icon = theme.serial_icon
+		else
+			model_icon = theme.disk_icon
+		end
+
 		local wdg = wibox.widget{
 			{
+				-- device icon
 				{
-					text   = model,
-					font   = "Microsoft YaHei Bold 9",
-					widget = wibox.widget.textbox,
+					{
+						image		  = model_icon,
+						forced_width  = dpi(22),
+						forced_height = dpi(22),
+						valign		  = "center",
+						halign		  = "center",
+						widget		  = wibox.widget.imagebox,
+					},
+					left	= dpi(0),
+					right	= dpi(10),
+					top		= dpi(10),
+					bottom	= dpi(0),
+					widget	= wibox.container.margin,
 				},
-				top	   = dpi(10),
-				left   = dpi(10),
-				right  = dpi(10),
-				bottom = dpi(5),
-				widget = wibox.container.margin,
+				{
+					{
+						text   = model,
+						--font   = "Microsoft YaHei Bold 8",
+						font = theme.font,
+						widget = wibox.widget.textbox,
+					},
+					fg = theme.fg .. "aa",
+					widget = wibox.container.background,
+				},
+				layout = wibox.layout.fixed.horizontal,
 			},
-			layout = wibox.layout.fixed.horizontal,
+			top	   = dpi(10),
+			left   = dpi(20),
+			right  = dpi(20),
+			bottom = dpi(10),
+			widget = wibox.container.margin,
 		}
+
 		if self.parts[index] == nil then
 			--print("insert new")
 			self.device:insert(index,wdg)
@@ -123,177 +151,192 @@ disk.device = wibox.widget{
 
 	add_partition = function(self,index,args)
 		local part = {}
-		part.title = args.label or args.partlabel or args.name or "Unknow Device"
-
-		if args.hotplug then
-			part.icon = theme.usb_icon
-		else
-			part.icon = theme.hhd_icon
-		end
+		part.title = args.label or args.partlabel or args.name or "Unknow "
 
 		if #args.mountpoints > 0 then
 			-- mounted partition
-			part.font	  = "Microsoft YaHei 8"
-			part.opacity  = 1
-			part.valign   = "top"
-			part.top	  = dpi(6)
-			part.eject  = true
-			-- dpi(40) = width of eject_button
-			part.barwidth = dpi(300) - dpi(40)
+			part.bottom   = dpi(2)
+			part.mounted  = true
 			part.size	  = args.fsused .. " / " .. args.size
 			part.barcolor = colors[math.ceil(args.fsuse/10)]
+			part.barbg    = theme.disk_bg_progressbar_hover
 		else
 			-- not mounted partition
-			part.font	  = "Microsoft YaHei 9"
-			part.valign   = "center"
-			part.opacity  = 0
-			part.top	  = dpi(0)
-			part.eject  = false
-			part.barwidth = dpi(300)
+			part.bottom   = dpi(10)
+			part.mounted  = false
 			part.size	  = args.size
 			part.barcolor = colors[1]
+			part.barbg    = theme.disk_bg_progressbar_normal
 		end
 	
 		-- system partition
-		for _,v in pairs(eject_ignore) do
-			if string.match(args.name, v) ~= nil then
-				-- disable eject icon
-				part.eject  = false
-				part.barwidth = dpi(300)
-				break
-			end
-		end
+		-- for _,v in pairs(eject_ignore) do
+		-- 	if string.match(args.name, v) ~= nil then
+		-- 		-- disable eject icon
+		-- 		part.eject  = false
+		-- 		break
+		-- 	end
+		-- end
 
-		if part.eject then
+		if part.mounted then
+			part.barbg = theme.disk_bg_progressbar_hover
 			part.bg = theme.disk_part_bg_mounted
 		else
+			part.barbg = theme.disk_bg_progressbar_normal
 			part.bg = theme.disk_part_bg_normal
 		end
 
 		local wdg = wibox.widget{
+
 			{
 				{
-					-- device icon
 					{
 						{
-							image		  = part.icon,
-							forced_width  = dpi(25),
-							forced_height = dpi(25),
-							valign		  = "center",
-							halign		  = "center",
-							widget		  = wibox.widget.imagebox,
-						},
-						left	= dpi(10),
-						right	= dpi(5),
-						top		= dpi(10),
-						bottom	= dpi(10),
-						widget	= wibox.container.margin,
-					},
-					{
-						-- partition name
-						{
 							{
-								text	= part.title,
-								valign	= part.valign,
-								halign	= "left",
-								font	= part.font,
-								widget	= wibox.widget.textbox,
-							},
-							top		= part.top,
-							widget	= wibox.container.margin,
-						},
-						-- partition size
-						{
-							{
+								-- partition name
 								{
-									text	= part.size,
-									valign	= part.valign,
-									halign	= "right",
-									font	= part.font,
-									widget	= wibox.widget.textbox,
+										text	= part.title,
+										font    = "Microsoft YaHei Bold 8",
+										widget	= wibox.widget.textbox,
 								},
-								right	= dpi(10),
-								top		= part.top,
-								widget	= wibox.container.margin,
+								-- partition size
+								{
+										{
+											text	= part.size,
+											font    = "Microsoft YaHei Bold 8",
+											widget	= wibox.widget.textbox,
+										},
+									halign = "right",
+									layout = wibox.container.place,
+								},
+								layout	= wibox.layout.stack,
 							},
-							valign = part.valign,
-							halign = "right",
-							layout = wibox.container.place,
+							top = dpi(10),
+							left = dpi(10),
+							right = dpi(10),
+							bottom = part.bottom,
+							widget	= wibox.container.margin,
+							buttons	= awful.util.table.join (
+							awful.button({}, 1, function()
+								if #args.mountpoints == 0 then
+									disk.mount(args.name)
+								end
+							end)),
 						},
 						-- partition progressbar
 						{
+							id               = "progressbar",
 							max_value     	 = 100,
 							value         	 = math.floor(args.fsuse or 0),
 							color			 = part.barcolor,
-							background_color = theme.disk_bg_progressbar,
-							forced_height	 = dpi(5),
-							forced_width	 = part.barwidth,
+							background_color = part.barbg,
+							forced_height	 = dpi(20),
+							forced_width	 = dpi(250),
 							border_width	 = 0,
-							opacity			 = part.opacity,
-							margins			 = {top = dpi(25), right = dpi(10), left = dpi(0), bottom = dpi(11)},
+							visible			 = part.mounted,
+							margins			 = {top = dpi(2), right = dpi(10), left = dpi(10), bottom = dpi(10)},
 							shape			 = function(cr, width, height)
 								gears.shape.rounded_rect(cr, width, height, dpi(0))
 							end,
 							widget = wibox.widget.progressbar,
 						},
-						layout	= wibox.layout.stack,
-						buttons	= awful.util.table.join (
-						awful.button({}, 1, function()
-							if #args.mountpoints > 0 then
-								awful.spawn.with_shell(cmd_open(args.mountpoints[#args.mountpoints]))
-							else
-								disk.mount(args.name)
-							end
-						end)),
-					},
-					-- eject icon
-					{
 						{
+							-- open icon
 							{
-								image			= theme.eject_icon,
-								forced_width	= dpi(20),
-								forced_height	= dpi(20),
-								valign			= "center",
-								halign			= "center",
-								widget			= wibox.widget.imagebox,
+								{
+									{
+										{
+											image			= theme.folder_icon,
+											forced_width	= dpi(13),
+											forced_height	= dpi(13),
+											widget			= wibox.widget.imagebox,
+										},
+										id		= "open_icon",
+										valign	= "center",
+										halign	= "center",
+										widget  = wibox.container.place,
+										buttons	= awful.util.table.join(
+										awful.button({}, 1, function()
+											if #args.mountpoints > 0 then
+												awful.spawn.with_shell(cmd_open(args.mountpoints[#args.mountpoints]))
+											end
+										end)),
+									},
+									id      = "open_button",
+									visible	= part.mounted,
+									bg      = theme.disk_eject_bg_normal,
+									widget  = wibox.container.background,
+								},
+								right = dpi(1),
+								left = dpi(0),
+								bottom = dpi(0),
+								widget	= wibox.container.margin,
 							},
-							id		= "eject_icon",
-							left	= dpi(10),
-							right	= dpi(10),
-							top		= dpi(10),
-							bottom	= dpi(5),
-							widget	= wibox.container.margin,
-							buttons	= awful.util.table.join (
-							awful.button({}, 1, function()
-								if #args.mountpoints > 0 then
-									disk.umount(args.name)
-								end
-							end)),
+							nil,
+							-- eject icon
+							{
+								{
+									{
+										{
+											image			= theme.eject_icon,
+											forced_width	= dpi(10),
+											forced_height	= dpi(10),
+											widget			= wibox.widget.imagebox,
+										},
+										id		= "eject_icon",
+										valign	= "center",
+										halign	= "center",
+										widget  = wibox.container.place,
+										buttons	= awful.util.table.join(
+										awful.button({}, 1, function()
+											if #args.mountpoints > 0 then
+												disk.umount(args.name)
+											end
+										end)),
+									},
+									id      = "eject_button",
+									visible	= part.mounted,
+									bg      = theme.disk_eject_bg_normal,
+									widget  = wibox.container.background,
+								},
+								left = dpi(1),
+								right = dpi(0),
+								bottom = dpi(0),
+								widget	= wibox.container.margin,
+							},
+							forced_height = dpi(30),
+							visible	= part.mounted,
+							layout = wibox.layout.flex.horizontal,
 						},
-						id      = "eject_button",
-						visible	= part.eject,
-						bg      = theme.disk_eject_bg_normal,
-						widget  = wibox.container.background,
+						layout = wibox.layout.align.vertical,
 					},
-					layout = wibox.layout.fixed.horizontal,
+					id = "background",
+					bg = part.bg,
+					widget = wibox.container.background,
 				},
-				id = "background",
-				bg = part.bg,
-				widget = wibox.container.background,
+				top    = dpi(0),
+				left   = dpi(10),
+				right  = dpi(10),
+				bottom = dpi(0),
+				widget = wibox.container.margin,
 			},
-			top    = dpi(0),
-			left   = dpi(10),
-			right  = dpi(10),
-			bottom = dpi(0),
-			widget = wibox.container.margin,
+			{
+				-- gap
+				top = dpi(10),
+				widget = wibox.container.margin,
+			},
+			layout = wibox.layout.align.vertical,
 		}
 		wdg:connect_signal('mouse::enter',function (self) 
 			wdg:get_children_by_id("background")[1].bg = theme.disk_part_bg_hover
+			wdg:get_children_by_id("progressbar")[1].background_color = theme.disk_bg_progressbar_hover
 		end)
 		wdg:connect_signal('mouse::leave',function (self) 
 			if wdg:get_children_by_id("eject_button")[1].visible then
 				wdg:get_children_by_id("background")[1].bg = theme.disk_part_bg_mounted
+				wdg:get_children_by_id("progressbar")[1].background_color = theme.disk_bg_progressbar_hover
 			else
+				wdg:get_children_by_id("progressbar")[1].background_color = theme.disk_bg_progressbar_normal
 				wdg:get_children_by_id("background")[1].bg = theme.disk_part_bg_normal
 			end
 		end)
@@ -301,6 +344,12 @@ disk.device = wibox.widget{
 			self.bg = theme.disk_eject_bg_hover
 		end)
 		wdg:get_children_by_id("eject_button")[1]:connect_signal('mouse::leave',function (self) 
+			self.bg = theme.disk_eject_bg_normal
+		end)
+		wdg:get_children_by_id("open_button")[1]:connect_signal('mouse::enter',function (self) 
+			self.bg = theme.disk_eject_bg_hover
+		end)
+		wdg:get_children_by_id("open_button")[1]:connect_signal('mouse::leave',function (self) 
 			self.bg = theme.disk_eject_bg_normal
 		end)
 		if self.parts[index] == nil then
@@ -318,7 +367,7 @@ disk.device = wibox.widget{
 		for _,v in pairs(device) do
 			if v.model ~= nil then
 				cnt = cnt + 1
-				self:add_model(cnt,v.model)
+				self:add_model(cnt,v.model,v.hotplug)
 			--elseif (v.fstype ~= nil and v.fstype ~= "swap" and v.fstype ~= "ntfs") or (v.fstype == "ntfs" and (v.label ~= nil or v.partlabel ~= nil)) then
 			elseif (v.uuid ~= nil and v.partuuid ~= nil and v.fstype ~= nil and v.fstype ~= "swap") then
 				local skip = false
@@ -356,9 +405,6 @@ disk.popup = awful.popup{
 	ontop			= true,
 	shape			= function(cr, width, height)
 		gears.shape.rounded_rect(cr, width, height, theme.popup_rounded)
-	end,
-    placement		= function(wdg,args)  
-		awful.placement.top_right(wdg, {margins = { top = theme.popup_margin_top ,right = dpi(5)}}) 
 	end,
 }
 
@@ -422,6 +468,9 @@ disk.setup = function(mt,ml,mr,mb)
 			else
 				disk.widget.bg = theme.widget_bg_hover
 			end
+			disk.popup.x = mouse.coords().x - dpi(135)
+			disk.popup.y = theme.popup_margin_top
+
 			if disk.popup.visible then
 				disk.update()
 				--disk.popup_timer:again()

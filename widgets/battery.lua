@@ -143,9 +143,12 @@ battery.brightness_progressbar = wibox.widget{
 			value				= 0.5,
 			forced_height		= dpi(45),
 			forced_width		= dpi(150),
-			margins             = {top = dpi(17), left = dpi(15), right = dpi(15), bottom = dpi(17)},
+			margins             = {top = dpi(16), left = dpi(15), right = dpi(15), bottom = dpi(16)},
 			color				= theme.popup_fg_progressbar,
 			background_color	= theme.popup_bg_progressbar,
+			paddings			= dpi(1),
+			border_width		= dpi(1),
+			border_color 		= "#dddddd",
 			widget				= wibox.widget.progressbar,
 		},
 		direction	= "east",
@@ -194,14 +197,14 @@ battery.popup = awful.popup{
 	border_color	= theme.popup_border_color,
     border_width	= theme.popup_border_width,
 	visible			= false,
-	bg				= theme.bg,
-	fg              = theme.fg,
+	bg				= theme.popup_bg,
+	fg              = theme.popup_fg,
 	ontop			= true,
 	shape			= function(cr, width, height)
 		gears.shape.rounded_rect(cr, width, height, theme.popup_rounded)
 	end,
     placement		= function(wdg,args)  
-		awful.placement.top_right(wdg, {margins = { top = theme.popup_margin_top ,right = dpi(5)}}) 
+		awful.placement.top_right(wdg, {margins = { top = theme.popup_margin_top ,right = dpi(6)}}) 
 	end,
 }
 
@@ -261,6 +264,14 @@ battery.setup = function(mt,ml,mr,mb)
 			battery.brightness_down()
 		end)
 	))
+
+	battery.widget:connect_signal('mouse::enter',function() 
+		battery.widget.bg = theme.widget_bg_hover
+	end)
+
+	battery.widget:connect_signal('mouse::leave',function() 
+		battery.widget.bg = ""
+	end)
 
 	gears.timer({
 		timeout   = battery.update_timeout,

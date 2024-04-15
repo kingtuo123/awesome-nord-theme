@@ -7,7 +7,7 @@
    viewBox="0 0 129.08052 129.08099"
    version="1.1"
    id="svg5"
-   inkscape:version="1.2.2 (b0a8486, 2022-12-01)"
+   inkscape:version="1.3 (0e150ed, 2023-07-21)"
    sodipodi:docname="floating.svg"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
@@ -27,10 +27,10 @@
      inkscape:zoom="0.914906"
      inkscape:cx="154.11419"
      inkscape:cy="361.2393"
-     inkscape:window-width="1912"
-     inkscape:window-height="1012"
+     inkscape:window-width="1918"
+     inkscape:window-height="1017"
      inkscape:window-x="0"
-     inkscape:window-y="30"
+     inkscape:window-y="31"
      inkscape:window-maximized="1"
      inkscape:current-layer="layer1" />
   <defs
@@ -70,7 +70,7 @@
      id="layer1"
      transform="translate(-65.600563,-63.519733)">
     <path
-       style="fill:#4c566a;fill-opacity:1;stroke:#666666;stroke-width:0"
+       style="fill:#222f3e;fill-opacity:1;stroke:#666666;stroke-width:0"
        id="rect788"
        width="75.252052"
        height="78.160606"
@@ -84,7 +84,7 @@
        sodipodi:type="rect"
        transform="rotate(180,130.56607,133.46394)" />
     <rect
-       style="fill:#4c566a;fill-opacity:1;stroke:#666666;stroke-width:0"
+       style="fill:#222f3e;fill-opacity:1;stroke:#666666;stroke-width:0"
        id="rect1650"
        width="88.458633"
        height="88.458633"

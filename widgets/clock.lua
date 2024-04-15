@@ -10,27 +10,36 @@ local calendar = {}
 
 calendar.month   = { 
 	padding  = dpi(10),
-	bg_color = theme.bg,                
+	bg_color = theme.popup_bg,                
 }
 calendar.normal  = { 
 	fg_color = theme.cal_fg_normal,
-	-- bg_color = theme.bg,                
-	markup	 = function(t) return '<b>' .. t .. '</b>' end,
+	--markup	 = function(t) return '<b>' .. t .. '</b>' end,
+	markup	 = function(t) return t end,
+	shape = function(cr, width, height)
+		gears.shape.rounded_rect(cr, width, height, dpi(0))
+	end,
 }                                                       
 calendar.focus   = {
-	fg_color = theme.bg,                
+	fg_color = theme.cal_fg_focus,                
 	bg_color = theme.cal_bg_focus,                
 	markup   = function(t) return '<b>' .. t .. '</b>' end,
+	--markup	 = function(t) return t end,
+	shape = function(cr, width, height)
+		gears.shape.rounded_rect(cr, width, height, dpi(0))
+	end,
 }                                                       
 calendar.header  = {
 	fg_color = theme.cal_header_fg,                
-	bg_color = theme.bg,             
+	bg_color = theme.popup_bg,             
 	markup   = function(t) return '<b>' .. t .. '</b>' end,
+	--markup	 = function(t) return t end,
 }                                                       
 calendar.weekday = {
 	fg_color = theme.cal_weekday_fg,                
-	bg_color = theme.bg,                
+	bg_color = theme.popup_bg,                
 	markup   = function(t) return '<b>' .. t .. '</b>' end,
+	--markup	 = function(t) return t end,
 }
 
 
@@ -45,7 +54,7 @@ local function decorate_cell(widget, flag, date)
 	-- Change bg color for weekends
 	local d			 = {year=date.year, month=(date.month or 1), day=(date.day or 1)}
 	local weekday	 = tonumber(os.date("%w", os.time(d)))
-	local default_bg = (weekday==0 or weekday==6) and theme.cal_week_06_bg or theme.bg
+	local default_bg = (weekday==0 or weekday==6) and theme.cal_week_06_bg or theme.popup_bg
 	local ret 		 = wibox.widget {
 		{
 			{
@@ -82,21 +91,42 @@ calendar.widget = wibox.widget {
 clock.widget = wibox.widget {
 	{
 		{
-			format	= '%b %d   %H:%M',
-			align	= "center",
+			--format	= '%b %d  %H:%M',
+			--format	= '%H:%M   %b %d   %a',
+			--format	= '%H:%M   %-m月%-d日   周%w',
+			--font	= "JetBrainsMono NFP 9",
+			--font = "DejaVu Serif Book 9",
+			--font = "DejaVu Sans Book 9",
+			--font = "Microsoft YaHei 9",
+			id		= "date",
+			align   = "center",
 			font	= theme.font,
-			widget	= wibox.widget.textclock,
+			text	= "--",
+			widget	= wibox.widget.textbox,
 		},
 		id      = "margin",
 		widget	= wibox.container.margin
 	},
+	fg = theme.topbar_fg,
+	bg = theme.topbar_bg,
 	shape = function(cr, width, height)
 		gears.shape.rounded_rect(cr, width, height, theme.widget_rounded)
 	end,
 	shape_border_width = theme.widget_border_width,
-	shape_border_color = theme.widget_border_color,
+	shape_border_color = "",
 	widget = wibox.container.background,
+	set_date = function(self, str)
+		self.date.text = str
+	end
 }
+
+
+clock.update = function()
+	weeks = {"日","一","二","三","四","五","六"}
+	awful.spawn.easy_async_with_shell("date +'%H:%M  %-m月%-d日  周%w'", function(out)
+		clock.widget:get_children_by_id("date")[1].text = string.gsub(out, "(%d)\n", weeks[tonumber(string.match(out, "(%d)\n")) + 1])
+	end)
+end
 
 
 clock.popup = awful.popup{
@@ -104,8 +134,8 @@ clock.popup = awful.popup{
 	border_color	= theme.popup_border_color,
     border_width	= theme.popup_border_width,
 	visible			= false,
-	bg				= theme.bg,
-	fg				= theme.fg,
+	bg				= theme.popup_bg,
+	fg				= theme.popup_fg,
 	ontop			= true,
 	shape			= function(cr, width, height)
 		gears.shape.rounded_rect(cr, width, height, theme.popup_rounded)
@@ -127,23 +157,31 @@ clock.setup = function(mt,ml,mr,mb)
 	clock.widget:connect_signal('mouse::enter',function() 
 		if clock.popup.visible then
 			clock.widget.bg = theme.widget_bg_press
+			clock.widget.fg = theme.widget_fg_press
 		else
 			clock.widget.bg = theme.widget_bg_hover
 		end
+		clock.widget.shape_border_color = theme.widget_border_color
 	end)
 
 	clock.widget:connect_signal('mouse::leave',function() 
 		if clock.popup.visible then
 			clock.widget.bg = theme.widget_bg_press
+			clock.widget.fg = theme.widget_fg_press
+			clock.widget.shape_border_color = theme.widget_border_color
 		else
 			clock.widget.bg = ""
+			clock.widget.fg = theme.topbar_fg
+			clock.widget.shape_border_color = ""
 		end
 	end)
 
 	clock.popup:buttons(gears.table.join(
 		awful.button({ }, 3, function ()
 			clock.popup.visible = false
+			clock.widget.fg = theme.topbar_fg
 			clock.widget.bg = ""
+			clock.widget.shape_border_color = ""
 		end)))
 
 	clock.widget:buttons(gears.table.join(
@@ -151,10 +189,20 @@ clock.setup = function(mt,ml,mr,mb)
 			clock.popup.visible = not clock.popup.visible
 			if clock.popup.visible then
 				clock.widget.bg = theme.widget_bg_press
+				clock.widget.fg = theme.widget_fg_press
 			else
 				clock.widget.bg = theme.widget_bg_hover
+				clock.widget.fg = theme.topbar_fg
 			end
+			clock.widget.shape_border_color = theme.widget_border_color
 		end)))
+	
+	gears.timer({
+		timeout   = 60,
+		call_now  = true,
+		autostart = true,
+		callback  = clock.update
+	})
 
 	return clock.widget
 end

@@ -80,6 +80,14 @@ wifi.setup = function(mt,ml,mr,mb)
 		wdg.visible = not wdg.visible
 	end)))
 
+	wifi.widget:connect_signal('mouse::enter',function() 
+		wifi.widget.bg = theme.widget_bg_hover
+	end)
+
+	wifi.widget:connect_signal('mouse::leave',function() 
+		wifi.widget.bg = ""
+	end)
+
 	gears.timer({
 		timeout   = 10,
 		call_now  = true,

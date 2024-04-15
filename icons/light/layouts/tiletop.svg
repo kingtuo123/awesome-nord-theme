@@ -7,7 +7,7 @@
    viewBox="0 0 120.00006 120"
    version="1.1"
    id="svg5"
-   inkscape:version="1.2.2 (b0a8486, 2022-12-01)"
+   inkscape:version="1.3 (0e150ed, 2023-07-21)"
    sodipodi:docname="tiletop.svg"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
@@ -27,10 +27,10 @@
      inkscape:zoom="0.45745301"
      inkscape:cx="198.92754"
      inkscape:cy="405.50613"
-     inkscape:window-width="1912"
-     inkscape:window-height="1012"
+     inkscape:window-width="1918"
+     inkscape:window-height="1017"
      inkscape:window-x="0"
-     inkscape:window-y="30"
+     inkscape:window-y="31"
      inkscape:window-maximized="1"
      inkscape:current-layer="layer1"
      showguides="true">
@@ -88,9 +88,9 @@
     <g
        id="g2774"
        transform="rotate(-90,128.925,127.94318)"
-       style="fill:#4c566a;fill-opacity:1;stroke-width:0;stroke-dasharray:none">
+       style="fill:#222f3e;fill-opacity:1;stroke-width:0;stroke-dasharray:none">
       <rect
-         style="fill:#4c566a;fill-opacity:1;stroke:#666666;stroke-width:0;stroke-dasharray:none"
+         style="fill:#222f3e;fill-opacity:1;stroke:#666666;stroke-width:0;stroke-dasharray:none"
          id="rect2363"
          width="50"
          height="120"
@@ -100,7 +100,7 @@
          transform="scale(-1)"
          ry="9.3092775" />
       <rect
-         style="fill:#4c566a;fill-opacity:1;stroke:#666666;stroke-width:0;stroke-dasharray:none"
+         style="fill:#222f3e;fill-opacity:1;stroke:#666666;stroke-width:0;stroke-dasharray:none"
          id="rect2363-3"
          width="49.961872"
          height="30.000122"
@@ -110,7 +110,7 @@
          transform="matrix(-1,0,0.00286849,-0.99999589,0,0)"
          ry="7.6214948" />
       <rect
-         style="fill:#4c566a;fill-opacity:1;stroke:#666666;stroke-width:0;stroke-dasharray:none"
+         style="fill:#222f3e;fill-opacity:1;stroke:#666666;stroke-width:0;stroke-dasharray:none"
          id="rect2363-3-2"
          width="49.961872"
          height="30.000124"
@@ -120,7 +120,7 @@
          transform="matrix(-1,0,0.00286849,-0.99999589,0,0)"
          ry="7.6214948" />
       <rect
-         style="fill:#4c566a;fill-opacity:1;stroke:#666666;stroke-width:0;stroke-dasharray:none"
+         style="fill:#222f3e;fill-opacity:1;stroke:#666666;stroke-width:0;stroke-dasharray:none"
          id="rect2363-3-2-9"
          width="49.961872"
          height="30.000124"

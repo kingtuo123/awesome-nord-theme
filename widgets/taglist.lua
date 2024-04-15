@@ -22,7 +22,9 @@ taglist.buttons = gears.table.join(
 		tag_clicked = true 
 	end),
 	awful.button({        }, 4, function(t) awful.tag.viewnext(t.screen) end),
-	awful.button({        }, 5, function(t) awful.tag.viewprev(t.screen) end)
+	awful.button({        }, 5, function(t) awful.tag.viewprev(t.screen) end),
+	awful.button({        }, 9, function(t) awful.tag.viewnext(t.screen) end),
+	awful.button({        }, 8, function(t) awful.tag.viewprev(t.screen) end)
 )
 
 
@@ -33,7 +35,7 @@ taglist.setup = function(s)
 		filter  = awful.widget.taglist.filter.all,
 		style   = {
 			shape_border_width = theme.taglist_border_width,
-			shape_border_color = theme.taglist_border_color,
+			--shape_border_color = theme.taglist_border_color,
 			shape = function(cr, width, height)
 				gears.shape.rounded_rect(cr, width, height, theme.widget_rounded)
 			end,
@@ -55,7 +57,7 @@ taglist.setup = function(s)
 							{
 								id = "line",
 								text = "",
-								forced_width = theme.topbar_height,
+								forced_width = theme.taglist_width,
 								widget = wibox.widget.textbox,
 							},
 							id = "linebg",
@@ -66,6 +68,10 @@ taglist.setup = function(s)
 						valign = 'top',
 						widget = wibox.container.place,
 					},
+					{
+                        id     = "icon_role",
+                        widget = wibox.widget.imagebox,
+                    },
 					layout = wibox.layout.stack,
 				},
 				id     = "background_role",

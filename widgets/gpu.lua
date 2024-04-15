@@ -11,16 +11,15 @@ cmd_gpu_info = "nvidia-smi|sed -n 10p"
 
 
 local colors = {
+	theme.blue3,
+	theme.blue2,
+	theme.blue1,
 	theme.blue0,
-	theme.blue0,
-	theme.green,
-	theme.green,
-	theme.green,
-	theme.yellow,
-	theme.yellow,
+	"#8bc34a",
+	"#8bc34a",
 	theme.orange,
 	theme.orange,
-	theme.red,
+	theme.orange,
 	theme.red,
 }
 
@@ -48,7 +47,7 @@ gpu.widget = wibox.widget {
 					forced_width = dpi(7),
 					layout = wibox.layout.fixed.vertical,
 				},
-				fg = theme.fg,
+				fg = theme.popup_fg,
 				widget = wibox.container.background,
 			},
 			{
@@ -69,12 +68,12 @@ gpu.widget = wibox.widget {
 						forced_width = dpi(35),
 						widget = wibox.container.mirror
 					},
-					margins = dpi(2),
+					margins = dpi(1.5),
 					widget	= wibox.container.margin,
 				},
 				bg = theme.widget_bg_graph,
 				shape = function(cr, width, height)
-					gears.shape.rounded_rect(cr, width, height, dpi(2))
+					gears.shape.rounded_rect(cr, width, height, dpi(0))
 				end,
 				widget = wibox.container.background,
 			},
@@ -87,12 +86,13 @@ gpu.widget = wibox.widget {
 		gears.shape.rounded_rect(cr, width, height, theme.widget_rounded)
 	end,
 	shape_border_width = theme.widget_border_width,
-	shape_border_color = theme.widget_border_color,
+	shape_border_color = "",
+	--shape_border_color = theme.widget_border_color,
 	widget = wibox.container.background,
 
 	set_gpu = function(self,gpu)
 		self:get_children_by_id("gpu graph")[1]:add_value(math.ceil(gpu.util / 5))
-		self:get_children_by_id("gpu graph")[1].color = colors[math.ceil(gpu.util / 10)] or theme.blue0
+		self:get_children_by_id("gpu graph")[1].color = colors[math.ceil(gpu.util / 10)] or colors[1]
 	end,
 }
 
@@ -104,10 +104,10 @@ gpu.dashboard = wibox.widget{
 				{
 					{
 						text = "Utilization",
-						font = theme.font,
+						font = "Microsoft YaHei Bold 9",
 						widget = wibox.widget.textbox,
 					},
-					fg = theme.fg .. "aa",
+					fg = theme.popup_fg,
 					widget = wibox.container.background,
 				},
 				top    = dpi(0),
@@ -117,27 +117,38 @@ gpu.dashboard = wibox.widget{
 			{
 				{
 					{
-						id = "util graph",
-						color = colors[5],
-						min_value = 0,
-						max_value = 20,
-						step_width = dpi(3),
-						step_spacing = 0,
-						scale  = false,
-						background_color = theme.bg_graph,
-						widget = wibox.widget.graph
+						{
+							{
+								id = "util graph",
+								color = colors[5],
+								min_value = 0,
+								max_value = 20,
+								step_width = dpi(3),
+								step_spacing = 0,
+								scale  = false,
+								background_color = theme.bg_graph,
+								widget = wibox.widget.graph
+							},
+							{
+								image	= theme.cpu_graph_mask_img,
+								resize  = true,
+								widget	= wibox.widget.imagebox,
+							},
+							layout	= wibox.layout.stack,
+						},
+						reflection = {horizontal = true, vertical = false},
+						forced_height = dpi(59),  -- 2x20+19
+						forced_width  = dpi(210), -- 3x70
+						widget = wibox.container.mirror
 					},
-					{
-						image	= theme.cpu_graph_mask_img,
-						resize  = true,
-						widget	= wibox.widget.imagebox,
-					},
-					layout	= wibox.layout.stack,
+					top = dpi(1.5),
+					bottom = dpi(1.5),
+					left = dpi(1.5),
+					right = dpi(0.5),
+					widget	= wibox.container.margin,
 				},
-				reflection = {horizontal = true, vertical = false},
-				forced_height = dpi(59),  -- 2x20+19
-				forced_width  = dpi(210), -- 3x70
-				widget = wibox.container.mirror
+				bg = theme.bg_graph,
+				widget = wibox.container.background,
 			},
 			{
 				{
@@ -151,7 +162,7 @@ gpu.dashboard = wibox.widget{
 						halign = "right",
 						widget = wibox.container.place,
 					},
-					fg = theme.fg,
+					fg = theme.popup_fg,
 					widget = wibox.container.background,
 				},
 				top    = dpi(3),
@@ -162,10 +173,10 @@ gpu.dashboard = wibox.widget{
 				{
 					{
 						text = "Memory",
-						font = theme.font,
+						font = "Microsoft YaHei Bold 9",
 						widget = wibox.widget.textbox,
 					},
-					fg = theme.fg .. "aa",
+					fg = theme.popup_fg,
 					widget = wibox.container.background,
 				},
 				top    = dpi(0),
@@ -175,27 +186,38 @@ gpu.dashboard = wibox.widget{
 			{
 				{
 					{
-						id = "mem graph",
-						color = colors[5],
-						min_value = 0,
-						max_value = 20,
-						step_width = dpi(3),
-						step_spacing = 0,
-						scale  = false,
-						background_color = theme.bg_graph,
-						widget = wibox.widget.graph
+						{
+							{
+								id = "mem graph",
+								color = colors[5],
+								min_value = 0,
+								max_value = 20,
+								step_width = dpi(3),
+								step_spacing = 0,
+								scale  = false,
+								background_color = theme.bg_graph,
+								widget = wibox.widget.graph
+							},
+							{
+								image	= theme.cpu_graph_mask_img,
+								resize  = true,
+								widget	= wibox.widget.imagebox,
+							},
+							layout	= wibox.layout.stack,
+						},
+						reflection = {horizontal = true, vertical = false},
+						forced_height = dpi(59),  -- 2x20+19
+						forced_width  = dpi(210), -- 3x70
+						widget = wibox.container.mirror
 					},
-					{
-						image	= theme.cpu_graph_mask_img,
-						resize  = true,
-						widget	= wibox.widget.imagebox,
-					},
-					layout	= wibox.layout.stack,
+					top = dpi(1.5),
+					bottom = dpi(1.5),
+					left = dpi(1.5),
+					right = dpi(0.5),
+					widget	= wibox.container.margin,
 				},
-				reflection = {horizontal = true, vertical = false},
-				forced_height = dpi(59),  -- 2x20+19
-				forced_width  = dpi(210), -- 3x70
-				widget = wibox.container.mirror
+				bg = theme.bg_graph,
+				widget = wibox.container.background,
 			},
 			{
 				{
@@ -209,7 +231,7 @@ gpu.dashboard = wibox.widget{
 						halign = "right",
 						widget = wibox.container.place,
 					},
-					fg = theme.fg,
+					fg = theme.popup_fg,
 					widget = wibox.container.background,
 				},
 				top    = dpi(3),
@@ -220,10 +242,10 @@ gpu.dashboard = wibox.widget{
 				{
 					{
 						text = "Temperature",
-						font = theme.font,
+						font = "Microsoft YaHei Bold 9",
 						widget = wibox.widget.textbox,
 					},
-					fg = theme.fg .. "aa",
+					fg = theme.popup_fg,
 					widget = wibox.container.background,
 				},
 				top    = dpi(0),
@@ -233,27 +255,38 @@ gpu.dashboard = wibox.widget{
 			{
 				{
 					{
-						id = "temp graph",
-						color = colors[5],
-						min_value = 0,
-						max_value = 20,
-						step_width = dpi(3),
-						step_spacing = 0,
-						scale  = false,
-						background_color = theme.bg_graph,
-						widget = wibox.widget.graph
+						{
+							{
+								id = "temp graph",
+								color = colors[5],
+								min_value = 0,
+								max_value = 20,
+								step_width = dpi(3),
+								step_spacing = 0,
+								scale  = false,
+								background_color = theme.bg_graph,
+								widget = wibox.widget.graph
+							},
+							{
+								image	= theme.cpu_graph_mask_img,
+								resize  = true,
+								widget	= wibox.widget.imagebox,
+							},
+							layout	= wibox.layout.stack,
+						},
+						reflection = {horizontal = true, vertical = false},
+						forced_height = dpi(59),  -- 2x20+19
+						forced_width  = dpi(210), -- 3x70
+						widget = wibox.container.mirror
 					},
-					{
-						image	= theme.cpu_graph_mask_img,
-						resize  = true,
-						widget	= wibox.widget.imagebox,
-					},
-					layout	= wibox.layout.stack,
+					top = dpi(1.5),
+					bottom = dpi(1.5),
+					left = dpi(1.5),
+					right = dpi(0.5),
+					widget	= wibox.container.margin,
 				},
-				reflection = {horizontal = true, vertical = false},
-				forced_height = dpi(59),  -- 2x20+19
-				forced_width  = dpi(210), -- 3x70
-				widget = wibox.container.mirror
+				bg = theme.bg_graph,
+				widget = wibox.container.background,
 			},
 			{
 				{
@@ -283,20 +316,20 @@ gpu.dashboard = wibox.widget{
 		id     = "margin",
 		widget = wibox.container.margin,
 	},
-	bg = theme.bg,
+	bg = theme.popup_bg,
 	widget = wibox.container.background,
 	set_gpu = function(self, gpu)
 		self:get_children_by_id("util graph")[1]:add_value(math.ceil(gpu.util / 5))
 		self:get_children_by_id("util")[1].text = gpu.util .. " %"
-		self:get_children_by_id("util graph")[1].color = colors[math.ceil(gpu.util / 10)] or theme.blue0
+		self:get_children_by_id("util graph")[1].color = colors[math.ceil(gpu.util / 10)] or colors[1]
 
 		self:get_children_by_id("mem graph")[1]:add_value(math.ceil(20 * gpu.mem / gpu.mem_total))
 		self:get_children_by_id("mem")[1].text = gpu.mem .. " MB"
-		self:get_children_by_id("mem graph")[1].color = colors[math.ceil(10 * gpu.mem / gpu.mem_total)] or theme.blue0
+		self:get_children_by_id("mem graph")[1].color = colors[math.ceil(10 * gpu.mem / gpu.mem_total)] or colors[1]
 
 		self:get_children_by_id("temp graph")[1]:add_value(math.ceil(gpu.temp / 5))
 		self:get_children_by_id("temp")[1].text = gpu.temp .. " °C"
-		self:get_children_by_id("temp graph")[1].color = colors[math.ceil(gpu.temp / 10)] or theme.blue0
+		self:get_children_by_id("temp graph")[1].color = colors[math.ceil(gpu.temp / 10)] or color[1]
 	end
 }
 
@@ -307,7 +340,7 @@ gpu.popup = awful.popup{
 	border_color	= theme.popup_border_color,
     border_width	= theme.popup_border_width,
 	visible			= false,
-	bg				= theme.bg,
+	bg				= theme.bg_graph,
 	fg				= theme.fg,
 	ontop			= true,
 	shape			= function(cr, width, height)
@@ -342,13 +375,16 @@ gpu.setup = function(mt,ml,mr,mb)
 		else
 			gpu.widget.bg = theme.widget_bg_hover
 		end
+		gpu.widget.shape_border_color = theme.widget_border_color
 	end)
 
 	gpu.widget:connect_signal('mouse::leave',function(self) 
 		if gpu.popup.visible then
 			gpu.widget.bg = theme.widget_bg_press
+			gpu.widget.shape_border_color = theme.widget_border_color
 		else
 			gpu.widget.bg = ""
+			gpu.widget.shape_border_color = ""
 		end
 	end)
 
@@ -374,19 +410,20 @@ gpu.setup = function(mt,ml,mr,mb)
 		awful.button({ }, 3, function ()
 			gpu.popup.visible = false
 			gpu.widget.bg = ""
+			gpu.widget.shape_border_color = ""
 		end)
 	))
 
 	gpu.widget:buttons(awful.util.table.join (
 		awful.button({}, 1, function() 
+			gpu.popup.x = mouse.coords().x - dpi(125)
+			gpu.popup.y = theme.popup_margin_top
 			gpu.popup.visible = not gpu.popup.visible
 			if gpu.popup.visible then
 				gpu.widget.bg = theme.widget_bg_press
 			else
 				gpu.widget.bg = theme.widget_bg_hover
 			end
-			gpu.popup.x = mouse.coords().x - dpi(125)
-			gpu.popup.y = theme.popup_margin_top
 		end)
 	))
 

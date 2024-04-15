@@ -37,41 +37,32 @@ tasklist.setup = function(s)
 		screen   = s,
 		filter   = awful.widget.tasklist.filter.currenttags,
 		buttons  = tasklist.buttons,
+		style   = {
+			shape_border_width = dpi(0),
+			shape = function(cr, width, height)
+				gears.shape.rounded_rect(cr, width, height, dpi(0))
+			end,
+		},
 		widget_template = {
 			{
 				{
 					{
 						{
 							id     = 'my_icon_role',
+							forced_width  = theme.tasklist_icon_size,
+							forced_height  = theme.tasklist_icon_size,
 							widget = wibox.widget.imagebox,
 						},
 						halign = 'center',
 						valign = 'center',
 						widget = wibox.container.place,
 					},
-					margins = dpi(2),
+					margins = dpi(0),
 					widget  = wibox.container.margin,
 				},
 				{
-					{
-						{
-							id            = "line",
-							text          = "",
-							forced_width  = theme.tasklist_line_width,
-							forced_height = dpi(2),
-							widget = wibox.widget.textbox,
-						},
-						id     = "linebg",
-						bg     = theme.tasklist_bg_line,
-						widget = wibox.container.background,
-					},
-					halign = 'center',
-					valign = 'top',
-					widget = wibox.container.place,
-				},
-				{
 					text          = "",
-					forced_width  = theme.tasklist_line_width,
+					forced_width  = theme.tasklist_width,
 					widget        = wibox.widget.textbox,
 				},
 				layout = wibox.layout.stack,
@@ -81,8 +72,6 @@ tasklist.setup = function(s)
 
 			create_callback = function(self,c)
 				local my_icon_role = self:get_children_by_id('my_icon_role')[1]
-				local line         = self:get_children_by_id('line')[1]
-				local linebg       = self:get_children_by_id('linebg')[1]
 				local lookup       = menubar.utils.lookup_icon
 			 -- local icon         = lookup(c.class) or lookup(c.class:lower())
 				 if c.instance == nil then
@@ -97,27 +86,14 @@ tasklist.setup = function(s)
 				end
 				local background_role = self:get_children_by_id('background_role')[1]
 				self:connect_signal("mouse::enter", function()
-					if c == client.focus then
-						background_role.bg = theme.tasklist_bg_hover
-						linebg.opacity     = 1
-					elseif c.minimized then
-						background_role.bg = theme.tasklist_bg_focus
-						linebg.opacity     = 0
-					else
-						background_role.bg = theme.tasklist_bg_focus
-					end
-					line.forced_width = theme.tasklist_line_width
+					background_role.bg = theme.tasklist_bg_hover
 				end)
 				local leave = function()
 					if c.minimized then
 						background_role.bg = theme.tasklist_bg_minimize
-						linebg.opacity     = 0
 					elseif c == client.focus then
 						background_role.bg = theme.tasklist_bg_focus
-						line.forced_width  = theme.tasklist_line_width
-						linebg.opacity     = 1
 					else
-						line.forced_width  = theme.tasklist_line_width - dpi(10)
 						background_role.bg = theme.tasklist_bg_normal
 					end
 				end
@@ -126,15 +102,8 @@ tasklist.setup = function(s)
 					self:disconnect_signal("mouse::leave", leave)
 				end)
 				c:connect_signal("unfocus", function()
-					if c.minimized then
-						linebg.opacity = 0
-					else
-						line.forced_width = theme.tasklist_line_width - dpi(10)
-					end
 				end)
 				c:connect_signal("focus", function()
-					line.forced_width = theme.tasklist_line_width
-					linebg.opacity    = 1
 				end)
 			end
 		}

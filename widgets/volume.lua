@@ -7,7 +7,7 @@ local dpi	= require("beautiful.xresources").apply_dpi
 
 local volume		= {}
 -- device = "pactl get-default-sink" 
-local device		= "alsa_output.pci-0000_00_1f.3.analog-stereo"
+local device		= "alsa_output.pci-0000_c6_00.1.hdmi-stereo-extra3"
 local cmd_get_vol	= "pactl get-sink-volume " .. device
 local cmd_get_mute	= "pactl get-sink-mute " .. device
 local cmd_set_mute	= "pactl set-sink-mute " .. device .. " yes"
@@ -144,9 +144,12 @@ volume.progressbar = wibox.widget{
 			value				= 0.5,
 			forced_height		= dpi(45),
 			forced_width		= dpi(150),
-			margins             = {top = dpi(17), left = dpi(15), right = dpi(15), bottom = dpi(17)},
+			margins             = {top = dpi(16), left = dpi(15), right = dpi(15), bottom = dpi(16)},
 			color				= theme.popup_fg_progressbar,
 			background_color	= theme.popup_bg_progressbar,
+			paddings			= dpi(1),
+			border_width		= dpi(1),
+			border_color 		= "#dddddd",
 			widget				= wibox.widget.progressbar,
 		},
 		direction	= "east",
@@ -188,14 +191,14 @@ volume.popup = awful.popup{
 	border_color	= theme.popup_border_color,
     border_width	= theme.popup_border_width,
 	visible			= false,
-	bg				= theme.bg,
-	fg              = theme.fg,
+	bg				= theme.popup_bg,
+	fg              = theme.popup_fg,
 	ontop			= true,
 	shape			= function(cr, width, height)
 		gears.shape.rounded_rect(cr, width, height, theme.popup_rounded)
 	end,
     placement		= function(wdg,args)  
-		awful.placement.top_right(wdg, {margins = { top = theme.popup_margin_top ,right = dpi(5)}}) 
+		awful.placement.top_right(wdg, {margins = { top = theme.popup_margin_top ,right = dpi(6)}}) 
 	end,
 }
 
@@ -272,6 +275,14 @@ volume.setup = function(mt,ml,mr,mb)
 			volume.popup.visible = false
 		end)
 	))
+
+	volume.widget:connect_signal('mouse::enter',function() 
+		volume.widget.bg = theme.widget_bg_hover
+	end)
+
+	volume.widget:connect_signal('mouse::leave',function() 
+		volume.widget.bg = ""
+	end)
 
 	gears.timer({
 		timeout   = 60,

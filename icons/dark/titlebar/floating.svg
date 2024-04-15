@@ -25,13 +25,13 @@
      inkscape:document-units="mm"
      showgrid="false"
      inkscape:zoom="4.4447732"
-     inkscape:cx="65.920124"
-     inkscape:cy="77.169292"
-     inkscape:window-width="1912"
-     inkscape:window-height="1009"
+     inkscape:cx="65.807632"
+     inkscape:cy="76.606833"
+     inkscape:window-width="1918"
+     inkscape:window-height="981"
      inkscape:window-x="0"
      inkscape:window-y="33"
-     inkscape:window-maximized="1"
+     inkscape:window-maximized="0"
      inkscape:current-layer="layer2"
      showguides="true">
     <sodipodi:guide
@@ -67,7 +67,7 @@
      transform="translate(-1.2207708,-5.1728549)"
      style="fill:#ffffff;fill-opacity:0.9">
     <rect
-       style="fill:#4c566a;fill-opacity:1;fill-rule:nonzero;stroke:#3cb2c2;stroke-width:0;stroke-dasharray:none;stroke-opacity:1"
+       style="fill:#333333;fill-opacity:0.803949;fill-rule:nonzero;stroke:#3cb2c2;stroke-width:0;stroke-dasharray:none;stroke-opacity:1"
        id="rect6142"
        width="5.8333325"
        height="5.8333325"
@@ -84,7 +84,7 @@
        xml:space="preserve"
        transform="matrix(0.0533965,0,0,0.0533965,1.1695228,-0.21065209)"
        id="text5398"
-       style="font-size:75.259px;white-space:pre;shape-inside:url(#rect5400);display:inline;opacity:1;fill:#d8dee9;fill-opacity:1;stroke:none;stroke-width:0.6;stroke-dasharray:none"><tspan
+       style="font-size:75.259px;white-space:pre;shape-inside:url(#rect5400);display:inline;opacity:1;fill:#f1f1f1;fill-opacity:1;stroke:none;stroke-width:0.6;stroke-dasharray:none"><tspan
          x="32.667969"
          y="182.74415"
          id="tspan2"><tspan

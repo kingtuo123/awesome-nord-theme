@@ -24,8 +24,8 @@ promptbox.popup = awful.popup{
 				{
 					image         = theme.terminal_icon,
 					resize        = true,
-					forced_height = dpi(20),
-					forced_width  = dpi(20),
+					forced_height = dpi(17),
+					forced_width  = dpi(17),
 					widget        = wibox.widget.imagebox
 				},
 				halign = 'center',
@@ -38,15 +38,17 @@ promptbox.popup = awful.popup{
 		promptbox.widget,
 		layout = wibox.layout.fixed.horizontal,
 	},
-	border_color	= theme.popup_border_color,
-	bg				= theme.bg,
+	border_color	= theme.border_focus,--theme.popup_border_color,
+	bg				= theme.popup_bg,
+	fg              = theme.popup_fg,
 	border_width	= theme.popup_border_width,
 	visible			= false,
 	ontop			= true,
 	minimum_width	= dpi(180),
 	minimum_height  = dpi(50),
 	shape			= function(cr, width, height)
-		gears.shape.rounded_rect(cr, width, height, theme.popup_rounded)
+--		gears.shape.rounded_rect(cr, width, height, theme.popup_rounded)
+		gears.shape.rounded_rect(cr, width, height, dpi(0))
 	end,
 	placement		= function(wdg,args)  
 		awful.placement.top(wdg, { margins = { top = theme.popup_margin_top}}) 

@@ -15,17 +15,15 @@ cpu.freq_path = function(i) return "/sys/devices/system/cpu/cpu" .. i .. "/cpufr
 
 
 local colors = {
+	theme.blue3,
+	theme.blue2,
+	theme.blue1,
 	theme.blue0,
-	theme.blue0,
-	theme.green,
-	theme.green,
-	theme.green,
-	theme.yellow,
-	theme.yellow,
+	"#8bc34a",
+	"#8bc34a",
 	theme.orange,
 	theme.orange,
-	theme.red,
-	theme.red,
+	theme.orange,
 	theme.red,
 }
 
@@ -53,7 +51,7 @@ cpu.widget = wibox.widget{
 					forced_width = dpi(7),
 					layout = wibox.layout.fixed.vertical,
 				},
-				fg = theme.fg,
+				fg = theme.popup_fg,
 				widget = wibox.container.background,
 			},
 			{
@@ -62,12 +60,12 @@ cpu.widget = wibox.widget{
 						id     = "vertical_bars",
 						layout = wibox.layout.fixed.horizontal,
 					},
-					margins = dpi(2),
+					margins = dpi(1.5),
 					widget	= wibox.container.margin
 				},
 				bg = theme.widget_bg_graph,
 				shape = function(cr, width, height)
-					gears.shape.rounded_rect(cr, width, height, dpi(2))
+					gears.shape.rounded_rect(cr, width, height, dpi(0))
 				end,
 				widget = wibox.container.background,
 			},
@@ -80,7 +78,7 @@ cpu.widget = wibox.widget{
 		gears.shape.rounded_rect(cr, width, height, theme.widget_rounded)
 	end,
 	shape_border_width = theme.widget_border_width,
-	shape_border_color = theme.widget_border_color,
+	shape_border_color = "",
 	widget = wibox.container.background,
 }
 
@@ -93,10 +91,10 @@ cpu.dashboard = wibox.widget{
 					{
 						{
 							text = "Load",
-							font = theme.font,
+							font = "Microsoft YaHei Bold 9",
 							widget = wibox.widget.textbox,
 						},
-						fg = theme.fg .. "aa",
+						fg = theme.popup_fg,
 						widget = wibox.container.background,
 					},
 					top    = dpi(0),
@@ -106,27 +104,38 @@ cpu.dashboard = wibox.widget{
 				{
 					{
 						{
-							id = "load graph",
-							color = colors[1],
-							min_value = 0,
-							max_value = 20,
-							step_width = dpi(3),
-							step_spacing = 0,
-							scale  = false,
-							background_color = theme.bg_graph,
-							widget = wibox.widget.graph
+							{
+								{
+									id = "load graph",
+									color = colors[1],
+									min_value = 0,
+									max_value = 20,
+									step_width = dpi(3),
+									step_spacing = 0,
+									scale  = false,
+									background_color = theme.bg_graph,
+									widget = wibox.widget.graph
+								},
+								{
+									image	= theme.cpu_graph_mask_img,
+									resize  = true,
+									widget	= wibox.widget.imagebox,
+								},
+								layout	= wibox.layout.stack,
+							},
+							reflection = {horizontal = true, vertical = false},
+							forced_height = dpi(59),  -- 2x20+19
+							forced_width  = dpi(210), -- 3x70
+							widget = wibox.container.mirror
 						},
-						{
-							image	= theme.cpu_graph_mask_img,
-							resize  = true,
-							widget	= wibox.widget.imagebox,
-						},
-						layout	= wibox.layout.stack,
+						top = dpi(1.5),
+						bottom = dpi(1.5),
+						left = dpi(1.5),
+						right = dpi(0.5),
+						widget	= wibox.container.margin,
 					},
-					reflection = {horizontal = true, vertical = false},
-					forced_height = dpi(59),  -- 2x20+19
-					forced_width  = dpi(210), -- 3x70
-					widget = wibox.container.mirror
+					bg = theme.bg_graph,
+					widget = wibox.container.background,
 				},
 				{
 					{
@@ -140,7 +149,7 @@ cpu.dashboard = wibox.widget{
 							halign = "right",
 							widget = wibox.container.place,
 						},
-						fg = theme.fg,
+						fg = theme.popup_fg,
 						widget = wibox.container.background,
 					},
 					top    = dpi(3),
@@ -151,10 +160,10 @@ cpu.dashboard = wibox.widget{
 					{
 						{
 							text = "Temperature",
-							font = theme.font,
+							font = "Microsoft YaHei Bold 9",
 							widget = wibox.widget.textbox,
 						},
-						fg = theme.fg .. "aa",
+						fg = theme.popup_fg,
 						widget = wibox.container.background,
 					},
 					top    = dpi(0),
@@ -164,27 +173,38 @@ cpu.dashboard = wibox.widget{
 				{
 					{
 						{
-							id = "temp graph",
-							color = colors[1],
-							min_value = 0,
-							max_value = 20,
-							step_width = dpi(3),
-							step_spacing = 0,
-							scale  = false,
-							background_color = theme.bg_graph,
-							widget = wibox.widget.graph
+							{
+								{
+									id = "temp graph",
+									color = colors[1],
+									min_value = 0,
+									max_value = 20,
+									step_width = dpi(3),
+									step_spacing = 0,
+									scale  = false,
+									background_color = theme.bg_graph,
+									widget = wibox.widget.graph
+								},
+								{
+									image	= theme.cpu_graph_mask_img,
+									resize  = true,
+									widget	= wibox.widget.imagebox,
+								},
+								layout	= wibox.layout.stack,
+							},
+							reflection = {horizontal = true, vertical = false},
+							forced_height = dpi(59),
+							forced_width  = dpi(210),
+							widget = wibox.container.mirror,
 						},
-						{
-							image	= theme.cpu_graph_mask_img,
-							resize  = true,
-							widget	= wibox.widget.imagebox,
-						},
-						layout	= wibox.layout.stack,
+						top = dpi(1.5),
+						bottom = dpi(1.5),
+						left = dpi(1.5),
+						right = dpi(0.5),
+						widget	= wibox.container.margin,
 					},
-					reflection = {horizontal = true, vertical = false},
-					forced_height = dpi(59),
-					forced_width  = dpi(210),
-					widget = wibox.container.mirror
+					bg = theme.bg_graph,
+					widget = wibox.container.background,
 				},
 				{
 					{
@@ -198,7 +218,7 @@ cpu.dashboard = wibox.widget{
 							halign = "right",
 							widget = wibox.container.place,
 						},
-						fg = theme.fg,
+						fg = theme.popup_fg,
 						widget = wibox.container.background,
 					},
 					top    = dpi(3),
@@ -209,10 +229,10 @@ cpu.dashboard = wibox.widget{
 					{
 						{
 							text = "Threads",
-							font = theme.font,
+							font = "Microsoft YaHei Bold 9",
 							widget = wibox.widget.textbox,
 						},
-						fg = theme.fg .. "aa",
+						fg = theme.popup_fg,
 						widget = wibox.container.background,
 					},
 					top    = dpi(0),
@@ -232,7 +252,7 @@ cpu.dashboard = wibox.widget{
 			id     = "margin",
 			widget = wibox.container.margin,
 		},
-		bg = theme.bg,
+		bg = theme.popup_bg,
 		widget = wibox.container.background,
 	},
 	top    = dpi(10),
@@ -260,8 +280,8 @@ cpu.popup = awful.popup{
 	border_color	= theme.popup_border_color,
     border_width	= theme.popup_border_width,
 	visible			= false,
-	bg				= theme.bg,
-	fg				= theme.fg,
+	bg				= theme.popup_bg,
+	fg				= theme.popup_fg,
 	ontop			= true,
 	shape			= function(cr, width, height)
 		gears.shape.rounded_rect(cr, width, height, theme.popup_rounded)
@@ -277,7 +297,7 @@ local function single_vertical_bar()
 			max_value		 = 20,
 			value			 = 0,
 			bar_border_width = 0,
-			forced_height	 = dpi(4),
+			forced_height	 = dpi(4.5),
 			color			 = colors[1],
 			background_color = "",--theme.widget_bg_graph,
 			--shape			 = function(cr, width, height)
@@ -303,9 +323,12 @@ local function single_horizontal_bar()
 				max_value     = 50,
 				forced_height = dpi(20),
 				forced_width  = dpi(100),
-				margins       = {top = dpi(6), left = dpi(0), right = dpi(5), bottom = dpi(6)},
+				margins       = {top = dpi(4.5), left = dpi(0), right = dpi(5), bottom = dpi(4.5)},
 				color         = colors[1],
 				background_color = theme.popup_bg_progressbar,
+				paddings			= dpi(1),
+				border_width		= dpi(1),
+				border_color 		= "#dddddd",
 				widget = wibox.widget.progressbar,	
 		},
 		{
@@ -314,7 +337,7 @@ local function single_horizontal_bar()
 					id   = "Usage",
 					text = "--%",
 					font = theme.font,
-					font = "Microsoft YaHei Bold 8",
+					font = "Microsoft YaHei 8",
 					widget = wibox.widget.textbox,
 				},
 				halign = "left",
@@ -322,7 +345,7 @@ local function single_horizontal_bar()
 				forced_height = dpi(20),
 				widget = wibox.container.place,
 			},
-			fg = theme.fg,
+			fg = theme.popup_fg,
 			widget = wibox.container.background,
 		},
 		{
@@ -334,7 +357,7 @@ local function single_horizontal_bar()
 						id   = "Freq",
 						text = "-- MHz",
 						font = theme.font,
-						font = "Microsoft YaHei Bold 8",
+						font = "Microsoft YaHei 8",
 						widget = wibox.widget.textbox,
 					},
 					halign = "right",
@@ -342,7 +365,7 @@ local function single_horizontal_bar()
 					forced_height = dpi(20),
 					widget = wibox.container.place,
 				},
-				fg = theme.fg,
+				fg = theme.popup_fg,
 				widget = wibox.container.background,
 			},
 			--forced_width  = dpi(70),
@@ -442,13 +465,16 @@ cpu.setup = function(mt,ml,mr,mb)
 		else
 			cpu.widget.bg = theme.widget_bg_hover
 		end
+		cpu.widget.shape_border_color = theme.widget_border_color
 	end)
 
 	cpu.widget:connect_signal('mouse::leave',function(self) 
 		if cpu.popup.visible then
 			cpu.widget.bg = theme.widget_bg_press
+			cpu.widget.shape_border_color = theme.widget_border_color
 		else
 			cpu.widget.bg = ""
+			cpu.widget.shape_border_color = ""
 		end
 	end)
 
@@ -474,19 +500,20 @@ cpu.setup = function(mt,ml,mr,mb)
 		awful.button({ }, 3, function ()
 			cpu.popup.visible = false
 			cpu.widget.bg = ""
+			cpu.widget.shape_border_color = ""
 		end)
 	))
 
 	cpu.widget:buttons(awful.util.table.join (
 		awful.button({}, 1, function() 
+			cpu.popup.x = mouse.coords().x - dpi(125)
+			cpu.popup.y = theme.popup_margin_top
 			cpu.popup.visible = not cpu.popup.visible
 			if cpu.popup.visible then
 				cpu.widget.bg = theme.widget_bg_press
 			else
 				cpu.widget.bg = theme.widget_bg_hover
 			end
-			cpu.popup.x = mouse.coords().x - dpi(125)
-			cpu.popup.y = theme.popup_margin_top
 		end)
 	))
 

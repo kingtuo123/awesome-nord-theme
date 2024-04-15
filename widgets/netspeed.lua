@@ -82,7 +82,7 @@ netspeed.widget = wibox.widget{
 		gears.shape.rounded_rect(cr, width, height, theme.widget_rounded)
 	end,
 	shape_border_width = theme.widget_border_width,
-	shape_border_color = theme.widget_border_color,
+	shape_border_color = "",
 	widget = wibox.container.background,
 
 	set_sent = function(self,value)
@@ -139,13 +139,15 @@ netspeed.setup = function(mt,ml,mr,mb)
 	netspeed.widget.margin.right  = dpi(mr or 0)
 	netspeed.widget.margin.bottom = dpi(mb or 0)
 
-	netspeed.widget:connect_signal('mouse::enter',function(self) 
-		self.bg = theme.widget_bg_hover
-	end)
+	--netspeed.widget:connect_signal('mouse::enter',function(self) 
+	--	self.bg = theme.widget_bg_hover
+	--	netspeed.widget.shape_border_color = theme.widget_border_color
+	--end)
 
-	netspeed.widget:connect_signal('mouse::leave',function(self) 
-		self.bg = ""
-	end)
+	--netspeed.widget:connect_signal('mouse::leave',function(self) 
+	--	self.bg = ""
+	--	netspeed.widget.shape_border_color = ""
+	--end)
 
 	gears.timer({
 		timeout   = update_interval,

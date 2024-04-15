@@ -20,7 +20,10 @@ titlebar.setup = function(c)
 			awful.mouse.client.move(c)
 		end),
 		awful.button({ }, 2, function()
-			c.maximized = not c.maximized
+			--c.maximized = not c.maximized
+			c:emit_signal("request::activate", "titlebar", {raise = true})
+			--awful.mouse.client.move(c)
+			awful.titlebar.toggle(c)
 		end),
 		awful.button({ }, 3, function()
 			c:emit_signal("request::activate", "titlebar", {raise = true})

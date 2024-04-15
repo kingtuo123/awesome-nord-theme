@@ -28,12 +28,12 @@
      inkscape:deskcolor="#d1d1d1"
      showgrid="false"
      inkscape:zoom="1.0225"
-     inkscape:cx="222.00489"
-     inkscape:cy="237.65281"
-     inkscape:window-width="1912"
-     inkscape:window-height="1009"
+     inkscape:cx="221.51589"
+     inkscape:cy="237.16381"
+     inkscape:window-width="1918"
+     inkscape:window-height="1017"
      inkscape:window-x="0"
-     inkscape:window-y="33"
+     inkscape:window-y="31"
      inkscape:window-maximized="1"
      inkscape:current-layer="svg1407" />
   <title
@@ -47,22 +47,22 @@
      fill-rule="evenodd"
      id="g1405"
      transform="matrix(0.59898411,0,0,-0.58922847,-0.64341501,8.9252986)"
-     style="fill:#4c566a;fill-opacity:1">
+     style="fill:#222f3e;fill-opacity:0.80069345">
     <g
        transform="translate(1,1)"
        fill="#434343"
        id="g1403"
-       style="fill:#4c566a;fill-opacity:1">
+       style="fill:#222f3e;fill-opacity:0.80069345">
       <path
          d="m 1.152,0.004 c -0.546,0 -0.988,0.443 -0.988,0.99 v 1.979 c 0,0.547 0.442,0.99 0.988,0.99 h 13.855 c 0.548,0 0.99,-0.443 0.99,-0.99 V 0.994 c 0,-0.547 -0.442,-0.99 -0.99,-0.99 z"
          class="si-glyph-fill"
          id="path1399"
-         style="fill:#4c566a;fill-opacity:1" />
+         style="fill:#222f3e;fill-opacity:0.80069345" />
       <path
          d="m 9.051,14.561 c -0.582,0.58 -1.523,0.58 -2.104,0 L 0.504,8.116 c -0.582,-0.58 -0.838,-2.102 1,-2.102 h 12.988 c 1.902,0 1.582,1.521 1.002,2.102 z"
          class="si-glyph-fill"
          id="path1401"
-         style="fill:#4c566a;fill-opacity:1" />
+         style="fill:#222f3e;fill-opacity:0.80069345" />
     </g>
   </g>
   <metadata

@@ -8,16 +8,15 @@ local dpi	= require("beautiful.xresources").apply_dpi
 
 local disk = {}
 local colors = {
-	theme.blue1,
-	theme.blue1,
-	theme.blue0,
-	theme.blue0,
-	theme.green,
-	theme.green,
-	theme.yellow,
+	theme.blue3,
+	theme.blue3,
+	theme.blue3,
+	theme.blue2,
+	"#8bc34a",
+	"#8bc34a",
 	theme.orange,
 	theme.orange,
-	theme.red,
+	theme.orange,
 	theme.red,
 }
 
@@ -27,13 +26,14 @@ local partition_ignore = {"sda4"}
 local cmd_lsblk	   = "lsblk -o NAME,SIZE,MOUNTPOINTS,FSAVAIL,FSUSE%,FSUSED,FSTYPE,HOTPLUG,LABEL,MODEL,PARTLABEL,UUID,PARTUUID -x NAME -J|sed s/%//g"
 local cmd_mount    = function(name) return "udisksctl   mount -b /dev/" .. name end
 local cmd_umount   = function(name) return "udisksctl unmount -b /dev/" .. name end
-local cmd_open     = function(mountpoint) return "alacritty --working-directory " .. mountpoint end
+local cmd_open     = function(mountpoint) return "alacritty --working-directory " .. "\"" .. mountpoint .. "\""end
 --local cmd_open     = function(mountpoint) return "uxterm -e 'cd " .. mountpoint .. " && /bin/bash'" end
 
 
 disk.widget = wibox.widget{
 	{
 		{
+			id    = "icon",
 			image = theme.disk_icon,
 			widget = wibox.widget.imagebox,
 		},
@@ -123,11 +123,10 @@ disk.device = wibox.widget{
 				{
 					{
 						text   = model,
-						--font   = "Microsoft YaHei Bold 8",
-						font = theme.font,
+						font   = "Microsoft YaHei Bold 9",
 						widget = wibox.widget.textbox,
 					},
-					fg = theme.fg .. "aa",
+					fg = theme.popup_fg,
 					widget = wibox.container.background,
 				},
 				layout = wibox.layout.fixed.horizontal,
@@ -160,6 +159,7 @@ disk.device = wibox.widget{
 			part.size	  = args.fsused .. " / " .. args.size
 			part.barcolor = colors[math.ceil(args.fsuse/10)]
 			part.barbg    = theme.disk_bg_progressbar_hover
+			part.bcolor = theme.disk_shape_border_color
 		else
 			-- not mounted partition
 			part.bottom   = dpi(10)
@@ -167,6 +167,7 @@ disk.device = wibox.widget{
 			part.size	  = args.size
 			part.barcolor = colors[1]
 			part.barbg    = theme.disk_bg_progressbar_normal
+			part.bcolor = ""
 		end
 	
 		-- system partition
@@ -196,14 +197,14 @@ disk.device = wibox.widget{
 								-- partition name
 								{
 										text	= part.title,
-										font    = "Microsoft YaHei Bold 8",
+										font    = "Microsoft YaHei 8",
 										widget	= wibox.widget.textbox,
 								},
 								-- partition size
 								{
 										{
 											text	= part.size,
-											font    = "Microsoft YaHei Bold 8",
+											font    = "Microsoft YaHei 8",
 											widget	= wibox.widget.textbox,
 										},
 									halign = "right",
@@ -234,10 +235,13 @@ disk.device = wibox.widget{
 							forced_width	 = dpi(250),
 							border_width	 = 0,
 							visible			 = part.mounted,
-							margins			 = {top = dpi(2), right = dpi(10), left = dpi(10), bottom = dpi(10)},
+							margins			 = {top = dpi(2), right = dpi(10), left = dpi(10), bottom = dpi(7)},
 							shape			 = function(cr, width, height)
 								gears.shape.rounded_rect(cr, width, height, dpi(0))
 							end,
+							paddings			= dpi(1),
+							border_width		= dpi(1),
+							border_color 		= "#dddddd",
 							widget = wibox.widget.progressbar,
 						},
 						{
@@ -265,9 +269,14 @@ disk.device = wibox.widget{
 									id      = "open_button",
 									visible	= part.mounted,
 									bg      = theme.disk_eject_bg_normal,
+									shape = function(cr, width, height)
+										gears.shape.rounded_rect(cr, width, height, dpi(0))
+									end,
+									shape_border_width = dpi(1),
+									shape_border_color = part.bcolor,
 									widget  = wibox.container.background,
 								},
-								right = dpi(1),
+								right = dpi(-1),
 								left = dpi(0),
 								bottom = dpi(0),
 								widget	= wibox.container.margin,
@@ -297,9 +306,14 @@ disk.device = wibox.widget{
 									id      = "eject_button",
 									visible	= part.mounted,
 									bg      = theme.disk_eject_bg_normal,
+									shape = function(cr, width, height)
+										gears.shape.rounded_rect(cr, width, height, dpi(0))
+									end,
+									shape_border_width = dpi(1),
+									shape_border_color = part.bcolor,
 									widget  = wibox.container.background,
 								},
-								left = dpi(1),
+								left = dpi(-1),
 								right = dpi(0),
 								bottom = dpi(0),
 								widget	= wibox.container.margin,
@@ -312,6 +326,11 @@ disk.device = wibox.widget{
 					},
 					id = "background",
 					bg = part.bg,
+					shape = function(cr, width, height)
+						gears.shape.rounded_rect(cr, width, height, dpi(0))
+					end,
+					shape_border_width = dpi(1),
+					shape_border_color = part.bcolor,
 					widget = wibox.container.background,
 				},
 				top    = dpi(0),
@@ -328,7 +347,9 @@ disk.device = wibox.widget{
 			layout = wibox.layout.align.vertical,
 		}
 		wdg:connect_signal('mouse::enter',function (self) 
-			wdg:get_children_by_id("background")[1].bg = theme.disk_part_bg_hover
+			if not wdg:get_children_by_id("eject_button")[1].visible then
+				wdg:get_children_by_id("background")[1].bg = theme.disk_part_bg_hover
+			end
 			wdg:get_children_by_id("progressbar")[1].background_color = theme.disk_bg_progressbar_hover
 		end)
 		wdg:connect_signal('mouse::leave',function (self) 
@@ -400,8 +421,8 @@ disk.popup = awful.popup{
 	border_color	= theme.popup_border_color,
     border_width	= theme.popup_border_width,
 	visible			= false,
-	bg				= theme.bg,
-	fg				= theme.fg,
+	bg				= theme.popup_bg,
+	fg				= theme.popup_fg,
 	ontop			= true,
 	shape			= function(cr, width, height)
 		gears.shape.rounded_rect(cr, width, height, theme.popup_rounded)
@@ -458,6 +479,7 @@ disk.setup = function(mt,ml,mr,mb)
 		awful.button({ }, 3, function ()
 			disk.popup.visible = false
 			disk.widget.bg = ""
+			--disk.widget:get_children_by_id("icon")[1].image = theme.disk_icon
 		end)))
 
 	disk.widget:buttons(awful.util.table.join (
@@ -465,8 +487,14 @@ disk.setup = function(mt,ml,mr,mb)
 			disk.popup.visible = not disk.popup.visible
 			if disk.popup.visible then
 				disk.widget.bg = theme.widget_bg_press
+				--if theme.style == "dark" then
+				--	disk.widget:get_children_by_id("icon")[1].image = string.gsub(theme.disk_icon, "/dark/", "/light/")
+				--else
+				--	disk.widget:get_children_by_id("icon")[1].image = string.gsub(theme.disk_icon, "/light/", "/dark/")
+				--end
 			else
 				disk.widget.bg = theme.widget_bg_hover
+				--disk.widget:get_children_by_id("icon")[1].image = theme.disk_icon
 			end
 			disk.popup.x = mouse.coords().x - dpi(135)
 			disk.popup.y = theme.popup_margin_top

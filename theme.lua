@@ -7,7 +7,7 @@ theme = {}
 theme.style     = "dark"
 --theme.style     = "light"
 theme.dir       = os.getenv("HOME") .. "/.config/awesome/"
-theme.icon_dir  = os.getenv("HOME") .. "/.config/awesome/icons/" .. theme.style .. "/"
+theme.icon_dir  = os.getenv("HOME") .. "/.config/awesome/icons/light/"
 
 
 theme.dark0  = "#242933"
@@ -33,6 +33,17 @@ theme.green  = "#a3be8c"
 theme.purple = "#b48ead"
 
 
+
+--theme.black   = '#654735'
+--theme.red     = '#c14a4a'
+--theme.green   = '#6c782e'
+--theme.yellow  = '#b47109'
+--theme.blue    = '#45707a'
+--theme.magenta = '#945e80'
+--theme.cyan    = '#4c7a5d'
+--theme.white   = '#eee0b7'
+
+
 local function sel_col(...)
 	local arg = {...}
 	if theme.style == "dark" then
@@ -47,31 +58,43 @@ end
 
 
 
-theme.font				= "Microsoft YaHei Bold 9"
-theme.prompt_font		= "Microsoft YaHei Bold 10"
-theme.useless_gap       = dpi(3)
-theme.border_width      = dpi(4)
-theme.border_rounded    = dpi(5)
+
+
+
+
+theme.font				= "Microsoft YaHei 9"
+--theme.font 				= "DejaVu Serif Book 9"
+theme.prompt_font		= "Microsoft YaHei 10"
+theme.useless_gap       = dpi(-0.5)
+theme.border_width      = dpi(1)
+theme.border_rounded    = dpi(0)
 theme.titlebar_height   = dpi(30)
 theme.snap_border_width = dpi(2)
 
-theme.fg                = sel_col( theme.light3  , theme.dark4  )
-theme.bg                = sel_col( theme.dark0   , theme.light1 )
-theme.border_normal     = sel_col( theme.dark2   , theme.light1 )
-theme.border_focus      = sel_col( theme.dark0   , theme.light3 )
-theme.snap_bg           = sel_col( theme.light3  , theme.blue1  )
+theme.fg                = "#222f3e"
+theme.bg                = theme.red
+
+
+--theme.border_normal     = "#33333366"
+--theme.border_focus      = "#33333366"
+theme.border_normal     = "#bbbbbb"
+theme.border_focus      = "#bbbbbb"
+theme.snap_bg           = "#0067c0"
 
 
 
 ---------------------------------------------------------------------------------------
 --------------------------------- topbar widget ---------------------------------------
 ---------------------------------------------------------------------------------------
-theme.topbar_height         = dpi(33)
+theme.topbar_height         = dpi(31+1)
+theme.topbar_fg				= sel_col( "#000000"     , "#FFFFFF" )
+theme.topbar_bg				= sel_col( "#eeeeee"     , "#000000" )
 theme.widget_border_width   = dpi(0)
-theme.widget_border_color   = ""
+theme.widget_border_color   = "#e8e8e8"
 theme.widget_rounded        = dpi(0)
-theme.widget_bg_hover       = sel_col( theme.dark1          , theme.light2         )
-theme.widget_bg_press       = sel_col( theme.dark2 .. "cc"  , theme.light1         )
+theme.widget_bg_hover       = sel_col( "#f1f1f1"  , "#FFFFFF22" )
+theme.widget_bg_press       = sel_col( "#ffffff"  , "#FFFFFF22" )
+theme.widget_fg_press       = sel_col( "#000000"    , "#FFFFFF"   )
 --theme.widget_bg_progressbar = sel_col( theme.dark1          , theme.light1         )
 
 
@@ -79,34 +102,43 @@ theme.widget_bg_press       = sel_col( theme.dark2 .. "cc"  , theme.light1      
 ---------------------------------------------------------------------------------------
 --------------------------------- taglist ---------------------------------------------
 ---------------------------------------------------------------------------------------
+theme.taglist_width = dpi(31)
 theme.taglist_border_width = dpi(0)
-theme.taglist_border_color = ""
-theme.taglist_spacing      = dpi(3)
-theme.taglist_fg_focus     = sel_col( theme.light0  , theme.bg            )
-theme.taglist_bg_focus     = sel_col( theme.dark3   , theme.fg       )
-theme.taglist_fg_occupied  = sel_col( theme.light3  , theme.dark4            )
-theme.taglist_bg_occupied  = sel_col( theme.dark1   , theme.light1            )
-theme.taglist_bg_empty     = sel_col( theme.bg      , theme.bg            )
-theme.taglist_fg_empty     = sel_col( theme.dark2   , theme.light1        )
-theme.taglist_bg_hover 	   = sel_col( theme.dark3   , theme.light1 )
+theme.taglist_shape_border_color_focus = "#33333314"
+theme.taglist_shape_border_color = ""
+theme.taglist_shape_border_color_empty = ""
+theme.taglist_spacing      = dpi(0)
+theme.taglist_fg_focus     = sel_col( "#000000"      , theme.bg     )
+theme.taglist_bg_focus     = sel_col( "#ffffff"   , theme.fg     )
+theme.taglist_fg_occupied  = sel_col( "#000000"  , theme.dark4  )
+theme.taglist_bg_occupied  = sel_col( "#eeeeee"   , theme.light1 )
+theme.taglist_bg_empty     = sel_col( "#eeeeee"      , theme.bg     )
+theme.taglist_fg_empty     = sel_col( "#33333344"   , theme.light1 )
+theme.taglist_bg_hover 	   = sel_col( "#f9f9f9"   , theme.light1 )
+theme.taglist_squares_sel = theme.icon_dir .. "taglist/tag_sel.svg"
+theme.taglist_squares_sel_empty = theme.icon_dir .. "taglist/tag_sel.svg"
+theme.taglist_squares_unsel = theme.icon_dir .. "taglist/tag_sel_occ.svg"
+theme.taglist_squares_resize = true
 
 
 
 ---------------------------------------------------------------------------------------
 ------------------------------------ popup --------------------------------------------
 ---------------------------------------------------------------------------------------
-theme.popup_margin_top	 = theme.topbar_height + dpi(5)
-theme.popup_border_width = dpi(3)
+theme.popup_margin_top	 = theme.topbar_height + dpi(6)
+theme.popup_border_width = dpi(1)
 theme.popup_rounded		 = dpi(0)
-theme.popup_border_color = sel_col( theme.dark1 , theme.light2 )
+theme.popup_border_color = theme.border_normal
+theme.popup_bg = "#f2f2f2"
+theme.popup_fg = "#222f3e"
 
 
 
 ---------------------------------------------------------------------------------------
 ----------------------------------- volume --------------------------------------------
 ---------------------------------------------------------------------------------------
-theme.popup_fg_progressbar = sel_col( theme.blue0 ,  theme.blue3 )
-theme.popup_bg_progressbar = sel_col( theme.dark1 ,  theme.light3 )
+theme.popup_fg_progressbar = theme.blue3
+theme.popup_bg_progressbar = "#ffffff"
 
 
 
@@ -115,44 +147,51 @@ theme.popup_bg_progressbar = sel_col( theme.dark1 ,  theme.light3 )
 ---------------------------------------------------------------------------------------
 theme.cpu_graph_mask_img = theme.icon_dir .. "cpu/cpu_graph_mask.svg"
 theme.thread_graph_mask_img = theme.icon_dir .. "cpu/thread_graph_mask.svg"
-theme.bg_graph = sel_col( theme.dark1 , theme.dark3 )
-theme.widget_bg_graph = sel_col( "#00000066" , theme.dark3 )
+theme.bg_graph = sel_col( "#222f3e" , theme.dark3 )
+theme.widget_bg_graph = sel_col( "#222f3e" , theme.dark3 )
 
 
 ---------------------------------------------------------------------------------------
 --------------------------------- tasklist --------------------------------------------
 ---------------------------------------------------------------------------------------
 theme.icon_theme		         = "Fluent"
-theme.tasklist_icon_size         = dpi(30)
-theme.tasklist_line_width        = dpi(50)
-theme.tasklist_spacing           = dpi(3)
+theme.tasklist_icon_size         = dpi(20)
+theme.tasklist_width        	 = dpi(32)
+theme.tasklist_line_width        = dpi(16)
+theme.tasklist_spacing           = dpi(0)
 theme.tasklist_disable_task_name = true
-theme.tasklist_bg_focus          = sel_col( theme.dark2  , theme.light1        )
-theme.tasklist_bg_normal         = sel_col( theme.bg     , theme.bg            )
-theme.tasklist_bg_minimize       = sel_col( theme.bg     , theme.bg            )
-theme.tasklist_bg_line           = sel_col( theme.dark4  , theme.blue3         )
-theme.tasklist_bg_hover          = sel_col( theme.dark3  , theme.light0 )
+theme.tasklist_bg_focus          = sel_col( "#ffffff"  , theme.light1 )
+theme.tasklist_bg_normal         = sel_col( "#eeeeee"     , theme.bg     )
+theme.tasklist_bg_minimize       = sel_col( "#eeeeee"     , theme.bg     )
+theme.tasklist_bg_line           = theme.red
+theme.tasklist_bg_hover          = "#f9f9f9"
+theme.tasklist_shape_border_color = ""
+theme.tasklist_shape_border_color_focus = "#33333314"
+theme.tasklist_bg_image_focus = theme.icon_dir .. "taglist/tag_sel.svg"
+theme.tasklist_bg_image_normal = theme.icon_dir .. "taglist/tag_sel_occ.svg"
 
 
 
 ---------------------------------------------------------------------------------------
 ----------------------------------- titlebar ------------------------------------------
 ---------------------------------------------------------------------------------------
-theme.titlebar_fg_normal = sel_col( theme.dark4  , theme.light3 )
-theme.titlebar_bg_normal = sel_col( theme.dark2  , theme.light1 )
-theme.titlebar_fg_focus  = sel_col( theme.fg     , theme.fg     )
-theme.titlebar_bg_focus  = sel_col( theme.dark0  , theme.bg )
+theme.titlebar_fg_normal = sel_col( "#33333366"  , theme.light3 )
+theme.titlebar_bg_normal = sel_col( "#f1f1f1"  , theme.light1 )
+theme.titlebar_fg_focus  = sel_col( "#000000"     , theme.fg     )
+theme.titlebar_bg_focus  = sel_col( "#e8e8e8"  , theme.bg     )
 
 
 
 ---------------------------------------------------------------------------------------
 ---------------------------------- calendar -------------------------------------------
 ---------------------------------------------------------------------------------------
-theme.cal_fg_normal  = sel_col( theme.fg      , theme.fg     ) 
-theme.cal_bg_focus   = sel_col( theme.blue0   , theme.red    ) 
-theme.cal_header_fg  = sel_col( theme.fg      , theme.fg     ) 
-theme.cal_weekday_fg = sel_col( theme.blue0   , theme.blue3  ) 
-theme.cal_week_06_bg = sel_col( theme.dark1   , theme.light1 ) 
+theme.cal_header_fg  = sel_col( "#000000"      , theme.fg     ) 
+theme.cal_weekday_fg = sel_col( "#0067c0"   , theme.blue3 )
+theme.cal_fg_normal  = sel_col( "#000000"     , theme.fg     ) 
+theme.cal_fg_focus   = sel_col( "#ffffff"   , theme.red     ) 
+theme.cal_bg_focus   = sel_col( "#0067c0"   , theme.red     ) 
+--theme.cal_bg_focus   = sel_col( "#0067c0"   , theme.red     ) 
+theme.cal_week_06_bg = sel_col( "#ffffff"   , theme.light1 ) 
 
 
 
@@ -173,14 +212,14 @@ theme.panel_bg_progressbar = sel_col( theme.dark3         , theme.light3 )
 ---------------------------------------------------------------------------------------
 ----------------------------------- disk popup ----------------------------------------
 ---------------------------------------------------------------------------------------
-theme.disk_part_bg_normal  = sel_col( theme.dark1 .. "00"          , theme.light1 )
-theme.disk_part_bg_hover   = sel_col( theme.dark1          , theme.light0 )
-theme.disk_part_bg_mounted = sel_col( theme.dark1          , theme.light0 )
--- theme.disk_part_bg_press   = sel_col( theme.dark1          , theme.light1 )
-theme.disk_eject_bg_normal = sel_col( theme.dark2          , theme.light3 )
-theme.disk_eject_bg_hover  = sel_col( theme.blue3          , theme.blue2  )
-theme.disk_bg_progressbar_normal = sel_col( theme.dark1          , theme.light1 )
-theme.disk_bg_progressbar_hover  = sel_col( theme.dark2          , theme.light1 )
+theme.disk_part_bg_normal        = sel_col( "#f2f2f2"  , theme.light1 )
+theme.disk_part_bg_hover         = sel_col( "#f9f9f9"          , theme.light0 )
+theme.disk_part_bg_mounted       = sel_col( "#e8e8e8"          , theme.light0 )
+theme.disk_eject_bg_normal       = sel_col( "#fbfbfb"          , theme.light3 )
+theme.disk_eject_bg_hover        = sel_col( "#f6f6f6"          , theme.blue2  )
+theme.disk_bg_progressbar_normal = sel_col( "#eeeeee"          , theme.light1 )
+theme.disk_bg_progressbar_hover  = sel_col( "#ffffff"          , theme.light1 )
+theme.disk_shape_border_color    = "#d9d9d9"
 
 
 
@@ -240,7 +279,7 @@ theme.ssd_icon					= theme.icon_dir .. "disk/ssd.svg"
 theme.mount_icon				= theme.icon_dir .. "disk/mount.svg"
 theme.eject_icon				= theme.icon_dir .. "disk/eject.svg"
 theme.folder_icon               = theme.icon_dir .. "disk/folder.svg"
-theme.serial_icon					= theme.icon_dir .. "disk/serial.svg"
+theme.serial_icon				= theme.icon_dir .. "disk/serial.svg"
 
 
 

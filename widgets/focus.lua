@@ -7,11 +7,13 @@ local dpi	= require("beautiful.xresources").apply_dpi
 
 local focus = {}
 
-focus_width = dpi(6)
-focus_length = dpi(30)
-focus_normal_color = "#62b6cb"
-focus_ontop_color = "#80b918"
-focus_maximized_color = "#f3722c"
+focus_width = dpi(5)
+focus_length = dpi(40)
+focus_normal_color = "#7dcfff"
+focus_floating_color = "#7aa2f7"
+focus_ontop_color = "#9ece6a"
+focus_maximized_color = "#f7768e"
+focus_sticky_color = "#bb9af7"
 
 focus.timer = gears.timer {
 	timeout   = 2,
@@ -117,10 +119,14 @@ end
 
 focus.setup = function(c)
 	s = awful.screen.focused()
-	if c.maximized then 
+	if c.sticky then
+		focus_color = focus_sticky_color
+	elseif c.maximized then 
 		focus_color = focus_maximized_color
 	elseif c.ontop then
 		focus_color = focus_ontop_color
+	elseif c.floating then
+		focus_color = focus_floating_color
 	else
 		focus_color = focus_normal_color
 	end

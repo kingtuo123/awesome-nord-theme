@@ -9,7 +9,7 @@
    height="100"
    id="svg2256"
    sodipodi:docname="disk.svg"
-   inkscape:version="1.3 (0e150ed, 2023-07-21)"
+   inkscape:version="1.3.2 (091e20e, 2023-11-25)"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns="http://www.w3.org/2000/svg"
@@ -30,10 +30,10 @@
      inkscape:cx="80.952381"
      inkscape:cy="50"
      inkscape:window-width="1918"
-     inkscape:window-height="1045"
+     inkscape:window-height="1166"
      inkscape:window-x="0"
-     inkscape:window-y="33"
-     inkscape:window-maximized="1"
+     inkscape:window-y="32"
+     inkscape:window-maximized="0"
      inkscape:current-layer="svg2256" />
   <path
      d="M 0,213.33334 H 853.33334 V 426.66667 A 85.333333,85.333333 0 0 1 768,512 H 85.333337 A 85.333333,85.333333 0 0 1 0,426.66667 Z m 704,213.33333 a 64,64 0 1 0 0,-128 64,64 0 0 0 0,128 z m -213.33333,0 a 64,64 0 1 0 0,-128 64,64 0 0 0 0,128 z"
@@ -42,12 +42,12 @@
      data-spm-anchor-id="a313x.7781069.0.i3"
      class="selected"
      id="path2252"
-     style="fill:#eceff4;fill-opacity:1" />
+     style="fill:#c8d3f5;fill-opacity:1" />
   <path
      d="m 161.83467,3.7819678e-6 h 529.664 A 42.666667,42.666667 0 0 1 727.296,19.413344 L 853.33334,213.33334 H 0 L 126.03734,19.413344 A 42.666667,42.666667 0 0 1 161.83467,3.7819678e-6 Z"
      fill="#000000"
      opacity="0.3"
      p-id="3448"
      id="path2254"
-     style="fill:#4c566a;fill-opacity:1;opacity:1" />
+     style="fill:#404666;fill-opacity:1;opacity:1" />
 </svg>

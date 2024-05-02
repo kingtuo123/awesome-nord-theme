@@ -8,13 +8,13 @@ local dpi	= require("beautiful.xresources").apply_dpi
 local clock  = {}
 local calendar = {}
 
+
 calendar.month   = { 
-	padding  = dpi(10),
+	padding  = dpi(15),
 	bg_color = theme.popup_bg,                
 }
 calendar.normal  = { 
 	fg_color = theme.cal_fg_normal,
-	--markup	 = function(t) return '<b>' .. t .. '</b>' end,
 	markup	 = function(t) return t end,
 	shape = function(cr, width, height)
 		gears.shape.rounded_rect(cr, width, height, dpi(0))
@@ -24,7 +24,6 @@ calendar.focus   = {
 	fg_color = theme.cal_fg_focus,                
 	bg_color = theme.cal_bg_focus,                
 	markup   = function(t) return '<b>' .. t .. '</b>' end,
-	--markup	 = function(t) return t end,
 	shape = function(cr, width, height)
 		gears.shape.rounded_rect(cr, width, height, dpi(0))
 	end,
@@ -33,13 +32,11 @@ calendar.header  = {
 	fg_color = theme.cal_header_fg,                
 	bg_color = theme.popup_bg,             
 	markup   = function(t) return '<b>' .. t .. '</b>' end,
-	--markup	 = function(t) return t end,
 }                                                       
 calendar.weekday = {
 	fg_color = theme.cal_weekday_fg,                
 	bg_color = theme.popup_bg,                
 	markup   = function(t) return '<b>' .. t .. '</b>' end,
-	--markup	 = function(t) return t end,
 }
 
 
@@ -62,7 +59,7 @@ local function decorate_cell(widget, flag, date)
 				halign = 'center',
 				widget = wibox.container.place
 			},
-			margins = (props.padding or dpi(5)) + (props.border_width or 0),
+			margins = props.padding or theme.cal_default_padding,
 			widget  = wibox.container.margin
 		},
 		shape        = props.shape,
@@ -83,25 +80,18 @@ calendar.widget = wibox.widget {
 		long_weekdays	= true,
 		widget			= wibox.widget.calendar.month,
 	},
+	margins = {top = dpi(-5), bottom = dpi(0)},
 	widget  = wibox.container.margin,
 }
-
 
 
 clock.widget = wibox.widget {
 	{
 		{
-			--format	= '%b %d  %H:%M',
-			--format	= '%H:%M   %b %d   %a',
-			--format	= '%H:%M   %-m月%-d日   周%w',
-			--font	= "JetBrainsMono NFP 9",
-			--font = "DejaVu Serif Book 9",
-			--font = "DejaVu Sans Book 9",
-			--font = "Microsoft YaHei 9",
 			id		= "date",
+			text	= "--",
 			align   = "center",
 			font	= theme.font,
-			text	= "--",
 			widget	= wibox.widget.textbox,
 		},
 		id      = "margin",
@@ -109,14 +99,14 @@ clock.widget = wibox.widget {
 	},
 	fg = theme.topbar_fg,
 	bg = theme.topbar_bg,
+	widget = wibox.container.background,
+	shape_border_width = theme.widget_border_width,
+	shape_border_color = "",
 	shape = function(cr, width, height)
 		gears.shape.rounded_rect(cr, width, height, theme.widget_rounded)
 	end,
-	shape_border_width = theme.widget_border_width,
-	shape_border_color = "",
-	widget = wibox.container.background,
 	set_date = function(self, str)
-		self.date.text = str
+		self:get_children_by_id("date")[1].text = str
 	end
 }
 
@@ -124,7 +114,7 @@ clock.widget = wibox.widget {
 clock.update = function()
 	weeks = {"日","一","二","三","四","五","六"}
 	awful.spawn.easy_async_with_shell("date +'%H:%M  %-m月%-d日  周%w'", function(out)
-		clock.widget:get_children_by_id("date")[1].text = string.gsub(out, "(%d)\n", weeks[tonumber(string.match(out, "(%d)\n")) + 1])
+		clock.widget.date = string.gsub(out, "(%d)\n", weeks[tonumber(string.match(out, "(%d)\n")) + 1])
 	end)
 end
 
@@ -148,6 +138,7 @@ clock.popup = awful.popup{
 	end,
 }
 
+
 clock.setup = function(mt,ml,mr,mb)
 	clock.widget.margin.top    = dpi(mt or 0)
 	clock.widget.margin.left   = dpi(ml or 0)
@@ -170,9 +161,9 @@ clock.setup = function(mt,ml,mr,mb)
 			clock.widget.fg = theme.widget_fg_press
 			clock.widget.shape_border_color = theme.widget_border_color
 		else
-			clock.widget.bg = ""
+			clock.widget.bg = theme.topbar_bg
 			clock.widget.fg = theme.topbar_fg
-			clock.widget.shape_border_color = ""
+			clock.widget.shape_border_color = theme.topbar_bg
 		end
 	end)
 
@@ -180,9 +171,10 @@ clock.setup = function(mt,ml,mr,mb)
 		awful.button({ }, 3, function ()
 			clock.popup.visible = false
 			clock.widget.fg = theme.topbar_fg
-			clock.widget.bg = ""
-			clock.widget.shape_border_color = ""
-		end)))
+			clock.widget.bg = theme.topbar_bg
+			clock.widget.shape_border_color = theme.topbar_bg
+		end)
+	))
 
 	clock.widget:buttons(gears.table.join(
 		awful.button({ }, 1, function ()
@@ -195,7 +187,8 @@ clock.setup = function(mt,ml,mr,mb)
 				clock.widget.fg = theme.topbar_fg
 			end
 			clock.widget.shape_border_color = theme.widget_border_color
-		end)))
+		end)
+	))
 	
 	gears.timer({
 		timeout   = 60,
@@ -206,11 +199,6 @@ clock.setup = function(mt,ml,mr,mb)
 
 	return clock.widget
 end
-
-
-
-
-
 
 
 return clock

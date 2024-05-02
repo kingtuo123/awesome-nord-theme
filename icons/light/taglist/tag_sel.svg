@@ -7,7 +7,7 @@
    viewBox="0 0 62 62"
    version="1.1"
    id="svg1"
-   inkscape:version="1.3 (0e150ed, 2023-07-21)"
+   inkscape:version="1.3.2 (091e20e, 2023-11-25)"
    sodipodi:docname="tag_sel.svg"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
@@ -24,12 +24,12 @@
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="mm"
      inkscape:zoom="8"
-     inkscape:cx="22.3125"
-     inkscape:cy="34.1875"
-     inkscape:window-width="1918"
-     inkscape:window-height="981"
-     inkscape:window-x="-7"
-     inkscape:window-y="50"
+     inkscape:cx="22.375"
+     inkscape:cy="34.125"
+     inkscape:window-width="1920"
+     inkscape:window-height="1168"
+     inkscape:window-x="-1"
+     inkscape:window-y="31"
      inkscape:window-maximized="0"
      inkscape:current-layer="layer1"
      showgrid="false" />
@@ -46,7 +46,7 @@
        width="30"
        height="5"
        x="16.520834"
-       y="54.520832"
+       y="52.520832"
        ry="2.5" />
   </g>
 </svg>

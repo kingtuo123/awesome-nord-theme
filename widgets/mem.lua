@@ -6,21 +6,22 @@ local dpi	= require("beautiful.xresources").apply_dpi
 
 
 local mem = {}
-mem.update_timeout = 2
+local update_timeout = 2
 
 
 local colors = {
-	theme.blue3,
-	theme.blue2,
-	theme.blue1,
-	theme.blue0,
-	"#8bc34a",
-	"#8bc34a",
-	theme.orange,
-	theme.orange,
-	theme.orange,
-	theme.red,
+	"#7aa2f7",
+	"#7aa2f7",
+	"#7dcfff",
+	"#7dcfff",
+	"#9ece6a",
+	"#9ece6a",
+	"#e0af68",
+	"#e0af68",
+	"#f7768e",
+	"#f7768e",
 }
+local buffer_color = "#404666"
 
 
 mem.widget = wibox.widget {
@@ -55,9 +56,9 @@ mem.widget = wibox.widget {
 						{
 							{
 								id = "buff graph",
-								color = "#feca57",
+								color = buffer_color,
 								min_value = 0,
-								max_value = 20,
+								max_value = 25,
 								step_width = dpi(2),
 								step_spacing = 0,
 								scale  = false,
@@ -68,7 +69,7 @@ mem.widget = wibox.widget {
 								id = "used graph",
 								color = colors[1],
 								min_value = 0,
-								max_value = 20,
+								max_value = 25,
 								step_width = dpi(2),
 								step_spacing = 0,
 								scale  = false,
@@ -78,18 +79,18 @@ mem.widget = wibox.widget {
 							layout	= wibox.layout.stack,
 						},
 						reflection = {horizontal = true, vertical = false},
-						forced_width = dpi(35),
+						forced_width = dpi(40),
 						widget = wibox.container.mirror
 					},
-					margins = dpi(1.5),
+					margins = dpi(0.5),
 					widget	= wibox.container.margin,
 				},
 				bg = theme.widget_bg_graph,
-				shape_border_width = dpi(0),
-				shape_border_color = "",
 				shape = function(cr, width, height)
 					gears.shape.rounded_rect(cr, width, height, dpi(0))
 				end,
+				shape_border_width = dpi(1),
+				shape_border_color = theme.widget_border_color,
 				widget = wibox.container.background,
 			},
 			layout = wibox.layout.fixed.horizontal,
@@ -104,8 +105,8 @@ mem.widget = wibox.widget {
 	shape_border_color = "",
 	widget = wibox.container.background,
 	set_mem = function(self,mem)
-		local buff = math.ceil(20 * (mem.buf_cache + mem.used) / mem.total)
-		local used = math.ceil(20 * mem.used / mem.total)
+		local used = math.ceil(25 * mem.used / mem.total)
+		local buff = math.ceil(25 * mem.buf_cache / mem.total) + used
 		self:get_children_by_id("buff graph")[1]:add_value(buff)
 		self:get_children_by_id("used graph")[1]:add_value(used)
 		local color = colors[math.ceil(10 * mem.used / mem.total)]
@@ -114,14 +115,14 @@ mem.widget = wibox.widget {
 }
 
 
-mem.dashboard = wibox.widget{
+local dashboard = wibox.widget{
 	{
 		{
 			{
 				{
 					{
 						text = "Memory",
-						font = "Microsoft YaHei Bold 9",
+						font = "Microsoft YaHei UI Bold 9",
 						widget = wibox.widget.textbox,
 					},
 					fg = theme.popup_fg,
@@ -137,20 +138,20 @@ mem.dashboard = wibox.widget{
 						{
 							{
 								id = "buff graph",
-								color = "#feca57",
+								color = buffer_color,
 								min_value = 0,
-								max_value = 20,
+								max_value = 25,
 								step_width = dpi(3),
 								step_spacing = 0,
 								scale  = false,
-								background_color = theme.bg_graph,
+								background_color = theme.popup_bg_graph,
 								widget = wibox.widget.graph
 							},
 							{
 								id = "used graph",
 								color = colors[1],
 								min_value = 0,
-								max_value = 20,
+								max_value = 25,
 								step_width = dpi(3),
 								step_spacing = 0,
 								scale  = false,
@@ -158,25 +159,29 @@ mem.dashboard = wibox.widget{
 								widget = wibox.widget.graph
 							},
 							{
-								image	= theme.cpu_graph_mask_img,
+								image	= theme.mem_graph_mask_img,
 								resize  = true,
 								widget	= wibox.widget.imagebox,
 							},
 							layout	= wibox.layout.stack,
 						},
 						reflection = {horizontal = true, vertical = false},
-						--forced_height = dpi(149),  -- 2x50+49
-						forced_height = dpi(59),  -- 2x20+19
+						forced_height = dpi(74),  -- 3x25-1
 						forced_width  = dpi(210), -- 3x70
 						widget = wibox.container.mirror
 					},
-					top = dpi(1.5),
-					bottom = dpi(1.5),
-					left = dpi(1.5),
-					right = dpi(0.5),
+					top = dpi(2),
+					bottom = dpi(2),
+					left = dpi(2),
+					right = dpi(1),
 					widget	= wibox.container.margin,
 				},
-				bg = theme.bg_graph,
+				bg = theme.popup_bg_graph,
+				shape = function(cr, width, height)
+					gears.shape.rounded_rect(cr, width, height, dpi(0))
+				end,
+				shape_border_width = dpi(0),
+				shape_border_color = theme.widget_border_color,
 				widget = wibox.container.background,
 			},
 			{
@@ -187,19 +192,24 @@ mem.dashboard = wibox.widget{
 				{
 					{
 						check_border_width = 0,
-						border_color = "",
+						border_color  = "",
 						forced_height = dpi(10),
-						forced_width = dpi(10),
+						forced_width  = dpi(10),
 						widget        = wibox.widget.checkbox,
 					},
 					id = "fc",
-					bg = theme.bg_graph,
+					bg = theme.popup_bg_graph,
+					shape = function(cr, width, height)
+						gears.shape.rounded_rect(cr, width, height, dpi(0))
+					end,
+					shape_border_width = dpi(0.5),
+					shape_border_color = theme.widget_border_color,
 					widget = wibox.container.background,
 				},
 				{
 					{
 						text = "  free",
-						font = "Microsoft YaHei 8",
+						font = "Microsoft YaHei UI 8",
 						widget = wibox.widget.textbox,
 					},
 					fg = theme.popup_fg,
@@ -210,8 +220,7 @@ mem.dashboard = wibox.widget{
 						{
 							id   = "free",
 							text = "-- MB",
-							--font = theme.font,
-							font = "Microsoft YaHei 8",
+							font = "Microsoft YaHei UI 8",
 							widget = wibox.widget.textbox,
 						},
 						halign = "right",
@@ -231,19 +240,24 @@ mem.dashboard = wibox.widget{
 				{
 					{
 						check_border_width = 0,
-						border_color = "",
+						border_color  = "",
 						forced_height = dpi(10),
-						forced_width = dpi(10),
+						forced_width  = dpi(10),
 						widget        = wibox.widget.checkbox,
 					},
 					id = "bc",
-					bg = "#feca57",
+					bg = buffer_color,
+					shape = function(cr, width, height)
+						gears.shape.rounded_rect(cr, width, height, dpi(0))
+					end,
+					shape_border_width = dpi(0.5),
+					shape_border_color = theme.popup_bg,
 					widget = wibox.container.background,
 				},
 				{
 					{
 						text = "  buff/cache",
-						font = "Microsoft YaHei 8",
+						font = "Microsoft YaHei UI 8",
 						widget = wibox.widget.textbox,
 					},
 					fg = theme.popup_fg,
@@ -254,8 +268,7 @@ mem.dashboard = wibox.widget{
 						{
 							id   = "buff",
 							text = "-- MB",
-							--font = theme.font,
-							font = "Microsoft YaHei 8",
+							font = "Microsoft YaHei UI 8",
 							widget = wibox.widget.textbox,
 						},
 						halign = "right",
@@ -275,19 +288,23 @@ mem.dashboard = wibox.widget{
 				{
 					{
 						check_border_width = 0,
-						border_color = "",
+						border_color  = "",
 						forced_height = dpi(10),
-						forced_width = dpi(10),
+						forced_width  = dpi(10),
 						widget        = wibox.widget.checkbox,
 					},
 					id = "uc",
-					bg = theme.blue0,
+					shape = function(cr, width, height)
+						gears.shape.rounded_rect(cr, width, height, dpi(0))
+					end,
+					shape_border_width = dpi(0.5),
+					shape_border_color = theme.popup_bg,
 					widget = wibox.container.background,
 				},
 				{
 					{
 						text = "  used",
-						font = "Microsoft YaHei 8",
+						font = "Microsoft YaHei UI 8",
 						widget = wibox.widget.textbox,
 					},
 					fg = theme.popup_fg,
@@ -298,8 +315,7 @@ mem.dashboard = wibox.widget{
 						{
 							id   = "used",
 							text = "-- MB",
-							--font = theme.font,
-							font = "Microsoft YaHei 8",
+							font = "Microsoft YaHei UI 8",
 							widget = wibox.widget.textbox,
 						},
 						halign = "right",
@@ -323,22 +339,34 @@ mem.dashboard = wibox.widget{
 	bg = theme.popup_bg,
 	widget = wibox.container.background,
 	set_mem = function(self, all)
-		local buff = math.ceil(20 * (all.buf_cache + all.used) / all.total)
-		local used = math.ceil(20 * all.used / all.total)
+		local used = math.ceil(25 * all.used / all.total)
+		local buff = math.ceil(25 * all.buf_cache / all.total) + used
 		self:get_children_by_id("buff graph")[1]:add_value(buff)
 		self:get_children_by_id("used graph")[1]:add_value(used)
 		local color = colors[math.ceil(10 * all.used / all.total)]
 		self:get_children_by_id("used graph")[1].color = color
 		self:get_children_by_id("uc")[1].bg = color
-		self:get_children_by_id("free")[1].text = math.ceil(all.free / 1024) .. " MB"
-		self:get_children_by_id("buff")[1].text = math.ceil(all.buf_cache / 1024) .. " MB"
-		self:get_children_by_id("used")[1].text = math.ceil(all.used / 1024) .. " MB"
+		if tonumber(all.free) >= 1048576 then
+			self:get_children_by_id("free")[1].text = string.format("%.1f GB", all.free / 1048576)
+		else
+			self:get_children_by_id("free")[1].text = string.format("%d MB", math.ceil(all.free / 1024))
+		end
+		if tonumber(all.buf_cache) >= 1048576 then
+			self:get_children_by_id("buff")[1].text = string.format("%.1f GB", all.buf_cache / 1048576)
+		else
+			self:get_children_by_id("buff")[1].text = string.format("%d MB", math.ceil(all.buf_cache / 1024))
+		end
+		if tonumber(all.used) >= 1048576 then
+			self:get_children_by_id("used")[1].text = string.format("%.1f GB", all.used / 1048576)
+		else
+			self:get_children_by_id("used")[1].text = string.format("%d MB", math.ceil(all.used / 1024))
+		end
 	end
 }
 
 
 mem.popup = awful.popup{
-	widget			= mem.dashboard,
+	widget			= dashboard,
 	border_color	= theme.popup_border_color,
     border_width	= theme.popup_border_width,
 	visible			= false,
@@ -353,8 +381,8 @@ mem.popup = awful.popup{
 
 mem.update = function()
     mem_now = {}
-    file	= io.open("/proc/meminfo","r")
-	-- exec 'cat -n /proc/meminfo' to get line number
+    file = io.open("/proc/meminfo","r")
+	-- run 'cat -n /proc/meminfo' to get line number
 	lines = {
 		{  1, "total"  },
 		{  2, "free"   },
@@ -376,7 +404,7 @@ mem.update = function()
 	mem_now.buf_cache = mem_now.buffer + mem_now.cached + mem_now.srec
     mem_now.used      = mem_now.total - mem_now.free - mem_now.buf_cache
     mem.widget.mem    = mem_now
-	mem.dashboard.mem = mem_now
+	dashboard.mem     = mem_now
 end
 
 
@@ -400,8 +428,8 @@ mem.setup = function(mt,ml,mr,mb)
 			mem.widget.bg = theme.widget_bg_press
 			mem.widget.shape_border_color = theme.widget_border_color
 		else
-			mem.widget.bg = ""
-			mem.widget.shape_border_color = ""
+			mem.widget.bg = theme.topbar_bg
+			mem.widget.shape_border_color = theme.topbar_bg
 		end
 	end)
 
@@ -425,20 +453,22 @@ mem.setup = function(mt,ml,mr,mb)
 			mem.popup:disconnect_signal ('mouse::move',popup_move)
 		end),
 		awful.button({ }, 3, function ()
+			mem.popup:disconnect_signal ('mouse::move',popup_move)
 			mem.popup.visible = false
-			mem.widget.bg = ""
-			mem.widget.shape_border_color = ""
+			mem.widget.bg = theme.topbar_bg
+			mem.widget.shape_border_color = theme.topbar_bg
 		end)
 	))
 
 	mem.widget:buttons(awful.util.table.join (
 		awful.button({}, 1, function() 
-			mem.popup.x = mouse.coords().x - dpi(125)
-			mem.popup.y = theme.popup_margin_top
-			mem.popup.visible = not mem.popup.visible
 			if mem.popup.visible then
+				mem.popup.visible = false
 				mem.widget.bg = theme.widget_bg_press
 			else
+				mem.popup.x = mouse.coords().x - dpi(126)
+				mem.popup.y = theme.popup_margin_top
+				mem.popup.visible = true
 				mem.widget.bg = theme.widget_bg_hover
 			end
 			mem.widget.shape_border_color = theme.widget_border_color
@@ -446,7 +476,7 @@ mem.setup = function(mt,ml,mr,mb)
 	))
 
 	gears.timer({
-		timeout   = mem.update_timeout,
+		timeout   = update_timeout,
 		call_now  = true,
 		autostart = true,
 		callback  = mem.update

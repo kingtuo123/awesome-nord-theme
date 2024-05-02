@@ -47,8 +47,7 @@ promptbox.popup = awful.popup{
 	minimum_width	= dpi(180),
 	minimum_height  = dpi(50),
 	shape			= function(cr, width, height)
---		gears.shape.rounded_rect(cr, width, height, theme.popup_rounded)
-		gears.shape.rounded_rect(cr, width, height, dpi(0))
+		gears.shape.rounded_rect(cr, width, height, theme.popup_rounded)
 	end,
 	placement		= function(wdg,args)  
 		awful.placement.top(wdg, { margins = { top = theme.popup_margin_top}}) 

@@ -6,25 +6,28 @@ local dpi	= require("beautiful.xresources").apply_dpi
 local mem   = require("widgets.mem")
 
 local cpu = {}
-cpu.update_timeout = 2
-cpu.threads = 8
--- select zone which -> /sys/class/thermal/thermal_zone2/type = x86_pkg_temp
-cpu.temp_path = "/sys/class/thermal/thermal_zone2/temp"
-cpu.stat_path = "/proc/stat"
-cpu.freq_path = function(i) return "/sys/devices/system/cpu/cpu" .. i .. "/cpufreq/scaling_cur_freq" end
+local update_timeout = 2
+local threads = 16
+local stat_path = "/proc/stat"
+local freq_path = function(i) return "/sys/devices/system/cpu/cpu" .. i .. "/cpufreq/scaling_cur_freq" end
+
+
+-- select temp file which -> /sys/class/thermal/thermal_zone2/type == x86_pkg_temp
+local temp_enable = false
+local temp_path = "/sys/class/thermal/thermal_zone1/temp"
 
 
 local colors = {
-	theme.blue3,
-	theme.blue2,
-	theme.blue1,
-	theme.blue0,
-	"#8bc34a",
-	"#8bc34a",
-	theme.orange,
-	theme.orange,
-	theme.orange,
-	theme.red,
+	"#7aa2f7",
+	"#7aa2f7",
+	"#7dcfff",
+	"#7dcfff",
+	"#9ece6a",
+	"#9ece6a",
+	"#e0af68",
+	"#e0af68",
+	"#f7768e",
+	"#f7768e",
 }
 
 
@@ -60,13 +63,15 @@ cpu.widget = wibox.widget{
 						id     = "vertical_bars",
 						layout = wibox.layout.fixed.horizontal,
 					},
-					margins = dpi(1.5),
+					margins = dpi(1),
 					widget	= wibox.container.margin
 				},
 				bg = theme.widget_bg_graph,
 				shape = function(cr, width, height)
 					gears.shape.rounded_rect(cr, width, height, dpi(0))
 				end,
+				shape_border_width = dpi(1),
+				shape_border_color = theme.widget_border_color,
 				widget = wibox.container.background,
 			},
 			layout = wibox.layout.fixed.horizontal,
@@ -83,7 +88,7 @@ cpu.widget = wibox.widget{
 }
 
 
-cpu.dashboard = wibox.widget{
+local dashboard = wibox.widget{
 	{
 		{
 			{
@@ -91,7 +96,7 @@ cpu.dashboard = wibox.widget{
 					{
 						{
 							text = "Load",
-							font = "Microsoft YaHei Bold 9",
+							font = "Microsoft YaHei UI Bold 9",
 							widget = wibox.widget.textbox,
 						},
 						fg = theme.popup_fg,
@@ -109,11 +114,11 @@ cpu.dashboard = wibox.widget{
 									id = "load graph",
 									color = colors[1],
 									min_value = 0,
-									max_value = 20,
+									max_value = 25,
 									step_width = dpi(3),
 									step_spacing = 0,
 									scale  = false,
-									background_color = theme.bg_graph,
+									background_color = theme.popup_bg_graph,
 									widget = wibox.widget.graph
 								},
 								{
@@ -124,17 +129,22 @@ cpu.dashboard = wibox.widget{
 								layout	= wibox.layout.stack,
 							},
 							reflection = {horizontal = true, vertical = false},
-							forced_height = dpi(59),  -- 2x20+19
+							forced_height = dpi(74),
 							forced_width  = dpi(210), -- 3x70
 							widget = wibox.container.mirror
 						},
-						top = dpi(1.5),
-						bottom = dpi(1.5),
-						left = dpi(1.5),
-						right = dpi(0.5),
+						top = dpi(2),
+						bottom = dpi(2),
+						left = dpi(2),
+						right = dpi(1),
 						widget	= wibox.container.margin,
 					},
-					bg = theme.bg_graph,
+					bg = theme.popup_bg_graph,
+					shape = function(cr, width, height)
+						gears.shape.rounded_rect(cr, width, height, dpi(0))
+					end,
+					shape_border_width = dpi(0),
+					shape_border_color = theme.widget_border_color,
 					widget = wibox.container.background,
 				},
 				{
@@ -160,15 +170,16 @@ cpu.dashboard = wibox.widget{
 					{
 						{
 							text = "Temperature",
-							font = "Microsoft YaHei Bold 9",
+							font = "Microsoft YaHei UI Bold 9",
 							widget = wibox.widget.textbox,
 						},
 						fg = theme.popup_fg,
 						widget = wibox.container.background,
 					},
-					top    = dpi(0),
-					bottom = dpi(5),
-					widget = wibox.container.margin,
+					top     = dpi(0),
+					bottom  = dpi(5),
+					visible = temp_enable,
+					widget  = wibox.container.margin,
 				},
 				{
 					{
@@ -178,11 +189,11 @@ cpu.dashboard = wibox.widget{
 									id = "temp graph",
 									color = colors[1],
 									min_value = 0,
-									max_value = 20,
+									max_value = 25,
 									step_width = dpi(3),
 									step_spacing = 0,
 									scale  = false,
-									background_color = theme.bg_graph,
+									background_color = theme.popup_bg_graph,
 									widget = wibox.widget.graph
 								},
 								{
@@ -193,17 +204,23 @@ cpu.dashboard = wibox.widget{
 								layout	= wibox.layout.stack,
 							},
 							reflection = {horizontal = true, vertical = false},
-							forced_height = dpi(59),
+							forced_height = dpi(74),
 							forced_width  = dpi(210),
 							widget = wibox.container.mirror,
 						},
-						top = dpi(1.5),
-						bottom = dpi(1.5),
-						left = dpi(1.5),
-						right = dpi(0.5),
+						top = dpi(2),
+						bottom = dpi(2),
+						left = dpi(2),
+						right = dpi(1),
 						widget	= wibox.container.margin,
 					},
-					bg = theme.bg_graph,
+					bg = theme.popup_bg_graph,
+					shape = function(cr, width, height)
+						gears.shape.rounded_rect(cr, width, height, dpi(0))
+					end,
+					shape_border_width = dpi(1),
+					shape_border_color = theme.widget_border_color,
+					visible = temp_enable,
 					widget = wibox.container.background,
 				},
 				{
@@ -223,13 +240,14 @@ cpu.dashboard = wibox.widget{
 					},
 					top    = dpi(3),
 					bottom = dpi(0),
+					visible = temp_enable,
 					widget = wibox.container.margin,
 				},
 				{
 					{
 						{
 							text = "Threads",
-							font = "Microsoft YaHei Bold 9",
+							font = "Microsoft YaHei UI Bold 9",
 							widget = wibox.widget.textbox,
 						},
 						fg = theme.popup_fg,
@@ -263,7 +281,7 @@ cpu.dashboard = wibox.widget{
 	widget = wibox.container.margin,
 
 	set_load = function(self, value)
-		self:get_children_by_id("load graph")[1]:add_value(math.ceil(value / 5))
+		self:get_children_by_id("load graph")[1]:add_value(math.ceil(value / 4))
 		self:get_children_by_id("load graph")[1].color = colors[math.ceil(value / 10)]
 		self:get_children_by_id("cpu load")[1].text    = value .. " %"
 	end,
@@ -276,7 +294,7 @@ cpu.dashboard = wibox.widget{
 
 
 cpu.popup = awful.popup{
-	widget			= cpu.dashboard,
+	widget			= dashboard,
 	border_color	= theme.popup_border_color,
     border_width	= theme.popup_border_width,
 	visible			= false,
@@ -293,16 +311,13 @@ local function single_vertical_bar()
 	return wibox.widget {
 		{
 			id				 = "usage",
-			--margins 		 = {top = dpi(1), bottom = dpi(1), right = 0, left = 0 },
+			margins 		 = {top = dpi(0), bottom = dpi(0), right = 0, left = 0 },
 			max_value		 = 20,
 			value			 = 0,
 			bar_border_width = 0,
-			forced_height	 = dpi(4.5),
+			forced_height	 = dpi(2.5),
 			color			 = colors[1],
-			background_color = "",--theme.widget_bg_graph,
-			--shape			 = function(cr, width, height)
-			--	gears.shape.rounded_rect(cr, width, height, dpi(2))
-			--end,
+			background_color = theme.widget_bg_graph,
 			widget			 = wibox.widget.progressbar,
 		},
 		direction	= "east",
@@ -318,51 +333,49 @@ end
 local function single_horizontal_bar() 
 	return wibox.widget{ 
 		{
-				id            = "bar",
-				value         = 0,
-				max_value     = 50,
-				forced_height = dpi(20),
-				forced_width  = dpi(100),
-				margins       = {top = dpi(4.5), left = dpi(0), right = dpi(5), bottom = dpi(4.5)},
-				color         = colors[1],
-				background_color = theme.popup_bg_progressbar,
-				paddings			= dpi(1),
-				border_width		= dpi(1),
-				border_color 		= "#dddddd",
-				widget = wibox.widget.progressbar,	
+			id            = "bar",
+			value         = 0,
+			max_value     = 50,
+			forced_height = dpi(22),
+			forced_width  = dpi(105),
+			margins       = {top = dpi(7), left = dpi(0), right = dpi(5), bottom = dpi(7)},
+			color         = colors[1],
+			paddings	  = dpi(0),
+			border_width  = dpi(0),
+			border_color  = theme.popup_progress_border_color,
+			background_color = theme.popup_bg_progressbar,
+			widget = wibox.widget.progressbar,	
 		},
 		{
 			{
 				{
-					id   = "Usage",
-					text = "--%",
-					font = theme.font,
-					font = "Microsoft YaHei 8",
-					widget = wibox.widget.textbox,
+					{
+						id   = "Usage",
+						text = "--%",
+						font = theme.font,
+						font = "Microsoft YaHei UI 8",
+						widget = wibox.widget.textbox,
+					},
+					halign = "left",
+					valign = "center",
+					forced_height = dpi(22),
+					widget = wibox.container.place,
 				},
-				halign = "left",
-				valign = "center",
-				forced_height = dpi(20),
-				widget = wibox.container.place,
+				fg = theme.popup_fg,
+				widget = wibox.container.background,
 			},
-			fg = theme.popup_fg,
-			widget = wibox.container.background,
-		},
-		{
-			nil,
-			nil,
 			{
 				{
 					{
 						id   = "Freq",
 						text = "-- MHz",
 						font = theme.font,
-						font = "Microsoft YaHei 8",
+						font = "Microsoft YaHei UI 8",
 						widget = wibox.widget.textbox,
 					},
 					halign = "right",
 					valign = "center",
-					forced_height = dpi(20),
+					forced_height = dpi(22),
 					widget = wibox.container.place,
 				},
 				fg = theme.popup_fg,
@@ -392,15 +405,15 @@ local total_old  = {}
 local usage_old  = {}
 
 
-for i = 1, cpu.threads do
+for i = 1, threads do
 	vertical_bars[i] = single_vertical_bar()
 	horizontal_bars[i] = single_horizontal_bar()
 	cpu.widget:get_children_by_id("vertical_bars")[1]:insert(i,vertical_bars[i])
-	cpu.dashboard:get_children_by_id("horizontal_bars")[1]:insert(i,horizontal_bars[i])
+	dashboard:get_children_by_id("horizontal_bars")[1]:insert(i,horizontal_bars[i])
 end
 
 
-for i = 1, cpu.threads + 1 do
+for i = 1, threads + 1 do
 	active_old[i] = 0
 	total_old[i]  = 0
 	usage_old[i]  = 0
@@ -434,22 +447,24 @@ end
 
 
 cpu.update = function()
-	local f1 = io.open(cpu.stat_path,"r")
-	cpu.dashboard.load = cpu_usage_cal(cpu.threads + 1, f1:read() or "0")
-	for i = 1, cpu.threads do
+	local f1 = io.open(stat_path,"r")
+	dashboard.load = cpu_usage_cal(threads + 1, f1:read() or "0")
+	for i = 1, threads do
 		local v = cpu_usage_cal(i, f1:read() or "0")
 		vertical_bars[i].value = v
 		horizontal_bars[i].value = v
 		if cpu.popup.visible then
-			local f2 = io.open(cpu.freq_path(i - 1))
+			local f2 = io.open(freq_path(i - 1))
 			horizontal_bars[i].freq = f2:read() or "0"
 			f2:close()
 		end
 	end
 	f1:close()
-	local f3 = io.open(cpu.temp_path)
-	cpu.dashboard.temp = f3:read() or "0"
-	f3:close()
+	if temp_enable then
+		local f3 = io.open(temp_path)
+		dashboard.temp = f3:read() or "0"
+		f3:close()
+	end
 end
 
 
@@ -498,6 +513,7 @@ cpu.setup = function(mt,ml,mr,mb)
 			cpu.popup:disconnect_signal ('mouse::move',popup_move)
 		end),
 		awful.button({ }, 3, function ()
+			cpu.popup:disconnect_signal ('mouse::move',popup_move)
 			cpu.popup.visible = false
 			cpu.widget.bg = ""
 			cpu.widget.shape_border_color = ""
@@ -506,19 +522,20 @@ cpu.setup = function(mt,ml,mr,mb)
 
 	cpu.widget:buttons(awful.util.table.join (
 		awful.button({}, 1, function() 
-			cpu.popup.x = mouse.coords().x - dpi(125)
-			cpu.popup.y = theme.popup_margin_top
-			cpu.popup.visible = not cpu.popup.visible
 			if cpu.popup.visible then
+				cpu.popup.visible = false
 				cpu.widget.bg = theme.widget_bg_press
 			else
+				cpu.popup.x = mouse.coords().x - dpi(125)
+				cpu.popup.y = theme.popup_margin_top
+				cpu.popup.visible = true
 				cpu.widget.bg = theme.widget_bg_hover
 			end
 		end)
 	))
 
 	gears.timer({
-		timeout   = cpu.update_timeout,
+		timeout   = update_timeout,
 		call_now  = false,
 		autostart = true,
 		callback  = cpu.update

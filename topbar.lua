@@ -9,13 +9,13 @@ local taglist   = require("widgets.taglist")
 local tasklist  = require("widgets.tasklist")
 local clock     = require("widgets.clock")
 local promptbox = require("widgets.promptbox")
---local netspeed  = require("widgets.netspeed")
+local netspeed  = require("widgets.netspeed")
 local mem		= require("widgets.mem")
---local cpu		= require("widgets.cpu")
+local cpu		= require("widgets.cpu")
 --local gpu       = require("widgets.gpu")
 local disk      = require("widgets.disk")
 local vpn       = require("widgets.vpn")
---local wifi      = require("widgets.wifi")
+local wifi      = require("widgets.wifi")
 local volume    = require("widgets.volume")
 --local battery   = require("widgets.battery")
 --local panel     = require("widgets.panel")
@@ -33,7 +33,7 @@ topbar.setup = function(s)
 		position = "top",
 		ontop    = false,
 		type     = "dock",
-		height   = theme.topbar_height,
+		height   = theme.topbar_height + theme.topbar_border_width,
 		fg       = theme.topbar_fg, 
 		bg       = theme.topbar_bg
 	})
@@ -45,7 +45,7 @@ topbar.setup = function(s)
 			layout = wibox.layout.align.horizontal,
 			{
 				layout = wibox.layout.fixed.horizontal,
-				forced_width = dpi(895),
+				forced_width = dpi(890),
 				--forced_width = dpi(820.5),
 				taglist.setup(s),
 				{
@@ -57,20 +57,20 @@ topbar.setup = function(s)
 			clock.setup(),
 			{ 
 				layout = wibox.layout.align.horizontal,
-				forced_width = dpi(895),
+				forced_width = dpi(890),
 				--forced_width = dpi(820.5),
 				nil,
 				nil,
 				{
-					-- Right widgets
+					-- Right widgets setup ( margin_top, margin_left, margin_right, margin_bottom )
 					layout = wibox.layout.fixed.horizontal,
-					--netspeed.setup(5,6,0,5),
-					mem.setup(4,4,4,4),
-					--cpu.setup(4,4,4,4),
+					netspeed.setup(5,6,0,5),
+					mem.setup(3,4,4,3),
+					cpu.setup(3,4,4,3),
 					--gpu.setup(4,4,4,4),
 					disk.setup(10,8,8,10),
 					vpn.setup(9.5,9,9,9.5),
-					--wifi.setup(10,8,8,10),
+					wifi.setup(10,8,8,10),
 					volume.setup(8,5,5,8),
 					--battery.setup(9,6,5,9),
 					--clock.setup(_,6,6,_),
@@ -81,10 +81,10 @@ topbar.setup = function(s)
 		{
 			{
 				{
-					forced_height = dpi(1),
+					forced_height = theme.topbar_border_width,
 					widget = wibox.container.margin,
 				},
-				bg = theme.border_normal,
+				bg = theme.topbar_border_color,
 				widget = wibox.container.background,
 			},
 			layout = wibox.layout.align.vertical,

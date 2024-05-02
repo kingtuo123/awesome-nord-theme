@@ -14,9 +14,10 @@ end
 
 
 local netspeed = {}
-local update_interval = 2
-local tx_path = "/sys/class/net/wlp2s0/statistics/tx_bytes"
-local rx_path = "/sys/class/net/wlp2s0/statistics/rx_bytes"
+local update_timeout = 2
+local device = "wlp4s0"
+local tx_path = "/sys/class/net/" .. device .. "/statistics/tx_bytes"
+local rx_path = "/sys/class/net/" .. device .. "/statistics/rx_bytes"
 
 
 netspeed.widget = wibox.widget{
@@ -93,9 +94,9 @@ netspeed.widget = wibox.widget{
 			self:get_children_by_id('up')[1].image = theme.netspeed_up_active_icon
 		end
 		if value < 1048576 then
-			text = string.format("%d", math.floor(value / 1024)) .. " KB/s"
+			text = string.format("%d KB/s", math.floor(value / 1024))
 		else
-			text = string.format("%.1f", value / 1048576) .. " MB/s"
+			text = string.format("%.1f MB/s", value / 1048576)
 		end
 		self:get_children_by_id('sent')[1].text = text
 	end,
@@ -107,9 +108,9 @@ netspeed.widget = wibox.widget{
 			self:get_children_by_id('down')[1].image = theme.netspeed_down_active_icon
 		end
 		if value < 1048576 then
-			text = string.format("%d", math.floor(value / 1024)) .. " KB/s"
+			text = string.format("%d KB/s", math.floor(value / 1024))
 		else
-			text = string.format("%.1f", value / 1048576) .. " MB/s"
+			text = string.format("%.1f MB/s", value / 1048576)
 		end
 		self:get_children_by_id('recv')[1].text = text
 	end,
@@ -124,8 +125,8 @@ local status_old = 0
 netspeed.update	= function()
 	local sent    = tonumber(get_line(tx_path))
 	local recive  = tonumber(get_line(rx_path))
-	local dsent   = (sent - sent_old) / update_interval
-	local drecive = (recive - recive_old) / update_interval
+	local dsent   = (sent - sent_old) / update_timeout
+	local drecive = (recive - recive_old) / update_timeout
 	recive_old    = recive
 	sent_old      = sent
 	netspeed.widget.sent = dsent
@@ -150,7 +151,7 @@ netspeed.setup = function(mt,ml,mr,mb)
 	--end)
 
 	gears.timer({
-		timeout   = update_interval,
+		timeout   = update_timeout,
 		call_now  = false,
 		autostart = true,
 		callback  = netspeed.update

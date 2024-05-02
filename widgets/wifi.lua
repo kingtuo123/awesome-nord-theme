@@ -6,8 +6,8 @@ local dpi	= require("beautiful.xresources").apply_dpi
 
 
 local wifi = {}
-local get_signal_cmd = "iw dev wlp2s0 link|grep signal|sed 's/[^0-9]//g'"
-local get_ssid_cmd = "iw dev wlp2s0 link|grep SSID|sed 's/.*SSID: //'"
+local get_signal_cmd = "iw dev wlp4s0 link|grep signal|sed 's/[^0-9]//g'"
+local get_ssid_cmd = "iw dev wlp4s0 link|grep SSID|sed 's/.*SSID: //'"
 
 
 wifi.widget = wibox.widget{

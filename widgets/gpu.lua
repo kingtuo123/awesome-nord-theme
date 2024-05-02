@@ -126,7 +126,7 @@ gpu.dashboard = wibox.widget{
 								step_width = dpi(3),
 								step_spacing = 0,
 								scale  = false,
-								background_color = theme.bg_graph,
+								background_color = theme.popup_bg_graph,
 								widget = wibox.widget.graph
 							},
 							{
@@ -147,7 +147,7 @@ gpu.dashboard = wibox.widget{
 					right = dpi(0.5),
 					widget	= wibox.container.margin,
 				},
-				bg = theme.bg_graph,
+				bg = theme.popup_bg_graph,
 				widget = wibox.container.background,
 			},
 			{
@@ -195,7 +195,7 @@ gpu.dashboard = wibox.widget{
 								step_width = dpi(3),
 								step_spacing = 0,
 								scale  = false,
-								background_color = theme.bg_graph,
+								background_color = theme.popup_bg_graph,
 								widget = wibox.widget.graph
 							},
 							{
@@ -216,7 +216,7 @@ gpu.dashboard = wibox.widget{
 					right = dpi(0.5),
 					widget	= wibox.container.margin,
 				},
-				bg = theme.bg_graph,
+				bg = theme.popup_bg_graph,
 				widget = wibox.container.background,
 			},
 			{
@@ -264,7 +264,7 @@ gpu.dashboard = wibox.widget{
 								step_width = dpi(3),
 								step_spacing = 0,
 								scale  = false,
-								background_color = theme.bg_graph,
+								background_color = theme.popup_bg_graph,
 								widget = wibox.widget.graph
 							},
 							{
@@ -285,7 +285,7 @@ gpu.dashboard = wibox.widget{
 					right = dpi(0.5),
 					widget	= wibox.container.margin,
 				},
-				bg = theme.bg_graph,
+				bg = theme.popup_bg_graph,
 				widget = wibox.container.background,
 			},
 			{
@@ -340,7 +340,7 @@ gpu.popup = awful.popup{
 	border_color	= theme.popup_border_color,
     border_width	= theme.popup_border_width,
 	visible			= false,
-	bg				= theme.bg_graph,
+	bg				= theme.popup_bg_graph,
 	fg				= theme.fg,
 	ontop			= true,
 	shape			= function(cr, width, height)

@@ -204,7 +204,7 @@ battery.popup = awful.popup{
 		gears.shape.rounded_rect(cr, width, height, theme.popup_rounded)
 	end,
     placement		= function(wdg,args)  
-		awful.placement.top_right(wdg, {margins = { top = theme.popup_margin_top ,right = dpi(6)}}) 
+		awful.placement.top_right(wdg, {margins = { top = theme.popup_margin_top ,right = theme.popup_margin_right}}) 
 	end,
 }
 

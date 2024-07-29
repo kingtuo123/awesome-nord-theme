@@ -21,7 +21,6 @@ local colors = {
 	"#f7768e",
 	"#f7768e",
 }
-local buffer_color = "#404666"
 
 
 mem.widget = wibox.widget {
@@ -30,22 +29,22 @@ mem.widget = wibox.widget {
 			{
 				{
 					{
-						text = "M",
+						text = " M",
 						font = "Terminus Bold 6",
 						widget = wibox.widget.textbox,
 					},
 					{
-						text = "E",
+						text = " E",
 						font = "Terminus Bold 6",
 						widget = wibox.widget.textbox,
 					},
 					{
-						text = "M",
+						text = " M",
 						font = "Terminus Bold 6",
 						widget = wibox.widget.textbox,
 					},
-					forced_width = dpi(7),
-					layout = wibox.layout.align.vertical,
+					forced_width = dpi(10),
+					layout = wibox.layout.flex.vertical,
 				},
 				fg = theme.popup_fg,
 				widget = wibox.container.background,
@@ -56,7 +55,7 @@ mem.widget = wibox.widget {
 						{
 							{
 								id = "buff graph",
-								color = buffer_color,
+								color = theme.mem_buffer_color,
 								min_value = 0,
 								max_value = 25,
 								step_width = dpi(2),
@@ -82,15 +81,15 @@ mem.widget = wibox.widget {
 						forced_width = dpi(40),
 						widget = wibox.container.mirror
 					},
-					margins = dpi(0.5),
+					margins = dpi(1),
 					widget	= wibox.container.margin,
 				},
 				bg = theme.widget_bg_graph,
 				shape = function(cr, width, height)
-					gears.shape.rounded_rect(cr, width, height, dpi(0))
+					gears.shape.rounded_rect(cr, width, height, dpi(2))
 				end,
 				shape_border_width = dpi(1),
-				shape_border_color = theme.widget_border_color,
+				shape_border_color = theme.border_normal .. "99",
 				widget = wibox.container.background,
 			},
 			layout = wibox.layout.fixed.horizontal,
@@ -138,7 +137,7 @@ local dashboard = wibox.widget{
 						{
 							{
 								id = "buff graph",
-								color = buffer_color,
+								color = theme.mem_buffer_color,
 								min_value = 0,
 								max_value = 25,
 								step_width = dpi(3),
@@ -178,7 +177,7 @@ local dashboard = wibox.widget{
 				},
 				bg = theme.popup_bg_graph,
 				shape = function(cr, width, height)
-					gears.shape.rounded_rect(cr, width, height, dpi(0))
+					gears.shape.rounded_rect(cr, width, height, dpi(5))
 				end,
 				shape_border_width = dpi(0),
 				shape_border_color = theme.widget_border_color,
@@ -200,16 +199,16 @@ local dashboard = wibox.widget{
 					id = "fc",
 					bg = theme.popup_bg_graph,
 					shape = function(cr, width, height)
-						gears.shape.rounded_rect(cr, width, height, dpi(0))
+						gears.shape.rounded_rect(cr, width, height, dpi(3))
 					end,
-					shape_border_width = dpi(0.5),
-					shape_border_color = theme.widget_border_color,
+					shape_border_width = dpi(0),
+					shape_border_color = "", --theme.widget_border_color,
 					widget = wibox.container.background,
 				},
 				{
 					{
 						text = "  free",
-						font = "Microsoft YaHei UI 8",
+						font = "Microsoft YaHei UI Bold 8",
 						widget = wibox.widget.textbox,
 					},
 					fg = theme.popup_fg,
@@ -220,7 +219,7 @@ local dashboard = wibox.widget{
 						{
 							id   = "free",
 							text = "-- MB",
-							font = "Microsoft YaHei UI 8",
+							font = "Microsoft YaHei UI Bold 8",
 							widget = wibox.widget.textbox,
 						},
 						halign = "right",
@@ -246,18 +245,18 @@ local dashboard = wibox.widget{
 						widget        = wibox.widget.checkbox,
 					},
 					id = "bc",
-					bg = buffer_color,
+					bg = theme.mem_buffer_color,
 					shape = function(cr, width, height)
-						gears.shape.rounded_rect(cr, width, height, dpi(0))
+						gears.shape.rounded_rect(cr, width, height, dpi(3))
 					end,
-					shape_border_width = dpi(0.5),
+					shape_border_width = dpi(0),
 					shape_border_color = theme.popup_bg,
 					widget = wibox.container.background,
 				},
 				{
 					{
 						text = "  buff/cache",
-						font = "Microsoft YaHei UI 8",
+						font = "Microsoft YaHei UI Bold 8",
 						widget = wibox.widget.textbox,
 					},
 					fg = theme.popup_fg,
@@ -268,7 +267,7 @@ local dashboard = wibox.widget{
 						{
 							id   = "buff",
 							text = "-- MB",
-							font = "Microsoft YaHei UI 8",
+							font = "Microsoft YaHei UI Bold 8",
 							widget = wibox.widget.textbox,
 						},
 						halign = "right",
@@ -295,16 +294,16 @@ local dashboard = wibox.widget{
 					},
 					id = "uc",
 					shape = function(cr, width, height)
-						gears.shape.rounded_rect(cr, width, height, dpi(0))
+						gears.shape.rounded_rect(cr, width, height, dpi(3))
 					end,
-					shape_border_width = dpi(0.5),
+					shape_border_width = dpi(0),
 					shape_border_color = theme.popup_bg,
 					widget = wibox.container.background,
 				},
 				{
 					{
 						text = "  used",
-						font = "Microsoft YaHei UI 8",
+						font = "Microsoft YaHei UI Bold 8",
 						widget = wibox.widget.textbox,
 					},
 					fg = theme.popup_fg,
@@ -315,7 +314,7 @@ local dashboard = wibox.widget{
 						{
 							id   = "used",
 							text = "-- MB",
-							font = "Microsoft YaHei UI 8",
+							font = "Microsoft YaHei UI Bold 8",
 							widget = wibox.widget.textbox,
 						},
 						halign = "right",
@@ -347,19 +346,19 @@ local dashboard = wibox.widget{
 		self:get_children_by_id("used graph")[1].color = color
 		self:get_children_by_id("uc")[1].bg = color
 		if tonumber(all.free) >= 1048576 then
-			self:get_children_by_id("free")[1].text = string.format("%.1f GB", all.free / 1048576)
+			self:get_children_by_id("free")[1].text = string.format("%.1f GiB", all.free / 1048576)
 		else
-			self:get_children_by_id("free")[1].text = string.format("%d MB", math.ceil(all.free / 1024))
+			self:get_children_by_id("free")[1].text = string.format("%d MiB", math.ceil(all.free / 1024))
 		end
 		if tonumber(all.buf_cache) >= 1048576 then
-			self:get_children_by_id("buff")[1].text = string.format("%.1f GB", all.buf_cache / 1048576)
+			self:get_children_by_id("buff")[1].text = string.format("%.1f GiB", all.buf_cache / 1048576)
 		else
-			self:get_children_by_id("buff")[1].text = string.format("%d MB", math.ceil(all.buf_cache / 1024))
+			self:get_children_by_id("buff")[1].text = string.format("%d MiB", math.ceil(all.buf_cache / 1024))
 		end
 		if tonumber(all.used) >= 1048576 then
-			self:get_children_by_id("used")[1].text = string.format("%.1f GB", all.used / 1048576)
+			self:get_children_by_id("used")[1].text = string.format("%.1f GiB", all.used / 1048576)
 		else
-			self:get_children_by_id("used")[1].text = string.format("%d MB", math.ceil(all.used / 1024))
+			self:get_children_by_id("used")[1].text = string.format("%d MiB", math.ceil(all.used / 1024))
 		end
 	end
 }
@@ -414,6 +413,7 @@ mem.setup = function(mt,ml,mr,mb)
 	mem.widget.margin.right  = dpi(mr or 0)
 	mem.widget.margin.bottom = dpi(mb or 0)
 
+	--[[
 	mem.widget:connect_signal('mouse::enter',function(self) 
 		if mem.popup.visible then
 			mem.widget.bg = theme.widget_bg_press
@@ -432,6 +432,7 @@ mem.setup = function(mt,ml,mr,mb)
 			mem.widget.shape_border_color = theme.topbar_bg
 		end
 	end)
+	--]]
 
 	local function popup_move()	
 		local m = mouse.coords()
@@ -464,14 +465,14 @@ mem.setup = function(mt,ml,mr,mb)
 		awful.button({}, 1, function() 
 			if mem.popup.visible then
 				mem.popup.visible = false
-				mem.widget.bg = theme.widget_bg_press
+				--mem.widget.bg = theme.widget_bg_press
 			else
 				mem.popup.x = mouse.coords().x - dpi(126)
 				mem.popup.y = theme.popup_margin_top
 				mem.popup.visible = true
-				mem.widget.bg = theme.widget_bg_hover
+				--mem.widget.bg = theme.widget_bg_hover
 			end
-			mem.widget.shape_border_color = theme.widget_border_color
+			--mem.widget.shape_border_color = theme.widget_border_color
 		end)
 	))
 

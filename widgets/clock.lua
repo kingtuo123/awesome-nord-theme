@@ -17,7 +17,7 @@ calendar.normal  = {
 	fg_color = theme.cal_fg_normal,
 	markup	 = function(t) return t end,
 	shape = function(cr, width, height)
-		gears.shape.rounded_rect(cr, width, height, dpi(0))
+		gears.shape.rounded_rect(cr, width, height, theme.cal_rounded)
 	end,
 }                                                       
 calendar.focus   = {
@@ -25,7 +25,7 @@ calendar.focus   = {
 	bg_color = theme.cal_bg_focus,                
 	markup   = function(t) return '<b>' .. t .. '</b>' end,
 	shape = function(cr, width, height)
-		gears.shape.rounded_rect(cr, width, height, dpi(0))
+		gears.shape.rounded_rect(cr, width, height, theme.cal_rounded)
 	end,
 }                                                       
 calendar.header  = {

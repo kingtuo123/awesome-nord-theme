@@ -26,7 +26,7 @@ taglist.buttons = gears.table.join(
 
 
 taglist.setup = function(s)
-	awful.tag({ "1", "2", "3", "4", "5", "6", "7", "8", "9" }, s, awful.layout.layouts[1])
+	awful.tag({ "1", "2", "3", "4", "5", "6", "7", "8", "9", "0" }, s, awful.layout.layouts[1])
 	taglist.widget = awful.widget.taglist({
 		screen  = s,
 		buttons = taglist.buttons,
@@ -34,15 +34,23 @@ taglist.setup = function(s)
 		widget_template = {
 			{
 				{
-					id     = 'text_role',
-					widget = wibox.widget.textbox,
+					{
+						id     = 'text_role',
+						widget = wibox.widget.textbox,
+					},
+					valign = 'center',
+					halign = 'center',
+					forced_width = theme.taglist_width,
+					widget = wibox.container.place,
 				},
-				valign = 'center',
-				halign = 'center',
-				forced_width = theme.taglist_width,
-				widget = wibox.container.place,
+				id     = "background_role",
+				widget = wibox.container.background,
 			},
-			id     = "background_role",
+			shape = function(cr, width, height)
+				gears.shape.rounded_rect(cr, width, height, theme.widget_rounded)
+			end,
+			shape_border_width = theme.widget_border_width,
+			shape_border_color = theme.widget_border_color,
 			widget = wibox.container.background,
 		}
 	})

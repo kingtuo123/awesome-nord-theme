@@ -37,22 +37,22 @@ cpu.widget = wibox.widget{
 			{
 				{
 					{
-						text = "C",
+						text = " C",
+						font = " Terminus Bold 6",
+						widget = wibox.widget.textbox,
+					},
+					{
+						text = " P",
 						font = "Terminus Bold 6",
 						widget = wibox.widget.textbox,
 					},
 					{
-						text = "P",
+						text = " U",
 						font = "Terminus Bold 6",
 						widget = wibox.widget.textbox,
 					},
-					{
-						text = "U",
-						font = "Terminus Bold 6",
-						widget = wibox.widget.textbox,
-					},
-					forced_width = dpi(7),
-					layout = wibox.layout.fixed.vertical,
+					forced_width = dpi(10),
+					layout = wibox.layout.flex.vertical,
 				},
 				fg = theme.popup_fg,
 				widget = wibox.container.background,
@@ -68,10 +68,10 @@ cpu.widget = wibox.widget{
 				},
 				bg = theme.widget_bg_graph,
 				shape = function(cr, width, height)
-					gears.shape.rounded_rect(cr, width, height, dpi(0))
+					gears.shape.rounded_rect(cr, width, height, dpi(2))
 				end,
 				shape_border_width = dpi(1),
-				shape_border_color = theme.widget_border_color,
+				shape_border_color = theme.border_normal .. "99",
 				widget = wibox.container.background,
 			},
 			layout = wibox.layout.fixed.horizontal,
@@ -141,7 +141,7 @@ local dashboard = wibox.widget{
 					},
 					bg = theme.popup_bg_graph,
 					shape = function(cr, width, height)
-						gears.shape.rounded_rect(cr, width, height, dpi(0))
+						gears.shape.rounded_rect(cr, width, height, dpi(5))
 					end,
 					shape_border_width = dpi(0),
 					shape_border_color = theme.widget_border_color,
@@ -338,13 +338,19 @@ local function single_horizontal_bar()
 			max_value     = 50,
 			forced_height = dpi(22),
 			forced_width  = dpi(105),
-			margins       = {top = dpi(7), left = dpi(0), right = dpi(5), bottom = dpi(7)},
+			margins       = {top = dpi(6), left = dpi(0), right = dpi(5), bottom = dpi(6)},
 			color         = colors[1],
 			paddings	  = dpi(0),
 			border_width  = dpi(0),
 			border_color  = theme.popup_progress_border_color,
 			background_color = theme.popup_bg_progressbar,
 			widget = wibox.widget.progressbar,	
+			shape			= function(cr, width, height)
+				gears.shape.rounded_rect(cr, width, height, dpi(3))
+			end,
+			bar_shape		= function(cr, width, height)
+				gears.shape.rounded_rect(cr, width, height, dpi(3))
+			end
 		},
 		{
 			{
@@ -353,7 +359,7 @@ local function single_horizontal_bar()
 						id   = "Usage",
 						text = "--%",
 						font = theme.font,
-						font = "Microsoft YaHei UI 8",
+						font = "Microsoft YaHei UI Bold 8",
 						widget = wibox.widget.textbox,
 					},
 					halign = "left",
@@ -370,7 +376,7 @@ local function single_horizontal_bar()
 						id   = "Freq",
 						text = "-- MHz",
 						font = theme.font,
-						font = "Microsoft YaHei UI 8",
+						font = "Microsoft YaHei UI Bold 8",
 						widget = wibox.widget.textbox,
 					},
 					halign = "right",
@@ -474,6 +480,7 @@ cpu.setup = function(mt,ml,mr,mb)
 	cpu.widget.margin.right  = dpi(mr or 0)
 	cpu.widget.margin.bottom = dpi(mb or 0)
 
+	--[[
 	cpu.widget:connect_signal('mouse::enter',function(self) 
 		if cpu.popup.visible then
 			cpu.widget.bg = theme.widget_bg_press
@@ -492,6 +499,7 @@ cpu.setup = function(mt,ml,mr,mb)
 			cpu.widget.shape_border_color = ""
 		end
 	end)
+	]]--
 
 	local function popup_move()	
 		local m = mouse.coords()
@@ -524,12 +532,12 @@ cpu.setup = function(mt,ml,mr,mb)
 		awful.button({}, 1, function() 
 			if cpu.popup.visible then
 				cpu.popup.visible = false
-				cpu.widget.bg = theme.widget_bg_press
+				--cpu.widget.bg = theme.widget_bg_press
 			else
 				cpu.popup.x = mouse.coords().x - dpi(125)
 				cpu.popup.y = theme.popup_margin_top
 				cpu.popup.visible = true
-				cpu.widget.bg = theme.widget_bg_hover
+				--cpu.widget.bg = theme.widget_bg_hover
 			end
 		end)
 	))

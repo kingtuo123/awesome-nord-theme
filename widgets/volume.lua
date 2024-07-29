@@ -126,6 +126,10 @@ local sinks_sources = wibox.widget{
 		id     = "sink",
 		layout = wibox.layout.fixed.vertical,
 	},
+	{
+		bottom = dpi(0),
+		widget = wibox.container.margin,
+	},
 	backup_sinks = {},
 	add_sinks = function(self, i, args)
 		if i == sink_def_idx then
@@ -152,6 +156,9 @@ local sinks_sources = wibox.widget{
 								},
 								id     = "line",
 								bg     = line_bg,
+								shape = function(cr, width, height)
+									gears.shape.rounded_rect(cr, width, height, dpi(3))
+								end,
 								widget = wibox.container.background,
 							},
 							valign = "center",
@@ -164,15 +171,15 @@ local sinks_sources = wibox.widget{
 					{
 						{
 							text = args.card .. " - " .. args.type,
-							font    = "Microsoft YaHei UI 8",
+							font    = "Microsoft YaHei UI Bold 8",
 							valign = "center",
 							halign = "left",
 							--forced_width = dpi(200),
 							forced_height = dpi(35),
 							widget = wibox.widget.textbox, 
 						},
-						left   = dpi(20),
-						right  = dpi(70),
+						left   = dpi(16),
+						right  = dpi(80),
 						widget = wibox.container.margin,
 					},
 					{
@@ -180,7 +187,7 @@ local sinks_sources = wibox.widget{
 							{
 								id     = "volume",
 								text   = args.value .. "%",
-								font   = "Microsoft YaHei UI 8",
+								font   = "Microsoft YaHei UI Bold 8",
 								valign = "center",
 								halign = "center",
 								forced_width = dpi(35),
@@ -191,11 +198,14 @@ local sinks_sources = wibox.widget{
 						},
 						valign = "center",
 						halign = "right",
-						layout = wibox.container.place,
+						widget = wibox.container.place,
 					},
 					layout = wibox.layout.stack,
 				},
 				bg = sink_bg,
+				shape = function(cr, width, height)
+					gears.shape.rounded_rect(cr, width, height, theme.widget_rounded)
+				end,
 				widget = wibox.container.background,
 			},
 			top	   = dpi(0),
@@ -299,13 +309,19 @@ local popup_vertical_bar = wibox.widget{
 			value				= 0.5,
 			forced_height		= dpi(45),
 			forced_width		= dpi(150),
-			margins             = {top = dpi(17.5), left = dpi(15), right = dpi(15), bottom = dpi(17.5)},
+			margins             = {top = dpi(17), left = dpi(10), right = dpi(10), bottom = dpi(17)},
 			color				= theme.popup_fg_progressbar,
 			background_color	= theme.popup_bg_progressbar,
 			paddings			= dpi(0),
 			border_width		= dpi(0),
 			border_color 		= theme.popup_progress_border_color,
 			widget				= wibox.widget.progressbar,
+			shape			= function(cr, width, height)
+				gears.shape.rounded_rect(cr, width, height, dpi(3))
+			end,
+			bar_shape			= function(cr, width, height)
+				gears.shape.rounded_rect(cr, width, height, dpi(3))
+			end,
 		},
 		direction	= "east",
 		widget		= wibox.container.rotate,
@@ -324,7 +340,7 @@ local popup_vertical_bar = wibox.widget{
 			},
 			halign = "center",
 			valign = "center",
-			layout = wibox.container.place
+			widget = wibox.container.place
 		},
 		top    = dpi(0),
 		left   = dpi(0),

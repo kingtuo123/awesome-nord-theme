@@ -9,18 +9,18 @@ local focus = {}
 
 focus_width = dpi(5)
 focus_length = dpi(40)
-focus_normal_color = "#7dcfff"
-focus_floating_color = "#7aa2f7"
-focus_ontop_color = "#9ece6a"
-focus_maximized_color = "#f7768e"
-focus_sticky_color = "#bb9af7"
+focus_normal_color = "#86e1fc"
+focus_floating_color = "#82aaff"
+focus_ontop_color = "#c3e88d"
+focus_maximized_color = "#ff757f"
+focus_sticky_color = "#c099ff"
 
 focus.timer = gears.timer {
 	timeout   = 2,
 	call_now  = false,
 	autostart = false,
 	callback  = function(self)
-		print("clean focus")
+		--print("clean focus")
 		self:stop()
 		focus.top_lv.visible = false
 		focus.top_lh.visible = false
@@ -106,19 +106,20 @@ focus.bottom_rh = wibox{
 	ontop = true,
 }
 
-focus.invisible = function()
-	focus.top_lv.visible = false
-	focus.top_lh.visible = false
-	focus.top_rv.visible = false
-	focus.top_rh.visible = false
-	focus.bottom_lv.visible = false
-	focus.bottom_lh.visible = false
-	focus.bottom_rv.visible = false
-	focus.bottom_rh.visible = false
-end
 
-focus.setup = function(c)
-	s = awful.screen.focused()
+focus.setup = function(c, visible)
+	if not visible then
+		focus.top_lv.visible = false
+		focus.top_lh.visible = false
+		focus.top_rv.visible = false
+		focus.top_rh.visible = false
+		focus.bottom_lv.visible = false
+		focus.bottom_lh.visible = false
+		focus.bottom_rv.visible = false
+		focus.bottom_rh.visible = false
+		return
+	end
+	local s = awful.screen.focused()
 	if c.sticky then
 		focus_color = focus_sticky_color
 	elseif c.maximized then 
@@ -131,53 +132,57 @@ focus.setup = function(c)
 		focus_color = focus_normal_color
 	end
 
-	focus.top_lv.x = c.x - focus_width
-	focus.top_lv.y = c.y - focus_width
-	focus.top_lh.x = c.x - focus_width
-	focus.top_lh.y = c.y - focus_width
+	top_lv_x = c.x - focus_width
+	top_lv_y = c.y - focus_width
+	top_lh_x = c.x - focus_width
+	top_lh_y = c.y - focus_width
 
-	focus.top_rv.x = c.x + c.width + theme.border_width * 2
-	focus.top_rv.y = c.y - focus_width
-	focus.top_rh.x = c.x + c.width - focus_length + focus_width + theme.border_width
-	focus.top_rh.y = c.y - focus_width
+	top_rv_x = c.x + c.width + theme.border_width * 2
+	top_rv_y = c.y - focus_width
+	top_rh_x = c.x + c.width - focus_length + focus_width + theme.border_width
+	top_rh_y = c.y - focus_width
 
-	focus.bottom_lv.x = focus.top_lv.x
-	focus.bottom_lv.y = focus.top_lv.y + c.height - focus_length + focus_width * 2 + theme.border_width * 2
-	focus.bottom_lh.x = focus.top_lh.x
-	focus.bottom_lh.y = focus.top_lh.y + c.height + focus_width + theme.border_width * 2
+	bottom_lv_x = top_lv_x
+	bottom_lv_y = top_lv_y + c.height - focus_length + focus_width * 2 + theme.border_width * 2
+	bottom_lh_x = top_lh_x
+	bottom_lh_y = top_lh_y + c.height + focus_width + theme.border_width * 2
 
-	focus.bottom_rv.x = focus.top_rv.x
-	focus.bottom_rv.y = focus.bottom_lv.y
-	focus.bottom_rh.x = focus.top_rh.x
-	focus.bottom_rh.y = focus.bottom_lh.y
+	bottom_rv_x = top_rv_x
+	bottom_rv_y = bottom_lv_y
+	bottom_rh_x = top_rh_x
+	bottom_rh_y = bottom_lh_y
 
-	if focus.top_lv.x < 0 then
-		focus.top_lv.x = 0
-		focus.top_lh.x = 0
-		focus.bottom_lv.x = 0
-		focus.bottom_lh.x = 0
+	if top_lv_x < 0 then
+		top_lv_x = 0
+		top_lh_x = 0
+		bottom_lv_x = 0
+		bottom_lh_x = 0
 	end
 
-	if focus.top_lv.y < theme.topbar_height then
-		focus.top_lv.y = theme.topbar_height
-		focus.top_lh.y = theme.topbar_height
-		focus.top_rv.y = theme.topbar_height
-		focus.top_rh.y = theme.topbar_height
+	if top_lv_y < 0 or c.fullscreen then
+		top_lv_y = 0 
+		top_lh_y = 0 
+		top_rv_y = 0 
+		top_rh_y = 0 
+	elseif top_lv_y == theme.topbar_height - focus_width and s.topbar.visible then
+		top_lv_y = theme.topbar_height
+		top_lh_y = theme.topbar_height
+		top_rv_y = theme.topbar_height
+		top_rh_y = theme.topbar_height
 	end
 
-
-	if focus.top_rv.x + focus_width > s.geometry.width then
-		focus.top_rv.x = s.geometry.width - focus_width
-		focus.top_rh.x = s.geometry.width - focus_length
-		focus.bottom_rv.x = focus.top_rv.x
-		focus.bottom_rh.x = focus.top_rh.x
+	if top_rv_x + focus_width > s.geometry.width then
+		top_rv_x = s.geometry.width - focus_width
+		top_rh_x = s.geometry.width - focus_length
+		bottom_rv_x = top_rv_x
+		bottom_rh_x = top_rh_x
 	end
 
-	if focus.bottom_lh.y + focus_width > s.geometry.height then
-		focus.bottom_lh.y = s.geometry.height - focus_width
-		focus.bottom_lv.y = s.geometry.height - focus_length
-		focus.bottom_rh.y = s.geometry.height - focus_width
-		focus.bottom_rv.y = s.geometry.height - focus_length
+	if bottom_lh_y + focus_width > s.geometry.height then
+		bottom_lh_y = s.geometry.height - focus_width
+		bottom_lv_y = s.geometry.height - focus_length
+		bottom_rh_y = s.geometry.height - focus_width
+		bottom_rv_y = s.geometry.height - focus_length
 	end
 
 	focus.top_lv.bg = focus_color
@@ -191,6 +196,27 @@ focus.setup = function(c)
 
 	focus.bottom_rv.bg = focus_color
 	focus.bottom_rh.bg = focus_color
+
+	focus.top_lv.x = top_lv_x
+	focus.top_lv.y = top_lv_y
+	focus.top_lh.x = top_lh_x
+	focus.top_lh.y = top_lh_y
+
+	focus.top_rv.x = top_rv_x
+	focus.top_rv.y = top_rv_y
+	focus.top_rh.x = top_rh_x
+	focus.top_rh.y = top_rh_y
+
+	focus.bottom_lv.x = bottom_lv_x
+	focus.bottom_lv.y = bottom_lv_y
+	focus.bottom_lh.x = bottom_lh_x
+	focus.bottom_lh.y = bottom_lh_y
+
+	focus.bottom_rv.x = bottom_rv_x
+	focus.bottom_rv.y = bottom_rv_y
+	focus.bottom_rh.x = bottom_rh_x
+	focus.bottom_rh.y = bottom_rh_y
+
 
 	focus.top_lv.visible = true
 	focus.top_lh.visible = true

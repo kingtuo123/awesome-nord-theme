@@ -71,67 +71,89 @@ root.buttons(gears.table.join(
 ----------------------------------------------------------------------------------------------
 
 
-local anchor_point = {}
-anchor_point[1] = {}
-anchor_point[1][1] = function(c) awful.placement.top_left(c, {margins = {top = theme.topbar_height}}) end
-anchor_point[1][2] = function(c) awful.placement.left(c, {margins = {top = theme.topbar_height}}) end
-anchor_point[1][3] = awful.placement.bottom_left
-anchor_point[2] = {}
-anchor_point[2][1] = function(c) awful.placement.top(c, {margins = {top = theme.topbar_height}}) end
-anchor_point[2][2] = function(c) awful.placement.centered(c, {margins = {top = theme.topbar_height}}) end
-anchor_point[2][3] = awful.placement.bottom
-anchor_point[3] = {}
-anchor_point[3][1] = function(c) awful.placement.top_right(c, {margins = {top = theme.topbar_height}}) end
-anchor_point[3][2] = function(c) awful.placement.right(c, {margins = {top = theme.topbar_height}}) end
-anchor_point[3][3] = awful.placement.bottom_right
+local anchor_set = {}
+anchor_set[1] = {}
+anchor_set[1][1] = function(c,t) awful.placement.top_left(c, {margins = {top = t}}) end
+anchor_set[1][2] = function(c,t) awful.placement.left(c, {margins = {top = t}}) end
+anchor_set[1][3] = function(c,t) awful.placement.bottom_left(c) end
+anchor_set[2] = {}
+anchor_set[2][1] = function(c,t) awful.placement.top(c, {margins = {top = t}}) end
+anchor_set[2][2] = function(c,t) awful.placement.centered(c, {margins = {top = t}}) end
+anchor_set[2][3] = function(c,t) awful.placement.bottom(c) end
+anchor_set[3] = {}
+anchor_set[3][1] = function(c,t) awful.placement.top_right(c, {margins = {top = t}}) end
+anchor_set[3][2] = function(c,t) awful.placement.right(c, {margins = {top = t}}) end
+anchor_set[3][3] = function(c,t) awful.placement.bottom_right(c) end
 
 
-function anchor_move(c, direct)
+function anchor_get(c, direct)
+	local a = {}
 	local s = awful.screen.focused()
-	local dx = c.x - (s.geometry.width - (c.x + c.width + theme.border_width * 2))
-	local dy = (c.y - theme.topbar_height) - (s.geometry.height - (c.y + c.height + theme.border_width * 2))
-	if c.x < 0 then
-		cx = 0
-	elseif c.x + c.width > s.geometry.width then
-		cx = 4
-	elseif dx < (c.width - s.geometry.width) / 3 then
-		cx = 1
-	elseif dx > (s.geometry.width - c.width) / 3 then
-		cx = 3
+	if s.topbar.visible then
+		margin_top = theme.topbar_height
 	else
-		cx = 2
+		margin_top = 0
 	end
-	if c.y < theme.topbar_height then
-		cy = 0
-	elseif c.y + c.height > s.geometry.height then
-		cy = 4
-	elseif dy < (c.height - s.geometry.height + theme.topbar_height) / 3 then
-		cy = 1
-	elseif dy > (s.geometry.height - c.height - theme.topbar_height) / 3 then
-		cy = 3
+	local dx = c.x - (s.geometry.width - (c.x + c.width + theme.border_width * 2))
+	local dy = (c.y - margin_top) - (s.geometry.height - (c.y + c.height + theme.border_width * 2))
+	if c.x < 0 then
+		a.x = 0
+	elseif c.x + c.width > s.geometry.width then
+		a.x = 4
+	elseif dx < (c.width - s.geometry.width) / 3 then
+		a.x = 1
+	elseif dx > (s.geometry.width - c.width) / 3 then
+		a.x = 3
 	else
-		cy = 2
+		a.x = 2
+	end
+	if c.y < margin_top then
+		a.y = 0
+	elseif c.y + c.height > s.geometry.height then
+		a.y = 4
+	elseif dy < (c.height - s.geometry.height + margin_top) / 3 then
+		a.y = 1
+	elseif dy > (s.geometry.height - c.height - margin_top) / 3 then
+		a.y = 3
+	else
+		a.y = 2
 	end
 	if direct == "left" then
-		cx = cx - 1
+		a.x = a.x - 1
 	elseif direct == "right" then
-		cx = cx + 1
+		a.x = a.x + 1
 	elseif direct == "up" then
-		cy = cy - 1
+		a.y = a.y - 1
 	elseif direct == "down" then
-		cy = cy + 1
+		a.y = a.y + 1
 	end
-	if cx < 1 then cx = 1 end
-	if cx > 3 then cx = 3 end
-	if cy < 1 then cy = 1 end
-	if cy > 3 then cy = 3 end
-	anchor_point[cx][cy](c)
+	if a.x < 1 then a.x = 1 end
+	if a.x > 3 then a.x = 3 end
+	if a.y < 1 then a.y = 1 end
+	if a.y > 3 then a.y = 3 end
+	return a
+end
+
+
+function client_move(c, direct)
+	local s = awful.screen.focused() 
+	local a = anchor_get(c, direct)
+	if s.topbar.visible then
+		anchor_set[a.x][a.y](c, theme.topbar_height)
+	else
+		anchor_set[a.x][a.y](c, 0)
+	end
 end
 
 
 function client_resize(c, m, t)
 	local s = awful.screen.focused() 
 	local d = dpi(50)
+	if s.topbar.visible then
+		margin_top = theme.topbar_height
+	else
+		margin_top = 0
+	end
 	if t == "width" then
 		w = d
 		h = 0
@@ -147,44 +169,42 @@ function client_resize(c, m, t)
 		h = 0 - h
 	end
 	if c.width + theme.border_width * 2 >= s.geometry.width then
-		cx = 2
+		ax = 2
 	elseif c.x <= 0 then
-		cx = 1
+		ax = 1
 	elseif c.x + c.width + theme.border_width * 2 >= s.geometry.width then
-		cx = 3
+		ax = 3
 	elseif c.y + c.height + theme.border_width * 2 >= s.geometry.height then 
-		cx = 2
-	elseif c.y <= theme.topbar_height then
-		cx = 2
+		ax = 2
+	elseif c.y <= margin_top then
+		ax = 2
 	else
-		cx = 0
+		ax = 0
 	end
-	if c.height + theme.border_width *  2 >= s.geometry.height - theme.topbar_height then
-		cy = 2
-	elseif c.y <= theme.topbar_height then
-		cy = 1
+	if c.height + theme.border_width *  2 >= s.geometry.height - margin_top then
+		ay = 2
+	elseif c.y <= margin_top then
+		ay = 1
 	elseif c.y + c.height + theme.border_width * 2 >= s.geometry.height then 
-		cy = 3
+		ay = 3
 	elseif c.x + c.width + theme.border_width * 2 >= s.geometry.width then
-		cy = 2
+		ay = 2
 	elseif c.x <= 0 then
-		cy = 2
+		ay = 2
 	else
-		cy = 0
+		ay = 0
 	end
-	print(c.x .. " , " .. c.y)
-	print("cx = " .. cx .. ", cy = " .. cy)
 	if c.width + w + theme.border_width * 2 > s.geometry.width then
 		c.width = s.geometry.width - theme.border_width * 2
 	else
 		c.width = c.width + w
 	end
-	if c.height + h + theme.border_width * 2 > s.geometry.height - theme.topbar_height then
-		c.height = s.geometry.height - theme.topbar_height - theme.border_width * 2
+	if c.height + h + theme.border_width * 2 > s.geometry.height - margin_top then
+		c.height = s.geometry.height - margin_top - theme.border_width * 2
 	else
 		c.height = c.height + h
 	end
-	if cx == 0 or cy == 0 then
+	if ax == 0 or ay == 0 then
 		dx = math.floor(c.x - w / 2 + 0.5)
 		dy = math.floor(c.y - h / 2 + 0.5)
 		if dx <= 0 then
@@ -192,17 +212,18 @@ function client_resize(c, m, t)
 		else
 			c.x = dx
 		end
-		if dy <= theme.topbar_height then
-			c.y = theme.topbar_height
+		if dy <= margin_top then
+			c.y = margin_top
 		else
 			c.y = dy
 		end
 	else
-		anchor_point[cx][cy](c)
+		anchor_set[ax][ay](c, margin_top)
 	end
 end
 
 function client_setwfact(c, m, t)
+	local s = awful.screen.focused()
 	if m == "inc" then
 		d = 1
 	elseif m == "dec" then
@@ -242,7 +263,8 @@ globalkeys = gears.table.join(
     awful.key({ modkey,           }, "space" , function() awful.layout.inc( 1) end),
     awful.key({ modkey, "Shift"   }, "space" , function() awful.layout.inc(-1) end),
 	awful.key({ modkey,           }, "r"     , function() s = awful.screen.focused() s.promptbox.popup.visible = not s.promptbox.popup.visible s.promptbox.widget:run() end),
-    awful.key({ modkey, "Control" }, "n"     , function() local c = awful.client.restore() if c then c:emit_signal( "request::activate", "key.unminimize", {raise = true}) end end)
+    awful.key({ modkey, "Control" }, "n"     , function() local c = awful.client.restore() if c then c:emit_signal( "request::activate", "key.unminimize", {raise = true}) end end),
+    awful.key({ modkey,           }, "b"	 , function() local s = awful.screen.focused() s.topbar.visible = not s.topbar.visible end)
 )
 
 clientkeys = gears.table.join(
@@ -250,16 +272,24 @@ clientkeys = gears.table.join(
     awful.key({ modkey, "Shift"   }, "c"     , function(c) c:kill() end),
     awful.key({ modkey, "Control" }, "space" , function(c) awful.client.floating.toggle(c) end),
     awful.key({ modkey, "Control" }, "Return", function(c) c:swap(awful.client.getmaster()) end),
-    awful.key({ modkey,           }, "s"     , function(c) c.sticky = not c.sticky focus.setup(c) end),
-    awful.key({ modkey,           }, "t"     , function(c) c.ontop = not c.ontop focus.setup(c) end),
-    awful.key({ modkey,           }, "m"     , function(c) c.maximized = not c.maximized c:raise() end),
+    awful.key({ modkey,           }, "s"     , function(c) c.sticky = not c.sticky focus.setup(c, true) end),
+    awful.key({ modkey,           }, "t"     , function(c) c.ontop = not c.ontop focus.setup(c, true) end),
+    awful.key({ modkey,           }, "m"     , function(c) c.maximized = not c.maximized c:raise() focus.setup(c, true)  end),
     awful.key({ modkey,           }, "n"     , function(c) c.minimized = true end),
     awful.key({ modkey,           }, "h"     , function(c) awful.client.focus.bydirection("left", client.focus) end),
     awful.key({ modkey,           }, "l"     , function(c) awful.client.focus.bydirection("right", client.focus) end),
-    awful.key({ modkey,           }, "j"     , function(c) awful.client.focus.byidx(1) end),
-    awful.key({ modkey,           }, "k"     , function(c) awful.client.focus.byidx(-1) end),
-    awful.key({ modkey,           }, "`"     , function(c) if focus.top_lv.visible then awful.titlebar.toggle(c) end focus.setup(c) end),
-    awful.key({ modkey,           }, "c"     , function(c) awful.placement.centered(c, {margins = {top = theme.topbar_height}}) end),
+	awful.key({ modkey,           }, "j"     , function(c) awful.client.focus.bydirection("down", client.focus) end),
+    awful.key({ modkey,           }, "k"     , function(c) awful.client.focus.bydirection("up", client.focus) end),
+    awful.key({ modkey,           }, "`"     , function(c) if focus.top_lv.visible then awful.titlebar.toggle(c) end focus.setup(c, true) end),
+    awful.key({ modkey,           }, "c"     , function(c) 
+		local s = awful.screen.focused() 
+		if s.topbar.visible then
+			margin_top = theme.topbar_height + theme.topbar_border_width
+		else
+			margin_top = 0
+		end
+		awful.placement.centered(c, {margins = {top = margin_top}}) 
+	end),
 
     awful.key({ modkey,           }, "="     , function(c) 
 		local s = awful.screen.focused() 
@@ -365,33 +395,39 @@ clientkeys = gears.table.join(
     awful.key({ modkey, "Shift"   }, "h"     , function(c)
 		local s = awful.screen.focused()
 		local layout = awful.layout.get(s)
+		local m = awful.client.getmaster()
 		if c.floating or layout == awful.layout.suit.floating then
-			anchor_move(c, "left")
+			client_move(c, "left")
+		else
+			awful.client.swap.bydirection("left")
 		end
 	end),
     awful.key({ modkey, "Shift"   }, "l"     , function(c)
 		local s = awful.screen.focused()
 		local layout = awful.layout.get(s)
+		local m = awful.client.getmaster()
 		if c.floating or layout == awful.layout.suit.floating then
-			anchor_move(c, "right")
+			client_move(c, "right")
+		else
+			awful.client.swap.bydirection("right")
 		end
 	end),
     awful.key({ modkey, "Shift"   }, "j"     , function(c)
 		local s = awful.screen.focused()
 		local layout = awful.layout.get(s)
 		if c.floating or layout == awful.layout.suit.floating then
-			anchor_move(c, "down")
+			client_move(c, "down")
 		else
-			awful.client.swap.byidx( 1)
+			awful.client.swap.bydirection("down")
 		end
 	end),
     awful.key({ modkey, "Shift"   }, "k"     , function(c)
 		local s = awful.screen.focused()
 		local layout = awful.layout.get(s)
 		if c.floating or layout == awful.layout.suit.floating then
-			anchor_move(c, "up")
+			client_move(c, "up")
 		else
-			awful.client.swap.byidx( -1)
+			awful.client.swap.bydirection("up")
 		end
 	end)
 )
@@ -399,11 +435,14 @@ clientkeys = gears.table.join(
 -- Bind all key numbers to tags.
 -- Be careful: we use keycodes to make it work on any keyboard layout.
 -- This should map on the top row of your keyboard, usually 1 to 9.
-for i = 1, 9 do
+for i = 0, 9 do
     globalkeys = gears.table.join(globalkeys,
         -- View tag only.
-        awful.key({ modkey }, "#" .. i + 9,
+        awful.key({ modkey }, i,
 		function ()
+			if i == 0 then
+				i = 10
+			end
 			local screen = awful.screen.focused()
 			local tag = screen.tags[i]
 			if tag then
@@ -411,13 +450,31 @@ for i = 1, 9 do
 			end
 		end),
         -- Move client to tag.
-        awful.key({ modkey, "Shift" }, "#" .. i + 9,
+        awful.key({ modkey, "Shift" }, i,
 		function ()
+			if i == 0 then
+				i = 10
+			end
 			if client.focus then
 				local tag = client.focus.screen.tags[i]
 				if tag then
 					client.focus:move_to_tag(tag)
+					tag:view_only()
 				end
+			end
+		end),
+        -- Swap two tags 
+        awful.key({ modkey, "Ctrl" },  i,
+		function ()
+			if i == 0 then
+				i = 10
+			end
+			if client.focus then
+				local s = awful.screen.focused()
+				s.tags[i].name = client.focus.first_tag.name
+				client.focus.first_tag.name = i
+				client.focus.first_tag:swap(s.tags[i])
+				--awful.tag.move(i,client.focus.first_tag)
 			end
 		end)
     )
@@ -580,19 +637,18 @@ awful.rules.rules = {
 			placement    = awful.placement.centered,
 			maximized	 = false,
 			floating     = false,
-			titlebars_enabled = false,
+			titlebars_enabled = true,
 			size_hints_honor = true
 		}
     },
     ----------------------------------
     { 
 		rule_any = {
-			class = {"lxappearance", "Lxappearance"},
-			type = { "dialog" }
+			class = {"lxappearance", "Lxappearance", "flameshot", "Jsss"},
 		}, 
 		properties = {
 			titlebars_enabled = true,
-			ontop = true,
+			ontop = false,
 			floating = true
 		}
     },
@@ -602,7 +658,7 @@ awful.rules.rules = {
 			name = {"Picture-in-Picture", "Picture in picture"}
 		}, 
 		properties = {
-			titlebars_enabled = true,
+			titlebars_enabled = false,
 			ontop = true,
 			floating = true,
 			sticky = true
@@ -611,11 +667,44 @@ awful.rules.rules = {
     ----------------------------------
     { 
 		rule_any = {
-			class  = { "flameshot", "mpv", "feh"},
-			name   = { "floating-terminal"},
+			class  = {"Alacritty", "firefox", "Microsoft-edge", "Google-chrome"},
+    	},
+		properties = { 
+			titlebars_enabled = false,
+			floating = false,
+			ontop    = false
+		}
+    },
+    ----------------------------------
+    { 
+		rule_any = {
+			class  = {"mpv"},
+    	},
+		properties = { 
+			titlebars_enabled = false,
+			floating = true,
+			ontop    = false,
+			sticky = false
+		}
+    },
+    ----------------------------------
+    { 
+		rule_any = {
+			name   = { "floating-terminal", "feh"},
+    	},
+		properties = { 
+			titlebars_enabled = false,
+			floating = true,
+			ontop    = true
+		}
+    },
+    ----------------------------------
+    { 
+		rule_any = {
 			type   = { "dialog" }
     	},
 		properties = { 
+			titlebars_enabled = true,
 			floating = true,
 			ontop    = true
 		}
@@ -642,21 +731,28 @@ end)
 client.connect_signal("property::size", function(c) 
 	--print("size")
 	if c.pid == current_focus then
-		focus.setup(c)
+		focus.setup(c, true)
 	end
 end)
 
 client.connect_signal("property::position", function(c) 
 	--print("position")
+	if c.y == theme.topbar_height + theme.topbar_border_width then
+		c.y = theme.topbar_height
+		if c.maximized then
+			c.height = c.height + theme.topbar_border_width
+		end
+		
+	end
 	if c.pid == current_focus then
-		focus.setup(c)
+		focus.setup(c, true)
 	end
 end)
 
 client.connect_signal("unfocus", function(c) 
 	--print("unfocus ")
 	if #awful.screen.focused().clients <= 1 then
-		focus.invisible()
+		focus.setup(c, false)
 	end
 	c.border_color = beautiful.border_normal
 end)
@@ -666,11 +762,12 @@ client.connect_signal("focus", function(c)
 	current_focus = c.pid
 	if #awful.screen.focused().clients > 1 then
 		c.border_color = theme.border_focus
+		focus.setup(c, true)
 	else
 		c.border_color = theme.border_normal
+		focus.setup(c, false)
 	end
 	c.border_width = beautiful.border_width
-	focus.setup(c)
 end)
 
 -- client.connect_signal("mouse::enter", function(c)

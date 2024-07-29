@@ -31,18 +31,26 @@ tasklist.setup = function(s)
 		widget_template = {
 			{
 				{
-					id = 'my_icon_role',
-					forced_width  = theme.tasklist_icon_size,
-					forced_height = theme.tasklist_icon_size,
-					widget = wibox.widget.imagebox,
+					{
+						id = 'my_icon_role',
+						forced_width  = theme.tasklist_icon_size,
+						forced_height = theme.tasklist_icon_size,
+						widget = wibox.widget.imagebox,
+					},
+					halign = 'center',
+					valign = 'center',
+					forced_width = theme.tasklist_width,
+					widget = wibox.container.place,
 				},
-				halign = 'center',
-				valign = 'center',
-				forced_width = theme.tasklist_width,
-				widget = wibox.container.place,
+				id = 'background_role',
+				widget = wibox.container.background,
 			},
-			id = 'background_role',
 			widget = wibox.container.background,
+			shape = function(cr, width, height)
+				gears.shape.rounded_rect(cr, width, height, theme.widget_rounded)
+			end,
+			shape_border_width = theme.widget_border_width,
+			shape_border_color = theme.widget_border_color,
 
 			create_callback = function(self, c)
 				local my_icon_role = self:get_children_by_id('my_icon_role')[1]

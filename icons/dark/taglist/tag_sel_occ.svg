@@ -2,9 +2,9 @@
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 
 <svg
-   width="62"
-   height="62"
-   viewBox="0 0 62 62"
+   width="66"
+   height="66"
+   viewBox="0 0 66 66"
    version="1.1"
    id="svg1"
    inkscape:version="1.3.2 (091e20e, 2023-11-25)"
@@ -24,12 +24,12 @@
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="mm"
      inkscape:zoom="8"
-     inkscape:cx="22.3125"
+     inkscape:cx="22.25"
      inkscape:cy="34.1875"
-     inkscape:window-width="1545"
-     inkscape:window-height="1197"
-     inkscape:window-x="186"
-     inkscape:window-y="16"
+     inkscape:window-width="1920"
+     inkscape:window-height="1200"
+     inkscape:window-x="0"
+     inkscape:window-y="-30"
      inkscape:window-maximized="0"
      inkscape:current-layer="layer1"
      showgrid="false" />
@@ -41,12 +41,12 @@
      id="layer1"
      transform="translate(-0.52083331,-0.52083333)">
     <rect
-       style="fill:#404666;fill-opacity:1;stroke-width:0.167356;stroke-opacity:0.2"
+       style="fill:#3b4261;fill-opacity:1;stroke-width:0.167356;stroke-opacity:0.2"
        id="rect1"
        width="14"
        height="5"
-       x="24.520834"
-       y="52.520832"
-       ry="0" />
+       x="26.520834"
+       y="55.520832"
+       ry="2.5" />
   </g>
 </svg>

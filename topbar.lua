@@ -14,7 +14,7 @@ local mem		= require("widgets.mem")
 local cpu		= require("widgets.cpu")
 --local gpu       = require("widgets.gpu")
 local disk      = require("widgets.disk")
-local vpn       = require("widgets.vpn")
+--local vpn       = require("widgets.vpn")
 local wifi      = require("widgets.wifi")
 local volume    = require("widgets.volume")
 --local battery   = require("widgets.battery")
@@ -64,17 +64,17 @@ topbar.setup = function(s)
 				{
 					-- Right widgets setup ( margin_top, margin_left, margin_right, margin_bottom )
 					layout = wibox.layout.fixed.horizontal,
-					netspeed.setup(5,6,0,5),
-					mem.setup(3,4,4,3),
-					cpu.setup(3,4,4,3),
+					netspeed.setup(6,6,0,6),
+					mem.setup(4,2,10,4),
+					cpu.setup(4,2,10,4),
 					--gpu.setup(4,4,4,4),
-					disk.setup(10,8,8,10),
-					vpn.setup(9.5,9,9,9.5),
-					wifi.setup(10,8,8,10),
-					volume.setup(8,5,5,8),
+					disk.setup(11.5,15,15,11),
+					--vpn.setup(9.5,9,9,9.5),
+					wifi.setup(11,10,10,11),
+					volume.setup(9,10,10,9),
 					--battery.setup(9,6,5,9),
 					--clock.setup(_,6,6,_),
-					layoutbox.setup(s,9,9,9,9),
+					layoutbox.setup(s,10,10,10,10),
 				}
 			}
 		},

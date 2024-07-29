@@ -10,7 +10,9 @@ local promptbox = {}
 
 promptbox.widget = awful.widget.prompt{
 	prompt        = "   ",
-	bg_cursor     = theme.fg,
+	bg_cursor     = theme.popup_fg,
+	font          = "Microsoft YaHei UI Bold 9",
+	with_shell    = true,
 	done_callback = function()
 		promptbox.popup.visible = false
 	end
@@ -28,17 +30,21 @@ promptbox.popup = awful.popup{
 					forced_width  = dpi(17),
 					widget        = wibox.widget.imagebox
 				},
-				halign = 'center',
+				halign = 'left',
 				valign = 'center',
 				widget = wibox.container.place,
 			},
-			left   = dpi(10),
+			left   = dpi(15),
 			widget = wibox.container.margin 
 		},
 		promptbox.widget,
+		{
+			right = dpi(15),
+			widget = wibox.container.margin 
+		},
 		layout = wibox.layout.fixed.horizontal,
 	},
-	border_color	= theme.border_focus,--theme.popup_border_color,
+	border_color	= theme.popup_border_color,
 	bg				= theme.popup_bg,
 	fg              = theme.popup_fg,
 	border_width	= theme.popup_border_width,

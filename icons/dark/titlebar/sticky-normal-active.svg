@@ -27,11 +27,11 @@
      inkscape:zoom="6.2858585"
      inkscape:cx="65.384863"
      inkscape:cy="89.804758"
-     inkscape:window-width="1918"
-     inkscape:window-height="1166"
-     inkscape:window-x="0"
-     inkscape:window-y="32"
-     inkscape:window-maximized="1"
+     inkscape:window-width="1920"
+     inkscape:window-height="1138"
+     inkscape:window-x="-1"
+     inkscape:window-y="31"
+     inkscape:window-maximized="0"
      inkscape:current-layer="layer1"
      showguides="true">
     <sodipodi:guide
@@ -84,11 +84,11 @@
        xml:space="preserve"
        transform="matrix(0.0533965,0,0,0.0533965,1.1695228,-0.21065209)"
        id="text5398"
-       style="font-size:75.259px;white-space:pre;shape-inside:url(#rect5400);display:inline;fill:#c0caf5;fill-opacity:1;stroke:none;stroke-width:0.6;stroke-dasharray:none;stroke-opacity:1"><tspan
+       style="font-size:75.259px;white-space:pre;shape-inside:url(#rect5400);display:inline;fill:#404666;fill-opacity:1;stroke:none;stroke-width:0.6;stroke-dasharray:none;stroke-opacity:1"><tspan
          x="32.667969"
          y="183.7684"
-         id="tspan4"><tspan
+         id="tspan2"><tspan
            style="font-weight:bold;font-family:'Microsoft YaHei';-inkscape-font-specification:'Microsoft YaHei Bold'"
-           id="tspan3">S</tspan></tspan></text>
+           id="tspan1">S</tspan></tspan></text>
   </g>
 </svg>

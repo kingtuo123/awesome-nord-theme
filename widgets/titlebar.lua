@@ -37,9 +37,9 @@ titlebar.setup = function(c)
 		{ -- Left
 			{
 				awful.titlebar.widget.floatingbutton (c),
-				wibox.widget.textbox("  "),
+				wibox.container.margin(_,dpi(7)),
 				awful.titlebar.widget.ontopbutton    (c),
-				wibox.widget.textbox("  "),
+				wibox.container.margin(_,dpi(7)),
 				awful.titlebar.widget.stickybutton   (c),
 				layout = wibox.layout.fixed.horizontal(),
 			},
@@ -59,9 +59,9 @@ titlebar.setup = function(c)
 		{ -- Right
 			{
 				awful.titlebar.widget.minimizebutton (c),
-				wibox.widget.textbox("  "),
+				wibox.container.margin(_, _, dpi(7)),
 				awful.titlebar.widget.maximizedbutton(c),
-				wibox.widget.textbox("  "),
+				wibox.container.margin(_, _, dpi(7)),
 				awful.titlebar.widget.closebutton    (c),
 				layout = wibox.layout.fixed.horizontal(),
 			},

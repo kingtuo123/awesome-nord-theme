@@ -118,7 +118,7 @@ local dashboard = wibox.widget{
 						widget		  = wibox.widget.imagebox,
 					},
 					left	= dpi(-5),
-					right	= dpi(7),
+					right	= dpi(12),
 					top		= dpi(0),
 					bottom	= dpi(0),
 					widget	= wibox.container.margin,
@@ -126,7 +126,7 @@ local dashboard = wibox.widget{
 				{
 					{
 						text   = model,
-						font   = "Microsoft YaHei UI Bold 9",
+						font   = theme.disk_title_font,
 						widget = wibox.widget.textbox,
 					},
 					fg = theme.popup_fg,
@@ -180,7 +180,7 @@ local dashboard = wibox.widget{
 								{
 									id     = "title",
 									text   = self.backup_args[index].title,
-									font   = "Microsoft YaHei UI Bold 8",
+									font   = theme.disk_font,
 									valign = "center",
 									halign = "left",
 									wrap   = "world",
@@ -193,7 +193,7 @@ local dashboard = wibox.widget{
 								widget = wibox.container.place,
 							},
 							top = dpi(10),
-							left = dpi(18),
+							left = dpi(15),
 							bottom = dpi(10),
 							widget = wibox.container.margin,
 						},
@@ -224,8 +224,8 @@ local dashboard = wibox.widget{
 								halign = "left",
 								widget = wibox.container.place,
 							},
-							left   = dpi(100),
-							right  = dpi(100),
+							left   = dpi(105),
+							right  = dpi(105),
 							widget = wibox.container.margin,
 						},
 						{
@@ -233,7 +233,7 @@ local dashboard = wibox.widget{
 								{
 									id     = "size",
 									text   = self.backup_args[index].size,
-									font   = "Microsoft YaHei UI Bold 8",
+									font   = theme.disk_font,
 									valign = "center",
 									halign = "right",
 									wrap   = "word",
@@ -279,8 +279,8 @@ local dashboard = wibox.widget{
 										widget	= wibox.container.margin
 									},
 									{
-										text   = " open",
-										font   = "Microsoft YaHei UI Bold 8",
+										text   = "open",
+										font   = theme.disk_bold_font,
 										valign = "center",
 										halign = "center",
 										widget = wibox.widget.textbox, 
@@ -299,7 +299,7 @@ local dashboard = wibox.widget{
 							},
 							{
 								text   = "|",
-								font   = "Microsoft YaHei UI Bold 8",
+								font   = theme.disk_bold_font,
 								valign = "center",
 								halign = "center",
 								widget = wibox.widget.textbox, 
@@ -318,8 +318,8 @@ local dashboard = wibox.widget{
 										widget	= wibox.container.margin
 									},
 									{
-										text   = " eject",
-										font   = "Microsoft YaHei UI Bold 8",
+										text   = "eject",
+										font   = theme.disk_bold_font,
 										valign = "center",
 										halign = "center",
 										widget = wibox.widget.textbox, 
@@ -410,7 +410,7 @@ local dashboard = wibox.widget{
 					if #v.mountpoints > 0 then
 						args.mounted   = true
 						args.bg        = theme.disk_part_bg_mounted
-						args.size	    = v.fsused .. " / " .. v.size
+						args.size	    = v.fsused .. "/" .. v.size
 						args.bar_color = colors[math.ceil(tonumber(v.fsuse)/10)]
 						args.line_bg   = theme.disk_line_mounted_bg
 						args.bar_opacity = 1
@@ -423,7 +423,7 @@ local dashboard = wibox.widget{
 						args.bar_color = colors[1]
 						args.line_bg   = theme.disk_line_unmounted_bg
 						args.bar_opacity = 0
-						args.title_width = dpi(120)
+						args.title_width = dpi(130)
 						args.fsuse = 0
 					end
 					if self.backup_args[cnt] == nil then

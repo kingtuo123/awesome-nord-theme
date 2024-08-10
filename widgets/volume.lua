@@ -44,7 +44,7 @@ volume.widget = wibox.widget {
 			{
 				id		= "value",
 				text	= "100%  ",
-				font	= theme.font,
+				font	= theme.vol_widget_font,
 				visible	= false,
 				widget	= wibox.widget.textbox,
 			},
@@ -76,7 +76,7 @@ volume.widget = wibox.widget {
 				self.backup_icon = theme.vol_10_icon
 			end
 			self:get_children_by_id("volume_icon")[1].image = self.backup_icon
-			self:get_children_by_id("value")[1].text   = "  " .. vol .. "%"
+			self:get_children_by_id("value")[1].text   = " " .. vol .. "%"
 			sinks[sink_def_idx].value = vol
 			awful.spawn.with_shell(cmd_set_vol(vol))
 		end
@@ -111,14 +111,33 @@ volume.widget = wibox.widget {
 local sinks_sources = wibox.widget{
 	{
 		{
-			text = "Output device",
-			font   = "Microsoft YaHei UI Bold 9",
-			valign = "bottom",
-			halign = "left",
-			widget = wibox.widget.textbox, 
+			{
+				{
+					image		  = theme.vol_speaker_icon,
+					forced_width  = dpi(16),
+					forced_height = dpi(16),
+					valign		  = "center",
+					halign		  = "center",
+					widget		  = wibox.widget.imagebox,
+				},
+				left	= dpi(-8),
+				right	= dpi(10),
+				top		= dpi(0),
+				bottom	= dpi(0),
+				widget	= wibox.container.margin,
+			},
+			{
+				text = "Output device",
+				font = theme.vol_title_font,
+				valign = "center",
+				halign = "left",
+				widget = wibox.widget.textbox, 
+			},
+			layout = wibox.layout.fixed.horizontal,
 		},
-		top    = dpi(15),
-		left   = dpi(15),
+		top	   = dpi(15),
+		left   = dpi(20),
+		right  = dpi(20),
 		bottom = dpi(10),
 		widget = wibox.container.margin,
 	},
@@ -171,7 +190,7 @@ local sinks_sources = wibox.widget{
 					{
 						{
 							text = args.card .. " - " .. args.type,
-							font    = "Microsoft YaHei UI Bold 8",
+							font = theme.vol_font,
 							valign = "center",
 							halign = "left",
 							--forced_width = dpi(200),
@@ -187,7 +206,7 @@ local sinks_sources = wibox.widget{
 							{
 								id     = "volume",
 								text   = args.value .. "%",
-								font   = "Microsoft YaHei UI Bold 8",
+								font = theme.vol_font,
 								valign = "center",
 								halign = "center",
 								forced_width = dpi(35),
@@ -289,14 +308,14 @@ volume.popup_sinks_sources = awful.popup{
 
 local popup_vertical_bar = wibox.widget{
 	{
-		top = dpi(10),
+		top = dpi(12),
 		widget = wibox.container.margin 
 	},
 	{
 		{
 			id		= "value",
 			text	= "100",
-			font	= theme.font,
+			font = theme.vol_title_font,
 			widget	= wibox.widget.textbox,
 		},
 		valign = "center",
@@ -332,8 +351,8 @@ local popup_vertical_bar = wibox.widget{
 				id	   = "icon",
 				image  = theme.vol_bar0_icon,
 				--resize = true,
-				forced_width = dpi(20),
-				forced_height = dpi(20),
+				forced_width = dpi(18),
+				forced_height = dpi(18),
 				halign = "center",
 				valign = "center",
 				widget = wibox.widget.imagebox,
@@ -342,10 +361,10 @@ local popup_vertical_bar = wibox.widget{
 			valign = "center",
 			widget = wibox.container.place
 		},
-		top    = dpi(0),
+		top    = dpi(2),
 		left   = dpi(0),
 		right  = dpi(0),
-		bottom = dpi(10),
+		bottom = dpi(12),
 		widget = wibox.container.margin 
 	},
 	layout = wibox.layout.fixed.vertical,

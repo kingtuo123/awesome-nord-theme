@@ -96,7 +96,7 @@ local dashboard = wibox.widget{
 					{
 						{
 							text = "Load",
-							font = "Microsoft YaHei UI Bold 9",
+							font = theme.cpu_title_font,
 							widget = wibox.widget.textbox,
 						},
 						fg = theme.popup_fg,
@@ -153,7 +153,7 @@ local dashboard = wibox.widget{
 							{
 								id   = "cpu load",
 								text = "-- %",
-								font = theme.font,
+								font = theme.cpu_font,
 								widget = wibox.widget.textbox,
 							},
 							halign = "right",
@@ -170,7 +170,7 @@ local dashboard = wibox.widget{
 					{
 						{
 							text = "Temperature",
-							font = "Microsoft YaHei UI Bold 9",
+							font = theme.cpu_title_font,
 							widget = wibox.widget.textbox,
 						},
 						fg = theme.popup_fg,
@@ -229,7 +229,7 @@ local dashboard = wibox.widget{
 							{
 								id   = "cpu temp",
 								text = "-- °C",
-								font = theme.font,
+								font = theme.cpu_font,
 								widget = wibox.widget.textbox,
 							},
 							halign = "right",
@@ -247,7 +247,7 @@ local dashboard = wibox.widget{
 					{
 						{
 							text = "Threads",
-							font = "Microsoft YaHei UI Bold 9",
+							font = theme.cpu_title_font,
 							widget = wibox.widget.textbox,
 						},
 						fg = theme.popup_fg,
@@ -338,7 +338,7 @@ local function single_horizontal_bar()
 			max_value     = 50,
 			forced_height = dpi(22),
 			forced_width  = dpi(105),
-			margins       = {top = dpi(6), left = dpi(0), right = dpi(5), bottom = dpi(6)},
+			margins       = {top = dpi(6), left = dpi(0), right = dpi(5), bottom = dpi(7)},
 			color         = colors[1],
 			paddings	  = dpi(0),
 			border_width  = dpi(0),
@@ -358,8 +358,7 @@ local function single_horizontal_bar()
 					{
 						id   = "Usage",
 						text = "--%",
-						font = theme.font,
-						font = "Microsoft YaHei UI Bold 8",
+						font = theme.cpu_font,
 						widget = wibox.widget.textbox,
 					},
 					halign = "left",
@@ -375,8 +374,7 @@ local function single_horizontal_bar()
 					{
 						id   = "Freq",
 						text = "-- MHz",
-						font = theme.font,
-						font = "Microsoft YaHei UI Bold 8",
+						font = theme.cpu_font,
 						widget = wibox.widget.textbox,
 					},
 					halign = "right",

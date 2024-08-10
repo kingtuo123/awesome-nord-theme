@@ -25,7 +25,7 @@ theme.useless_gap       = dpi(-0.5)
 --theme.gap_single_client = false
 theme.border_width      = dpi(1)
 theme.border_rounded    = dpi(8)
-theme.font				= "Microsoft YaHei UI Bold 9"
+theme.font				= "Microsoft YaHei UI 9"
 theme.fg                = sc("#000000", "#c8d3f5")
 theme.bg                = sc("#eeeeee", "#1b1d2b")
 theme.border_normal     = sc("#bbbbbb", "#3b4261")
@@ -79,6 +79,7 @@ theme.popup_progress_border_color = sc("#dddddd", "#3b4261")
 ---------------------------------------------------------------------------------------
 --------------------------------- taglist ---------------------------------------------
 ---------------------------------------------------------------------------------------
+theme.taglist_font              = "JetBrainsMono NFP 9"
 theme.taglist_width        		= dpi(33)
 theme.taglist_spacing      		= dpi(0)
 theme.taglist_fg_focus     		= sc("#000000", theme.fg)
@@ -112,6 +113,7 @@ theme.tasklist_bg_image_normal   = theme.icon_dir .. "taglist/tag_sel_occ.svg"
 ---------------------------------------------------------------------------------------
 ---------------------------------- calendar -------------------------------------------
 ---------------------------------------------------------------------------------------
+theme.cal_font       = "JetBrainsMono NFP 9"
 theme.cal_header_fg  = theme.fg
 theme.cal_weekday_fg = sc("#0067c0", "#86e1fc")
 theme.cal_fg_normal  = theme.fg
@@ -119,7 +121,7 @@ theme.cal_fg_focus   = theme.popup_bg
 theme.cal_bg_focus   = sc("#0067c0", "#86e1fc") 
 theme.cal_week_06_bg = sc("#ffffff", "#222436" ) 
 theme.cal_rounded    = dpi(5)
-theme.cal_default_padding = {top = dpi(6), bottom = dpi(6), left = dpi(4), right = dpi(4)}
+theme.cal_default_padding = {top = dpi(6), bottom = dpi(6), left = dpi(8), right = dpi(8)}
 
 
 
@@ -130,6 +132,7 @@ theme.netspeed_up_icon			= theme.icon_dir .. "netspeed/netspeed-up.svg"
 theme.netspeed_up_active_icon	= theme.icon_dir .. "netspeed/netspeed-up-active.svg"
 theme.netspeed_down_icon		= theme.icon_dir .. "netspeed/netspeed-down.svg"
 theme.netspeed_down_active_icon	= theme.icon_dir .. "netspeed/netspeed-down-active.svg"
+theme.netspeed_font             = "Terminus Bold 7"
 
 
 
@@ -137,6 +140,8 @@ theme.netspeed_down_active_icon	= theme.icon_dir .. "netspeed/netspeed-down-acti
 ----------------------------------- cpu -----------------------------------------------
 ---------------------------------------------------------------------------------------
 theme.cpu_graph_mask_img   = theme.icon_dir .. "cpu/cpu_graph_mask.svg"
+theme.cpu_title_font       = "JetBrainsMono NFP Bold 9"
+theme.cpu_font             = "JetBrainsMono NFP 8"
 
 
 
@@ -145,12 +150,17 @@ theme.cpu_graph_mask_img   = theme.icon_dir .. "cpu/cpu_graph_mask.svg"
 ---------------------------------------------------------------------------------------
 theme.mem_graph_mask_img   = theme.cpu_graph_mask_img
 theme.mem_buffer_color     = "#3b4261"
+theme.mem_title_font       = "JetBrainsMono NFP Bold 9"
+theme.mem_font             = "JetBrainsMono NFP 8"
 
 
 
 ---------------------------------------------------------------------------------------
 -------------------------------------- disk -------------------------------------------
 ---------------------------------------------------------------------------------------
+theme.disk_title_font            = "JetBrainsMono NFP Bold 9"
+theme.disk_font                  = "JetBrainsMono NFP 8"
+theme.disk_bold_font             = "JetBrainsMono NFP Bold 8"
 theme.disk_part_bg_normal        = sc("#f2f2f2", theme.popup_bg)
 theme.disk_part_bg_hover         = sc("#ffffff", theme.widget_bg_hover)
 theme.disk_part_bg_mounted       = sc("#e8e8e8", "#222436" )
@@ -183,6 +193,7 @@ theme.switch_off_icon			= theme.icon_dir .. "vpn/switch-off.svg"
 ---------------------------------------------------------------------------------------
 ---------------------------------- wifi icon ------------------------------------------
 ---------------------------------------------------------------------------------------
+theme.wifi_widget_font          = "JetBrainsMono NFP 8.5"
 theme.wifi_signal_0_icon		= theme.icon_dir .. "wifi/wifi-0.svg"
 theme.wifi_signal_1_icon		= theme.icon_dir .. "wifi/wifi-1.svg"
 theme.wifi_signal_2_icon		= theme.icon_dir .. "wifi/wifi-2.svg"
@@ -204,6 +215,10 @@ theme.brightness_3_icon			= theme.icon_dir .. "brightness/brightness-3.svg"
 ---------------------------------------------------------------------------------------
 ----------------------------------- volume --------------------------------------------
 ---------------------------------------------------------------------------------------
+theme.vol_widget_font           = "JetBrainsMono NFP 8.5"
+theme.vol_title_font            = "JetBrainsMono NFP Bold 9"
+theme.vol_font                  = "JetBrainsMono NFP 8"
+theme.vol_bold_font             = "JetBrainsMono NFP Bold 8"
 theme.vol_sink_sel_bg           = "#222436"
 theme.vol_sink_mute_line_bg     = "#ff757f"
 theme.vol_sink_sel_line_bg      = "#86e1fc"
@@ -219,6 +234,7 @@ theme.vol_bar_10_icon	        = theme.icon_dir .. "volume/vol-bar-10.svg"
 theme.vol_bar_40_icon	        = theme.icon_dir .. "volume/vol-bar-40.svg"
 theme.vol_bar_70_icon	        = theme.icon_dir .. "volume/vol-bar-70.svg"
 theme.vol_bar_100_icon	        = theme.icon_dir .. "volume/vol-bar-100.svg"
+theme.vol_speaker_icon	        = theme.icon_dir .. "volume/speaker.svg"
 
 
 
@@ -239,7 +255,7 @@ theme.layout_fairh 				= theme.icon_dir .. "layouts/fairh.svg"
 ---------------------------------------------------------------------------------------
 ----------------------------------- promptbox -----------------------------------------
 ---------------------------------------------------------------------------------------
-theme.prompt_font				= "Microsoft YaHei 10"
+theme.prompt_font				= "JetBrainsMono NFP 9"
 theme.terminal_icon				= theme.icon_dir .. "promptbox/terminal.svg"
 
 

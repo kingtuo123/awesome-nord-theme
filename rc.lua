@@ -246,6 +246,9 @@ end
 ----------------------------------- Key bindings ---------------------------------------------
 ----------------------------------------------------------------------------------------------
 globalkeys = gears.table.join(
+	awful.key({ modkey,           }, "F3" , function() volume.up() end),
+	awful.key({ modkey,           }, "F2" , function() volume.down() end),
+	awful.key({ modkey,           }, "F1"        , function() volume.toggle() end),
 	awful.key({                   }, "XF86AudioRaiseVolume" , function() volume.up() end),
 	awful.key({                   }, "XF86AudioLowerVolume" , function() volume.down() end),
 	awful.key({                   }, "XF86AudioMute"        , function() volume.toggle() end),
@@ -253,6 +256,8 @@ globalkeys = gears.table.join(
 	awful.key({                   }, "XF86MonBrightnessDown", function() battery.brightness_down() end),
     awful.key({ modkey, "Control" }, "r"     , awesome.restart),
     awful.key({ modkey, "Shift"   }, "q"     , awesome.quit),
+    awful.key({ modkey,           }, "q"     , awful.tag.viewprev),
+    awful.key({ modkey,           }, "e"     , awful.tag.viewnext),
     awful.key({ modkey,           }, "["     , awful.tag.viewprev),
     awful.key({ modkey,           }, "]"     , awful.tag.viewnext),
     awful.key({ modkey,           }, "Escape", awful.tag.history.restore),
@@ -655,6 +660,17 @@ awful.rules.rules = {
     ----------------------------------
     { 
 		rule_any = {
+			class  = {"Alacritty", "firefox", "Microsoft-edge", "Google-chrome"},
+    	},
+		properties = { 
+			titlebars_enabled = false,
+			floating = false,
+			ontop    = false
+		}
+    },
+    ----------------------------------
+    { 
+		rule_any = {
 			name = {"Picture-in-Picture", "Picture in picture"}
 		}, 
 		properties = {
@@ -662,17 +678,6 @@ awful.rules.rules = {
 			ontop = true,
 			floating = true,
 			sticky = true
-		}
-    },
-    ----------------------------------
-    { 
-		rule_any = {
-			class  = {"Alacritty", "firefox", "Microsoft-edge", "Google-chrome"},
-    	},
-		properties = { 
-			titlebars_enabled = false,
-			floating = false,
-			ontop    = false
 		}
     },
     ----------------------------------
@@ -774,11 +779,12 @@ end)
 -- 	c:emit_signal("request::activate", "mouse_enter", {raise = false})
 -- end)
 
---client.connect_signal("manage", function (c)
---    c.shape = function(cr,w,h)
---        gears.shape.rounded_rect(cr,w,h,theme.border_rounded)
---    end
---end)
+client.connect_signal("manage", function (c)
+	c:to_secondary_section()
+    --c.shape = function(cr,w,h)
+    --    gears.shape.rounded_rect(cr,w,h,theme.border_rounded)
+    --end
+end)
 ----------------------------------------------------------------------------------------------
 ---------------------------------- end of signal ---------------------------------------------
 ----------------------------------------------------------------------------------------------

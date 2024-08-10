@@ -75,7 +75,7 @@ calendar.widget = wibox.widget {
 	{
 		date			= os.date("*t"),
 		fn_embed		= decorate_cell,
-		font			= theme.font,
+		font			= theme.cal_font,
 		spacing			= dpi(5),
 		long_weekdays	= true,
 		widget			= wibox.widget.calendar.month,
@@ -91,7 +91,8 @@ clock.widget = wibox.widget {
 			id		= "date",
 			text	= "--",
 			align   = "center",
-			font	= theme.font,
+			valign  = "center",
+			font	= theme.cal_font,
 			widget	= wibox.widget.textbox,
 		},
 		id      = "margin",
@@ -112,10 +113,14 @@ clock.widget = wibox.widget {
 
 
 clock.update = function()
-	weeks = {"日","一","二","三","四","五","六"}
-	awful.spawn.easy_async_with_shell("date +'%H:%M  %-m月%-d日  周%w'", function(out)
-		clock.widget.date = string.gsub(out, "(%d)\n", weeks[tonumber(string.match(out, "(%d)\n")) + 1])
+	awful.spawn.easy_async_with_shell("date +'%H:%M %-m/%-d %a'", function(out)
+		clock.widget.date = out
+		clock.widget.date = string.gsub(out, "\n", "")
 	end)
+	--weeks = {"日","一","二","三","四","五","六"}
+	--awful.spawn.easy_async_with_shell("date +'%H:%M  %-m月%-d日  周%w'", function(out)
+	--	clock.widget.date = string.gsub(out, "(%d)\n", weeks[tonumber(string.match(out, "(%d)\n")) + 1])
+	--end)
 end
 
 

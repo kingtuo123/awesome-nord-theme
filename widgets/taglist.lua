@@ -36,6 +36,7 @@ taglist.setup = function(s)
 				{
 					{
 						id     = 'text_role',
+						font   = theme.taglist_font,
 						widget = wibox.widget.textbox,
 					},
 					valign = 'center',

@@ -121,7 +121,7 @@ local dashboard = wibox.widget{
 				{
 					{
 						text = "Memory",
-						font = "Microsoft YaHei UI Bold 9",
+						font = theme.mem_title_font,
 						widget = wibox.widget.textbox,
 					},
 					fg = theme.popup_fg,
@@ -207,8 +207,8 @@ local dashboard = wibox.widget{
 				},
 				{
 					{
-						text = "  free",
-						font = "Microsoft YaHei UI Bold 8",
+						text = " free",
+						font = theme.mem_font,
 						widget = wibox.widget.textbox,
 					},
 					fg = theme.popup_fg,
@@ -219,7 +219,7 @@ local dashboard = wibox.widget{
 						{
 							id   = "free",
 							text = "-- MB",
-							font = "Microsoft YaHei UI Bold 8",
+							font = theme.mem_font,
 							widget = wibox.widget.textbox,
 						},
 						halign = "right",
@@ -255,8 +255,8 @@ local dashboard = wibox.widget{
 				},
 				{
 					{
-						text = "  buff/cache",
-						font = "Microsoft YaHei UI Bold 8",
+						text = " buff/cache",
+						font = theme.mem_font,
 						widget = wibox.widget.textbox,
 					},
 					fg = theme.popup_fg,
@@ -267,7 +267,7 @@ local dashboard = wibox.widget{
 						{
 							id   = "buff",
 							text = "-- MB",
-							font = "Microsoft YaHei UI Bold 8",
+							font = theme.mem_font,
 							widget = wibox.widget.textbox,
 						},
 						halign = "right",
@@ -302,8 +302,8 @@ local dashboard = wibox.widget{
 				},
 				{
 					{
-						text = "  used",
-						font = "Microsoft YaHei UI Bold 8",
+						text = " used",
+						font = theme.mem_font,
 						widget = wibox.widget.textbox,
 					},
 					fg = theme.popup_fg,
@@ -314,7 +314,7 @@ local dashboard = wibox.widget{
 						{
 							id   = "used",
 							text = "-- MB",
-							font = "Microsoft YaHei UI Bold 8",
+							font = theme.mem_font,
 							widget = wibox.widget.textbox,
 						},
 						halign = "right",

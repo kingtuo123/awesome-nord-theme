@@ -21,7 +21,7 @@ wifi.widget = wibox.widget{
 			{
 				id			= "ssid",
 				text		= "",
-				font		= theme.font,
+				font        = theme.wifi_widget_font,
 				visible		= false,
 				widget		= wibox.widget.textbox,
 			},
@@ -50,7 +50,7 @@ wifi.widget = wibox.widget{
 		end
 	end,
 	set_ssid = function(self,str)
-		self:get_children_by_id("ssid")[1].text = "  " .. str
+		self:get_children_by_id("ssid")[1].text = " " .. str
 	end,
 }
 

@@ -41,7 +41,7 @@ netspeed.widget = wibox.widget{
 				{
 					id   = "sent",
 					text = "0 KB/s",
-					font = "Terminus Bold 7",
+					font = theme.netspeed_font,
 					forced_width = dpi(55),
 					widget = wibox.widget.textbox,
 				},
@@ -67,7 +67,7 @@ netspeed.widget = wibox.widget{
 				{
 					id   = "recv",
 					text = "0 KB/s",
-					font = "Terminus Bold 7",
+					font = theme.netspeed_font,
 					forced_width = dpi(55),
 					widget = wibox.widget.textbox,
 				},

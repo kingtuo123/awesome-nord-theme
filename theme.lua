@@ -194,6 +194,11 @@ theme.switch_off_icon			= theme.icon_dir .. "vpn/switch-off.svg"
 ---------------------------------- wifi icon ------------------------------------------
 ---------------------------------------------------------------------------------------
 theme.wifi_widget_font          = "JetBrainsMono NFP 8.5"
+theme.wifi_title_font           = "JetBrainsMono NFP Bold 9"
+theme.wifi_font                 = "JetBrainsMono NFP 8"
+theme.wifi_bold_font            = "JetBrainsMono NFP Bold 8"
+theme.wifi_bar_fg               = sc("#9ece6a", "#9ece6a")
+theme.wifi_bar_bg               = sc("#222436", "#222436")
 theme.wifi_signal_0_icon		= theme.icon_dir .. "wifi/wifi-0.svg"
 theme.wifi_signal_1_icon		= theme.icon_dir .. "wifi/wifi-1.svg"
 theme.wifi_signal_2_icon		= theme.icon_dir .. "wifi/wifi-2.svg"

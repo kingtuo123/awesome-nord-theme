@@ -71,18 +71,21 @@ local function decorate_cell(widget, flag, date)
 end
 
 
-calendar.widget = wibox.widget {
-	{
-		date			= os.date("*t"),
-		fn_embed		= decorate_cell,
-		font			= theme.cal_font,
-		spacing			= dpi(5),
-		long_weekdays	= true,
-		widget			= wibox.widget.calendar.month,
-	},
-	margins = {top = dpi(-5), bottom = dpi(0)},
-	widget  = wibox.container.margin,
-}
+calendar.widget = function()
+	return wibox.widget {
+		{
+			id              = "calendar",
+			date			= os.date("*t"),
+			fn_embed		= decorate_cell,
+			font			= theme.cal_font,
+			spacing			= dpi(5),
+			long_weekdays	= true,
+			widget			= wibox.widget.calendar.month,
+		},
+		margins = {top = dpi(-5), bottom = dpi(0)},
+		widget  = wibox.container.margin,
+	}
+end
 
 
 clock.widget = wibox.widget {
@@ -125,7 +128,7 @@ end
 
 
 clock.popup = awful.popup{
-	widget			= calendar.widget,
+	widget			= calendar.widget(),
 	border_color	= theme.popup_border_color,
     border_width	= theme.popup_border_width,
 	visible			= false,
@@ -184,6 +187,7 @@ clock.setup = function(mt,ml,mr,mb)
 	clock.widget:buttons(gears.table.join(
 		awful.button({ }, 1, function ()
 			clock.popup.visible = not clock.popup.visible
+			clock.popup:set_widget(calendar.widget())
 			if clock.popup.visible then
 				clock.widget.bg = theme.widget_bg_press
 				clock.widget.fg = theme.widget_fg_press

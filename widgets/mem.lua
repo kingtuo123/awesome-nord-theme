@@ -177,9 +177,9 @@ local dashboard = wibox.widget{
 				},
 				bg = theme.popup_bg_graph,
 				shape = function(cr, width, height)
-					gears.shape.rounded_rect(cr, width, height, dpi(5))
+					gears.shape.rounded_rect(cr, width, height, dpi(3))
 				end,
-				shape_border_width = dpi(0),
+				shape_border_width = dpi(1),
 				shape_border_color = theme.widget_border_color,
 				widget = wibox.container.background,
 			},

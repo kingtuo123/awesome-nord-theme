@@ -13,8 +13,9 @@ local freq_path = function(i) return "/sys/devices/system/cpu/cpu" .. i .. "/cpu
 
 
 -- select temp file which -> /sys/class/thermal/thermal_zone2/type == x86_pkg_temp
-local temp_enable = false
+local temp_enable = true
 local temp_path = "/sys/class/thermal/thermal_zone1/temp"
+local cmd_get_temp = "sensors k10temp-pci-00c3|grep Tctl"
 
 
 local colors = {
@@ -141,9 +142,9 @@ local dashboard = wibox.widget{
 					},
 					bg = theme.popup_bg_graph,
 					shape = function(cr, width, height)
-						gears.shape.rounded_rect(cr, width, height, dpi(5))
+						gears.shape.rounded_rect(cr, width, height, dpi(3))
 					end,
-					shape_border_width = dpi(0),
+					shape_border_width = dpi(1),
 					shape_border_color = theme.widget_border_color,
 					widget = wibox.container.background,
 				},
@@ -216,7 +217,7 @@ local dashboard = wibox.widget{
 					},
 					bg = theme.popup_bg_graph,
 					shape = function(cr, width, height)
-						gears.shape.rounded_rect(cr, width, height, dpi(0))
+						gears.shape.rounded_rect(cr, width, height, dpi(3))
 					end,
 					shape_border_width = dpi(1),
 					shape_border_color = theme.widget_border_color,
@@ -286,9 +287,12 @@ local dashboard = wibox.widget{
 		self:get_children_by_id("cpu load")[1].text    = value .. " %"
 	end,
 	set_temp = function(self, value)
-		self:get_children_by_id("temp graph")[1]:add_value(math.ceil(value / 5000))
-		self:get_children_by_id("temp graph")[1].color = colors[math.ceil(value / 10000)]
-		self:get_children_by_id("cpu temp")[1].text    = math.ceil(value / 1000) .. " °C"
+		--self:get_children_by_id("temp graph")[1]:add_value(math.ceil(value / 5000))
+		--self:get_children_by_id("temp graph")[1].color = colors[math.ceil(value / 10000)]
+		--self:get_children_by_id("cpu temp")[1].text    = math.ceil(value / 1000) .. " °C"
+		self:get_children_by_id("temp graph")[1]:add_value(math.ceil(25 * value / 100))
+		self:get_children_by_id("temp graph")[1].color = colors[math.ceil((value-5) / 10)]
+		self:get_children_by_id("cpu temp")[1].text    = value .. " °C"
 	end
 }
 
@@ -465,9 +469,12 @@ cpu.update = function()
 	end
 	f1:close()
 	if temp_enable then
-		local f3 = io.open(temp_path)
-		dashboard.temp = f3:read() or "0"
-		f3:close()
+		--local f3 = io.open(temp_path)
+		--dashboard.temp = f3:read() or "0"
+		--f3:close()
+		awful.spawn.easy_async_with_shell(cmd_get_temp, function(out)
+			dashboard.temp = tonumber(string.match(out,"%d+"))
+		end)
 	end
 end
 

@@ -21,6 +21,7 @@ local volume   = require("widgets.volume")
 local battery  = require("widgets.battery")
 local titlebar = require("widgets.titlebar")
 local focus    = require("widgets.focus")
+local quake    = require("lib.quake")
 
 
 
@@ -41,12 +42,12 @@ tag.connect_signal("request::default_layouts", function()
     awful.layout.append_default_layouts({
         awful.layout.suit.floating,
         awful.layout.suit.tile,
-        awful.layout.suit.tile.left,
-        awful.layout.suit.tile.bottom,
-        awful.layout.suit.tile.top,
-        awful.layout.suit.fair,
-        awful.layout.suit.fair.horizontal,
-		awful.layout.suit.max,
+        --awful.layout.suit.tile.left,
+        --awful.layout.suit.tile.bottom,
+        --awful.layout.suit.tile.top,
+        --awful.layout.suit.fair,
+        --awful.layout.suit.fair.horizontal,
+		--awful.layout.suit.max,
     })
 end)
 ----------------------------------------------------------------------------------------------
@@ -194,6 +195,8 @@ function client_resize(c, m, t)
 	else
 		ay = 0
 	end
+	c.oldw = c.width
+	c.oldh = c.height
 	if c.width + w + theme.border_width * 2 > s.geometry.width then
 		c.width = s.geometry.width - theme.border_width * 2
 	else
@@ -204,6 +207,8 @@ function client_resize(c, m, t)
 	else
 		c.height = c.height + h
 	end
+	w = c.width - c.oldw
+	h = c.height - c.oldh
 	if ax == 0 or ay == 0 then
 		dx = math.floor(c.x - w / 2 + 0.5)
 		dy = math.floor(c.y - h / 2 + 0.5)
@@ -246,18 +251,13 @@ end
 ----------------------------------- Key bindings ---------------------------------------------
 ----------------------------------------------------------------------------------------------
 globalkeys = gears.table.join(
-	awful.key({ modkey,           }, "F3" , function() volume.up() end),
-	awful.key({ modkey,           }, "F2" , function() volume.down() end),
-	awful.key({ modkey,           }, "F1"        , function() volume.toggle() end),
-	awful.key({                   }, "XF86AudioRaiseVolume" , function() volume.up() end),
-	awful.key({                   }, "XF86AudioLowerVolume" , function() volume.down() end),
-	awful.key({                   }, "XF86AudioMute"        , function() volume.toggle() end),
+	awful.key({                   }, "XF86AudioRaiseVolume" , function() volume:up() end),
+	awful.key({                   }, "XF86AudioLowerVolume" , function() volume:down() end),
+	awful.key({                   }, "XF86AudioMute"        , function() volume:toggle() end),
 	awful.key({                   }, "XF86MonBrightnessUp"  , function() battery.brightness_up() end),
 	awful.key({                   }, "XF86MonBrightnessDown", function() battery.brightness_down() end),
     awful.key({ modkey, "Control" }, "r"     , awesome.restart),
     awful.key({ modkey, "Shift"   }, "q"     , awesome.quit),
-    awful.key({ modkey,           }, "q"     , awful.tag.viewprev),
-    awful.key({ modkey,           }, "e"     , awful.tag.viewnext),
     awful.key({ modkey,           }, "["     , awful.tag.viewprev),
     awful.key({ modkey,           }, "]"     , awful.tag.viewnext),
     awful.key({ modkey,           }, "Escape", awful.tag.history.restore),
@@ -269,10 +269,14 @@ globalkeys = gears.table.join(
     awful.key({ modkey, "Shift"   }, "space" , function() awful.layout.inc(-1) end),
 	awful.key({ modkey,           }, "r"     , function() s = awful.screen.focused() s.promptbox.popup.visible = not s.promptbox.popup.visible s.promptbox.widget:run() end),
     awful.key({ modkey, "Control" }, "n"     , function() local c = awful.client.restore() if c then c:emit_signal( "request::activate", "key.unminimize", {raise = true}) end end),
-    awful.key({ modkey,           }, "b"	 , function() local s = awful.screen.focused() s.topbar.visible = not s.topbar.visible end)
+    awful.key({ modkey,           }, "b"	 , function() local s = awful.screen.focused() s.topbar.visible = not s.topbar.visible end),
+	--awful.key({                   }, "F1"    , function() awful.screen.focused().quake:toggle() end),
+	--awful.key({                   }, "F2"    , function() awful.screen.focused().quake:toggle() end),
+	awful.key({ modkey,           }, "z"     , function() awful.screen.focused().quake:toggle() end)
 )
 
 clientkeys = gears.table.join(
+	--awful.key({         "Shift"   }, "XF86AudioRaiseVolume" , function(c) awful.spawn.with_shell("sleep 0.1; xdotool key --window " .. tostring(c.window) .. "--clearmodifiers Insert") end),
     awful.key({ modkey,           }, "f"     , function(c) c.fullscreen = not c.fullscreen c:raise() end),
     awful.key({ modkey, "Shift"   }, "c"     , function(c) c:kill() end),
     awful.key({ modkey, "Control" }, "space" , function(c) awful.client.floating.toggle(c) end),
@@ -297,6 +301,7 @@ clientkeys = gears.table.join(
 	end),
 
     awful.key({ modkey,           }, "="     , function(c) 
+		if c.fullscreen or c.maximized then return end
 		local s = awful.screen.focused() 
 		local layout = awful.layout.get(s)
 		if c.floating or layout == awful.layout.suit.floating then
@@ -317,6 +322,7 @@ clientkeys = gears.table.join(
 	end),
 
     awful.key({ modkey,           }, "-"     , function(c) 
+		if c.fullscreen or c.maximized then return end
 		local s = awful.screen.focused()
 		local layout = awful.layout.get(s)
 		if c.floating or layout == awful.layout.suit.floating then
@@ -337,6 +343,7 @@ clientkeys = gears.table.join(
 	end),
 
     awful.key({ modkey, "Shift"   }, "="     , function(c) 
+		if c.fullscreen or c.maximized then return end
 		local s = awful.screen.focused()
 		local layout = awful.layout.get(s)
 		if c.floating or layout == awful.layout.suit.floating then
@@ -352,6 +359,7 @@ clientkeys = gears.table.join(
 		end
 	end),
     awful.key({ modkey, "Shift"   }, "-"     , function(c) 
+		if c.fullscreen or c.maximized then return end
 		local s = awful.screen.focused()
 		local layout = awful.layout.get(s)
 		if c.floating or layout == awful.layout.suit.floating then
@@ -367,6 +375,7 @@ clientkeys = gears.table.join(
 		end
 	end),
     awful.key({ modkey, "Control" }, "="     , function(c) 
+		if c.fullscreen or c.maximized then return end
 		local s = awful.screen.focused()
 		local layout = awful.layout.get(s)
 		if c.floating or layout == awful.layout.suit.floating then
@@ -382,6 +391,7 @@ clientkeys = gears.table.join(
 		end
 	end),
     awful.key({ modkey, "Control" }, "-"     , function(c) 
+		if c.fullscreen or c.maximized then return end
 		local s = awful.screen.focused()
 		local layout = awful.layout.get(s)
 		if c.floating or layout == awful.layout.suit.floating then
@@ -398,6 +408,7 @@ clientkeys = gears.table.join(
 	end),
 
     awful.key({ modkey, "Shift"   }, "h"     , function(c)
+		if c.fullscreen or c.maximized then return end
 		local s = awful.screen.focused()
 		local layout = awful.layout.get(s)
 		local m = awful.client.getmaster()
@@ -408,6 +419,7 @@ clientkeys = gears.table.join(
 		end
 	end),
     awful.key({ modkey, "Shift"   }, "l"     , function(c)
+		if c.fullscreen or c.maximized then return end
 		local s = awful.screen.focused()
 		local layout = awful.layout.get(s)
 		local m = awful.client.getmaster()
@@ -418,6 +430,7 @@ clientkeys = gears.table.join(
 		end
 	end),
     awful.key({ modkey, "Shift"   }, "j"     , function(c)
+		if c.fullscreen or c.maximized then return end
 		local s = awful.screen.focused()
 		local layout = awful.layout.get(s)
 		if c.floating or layout == awful.layout.suit.floating then
@@ -427,6 +440,7 @@ clientkeys = gears.table.join(
 		end
 	end),
     awful.key({ modkey, "Shift"   }, "k"     , function(c)
+		if c.fullscreen or c.maximized then return end
 		local s = awful.screen.focused()
 		local layout = awful.layout.get(s)
 		if c.floating or layout == awful.layout.suit.floating then
@@ -464,7 +478,7 @@ for i = 0, 9 do
 				local tag = client.focus.screen.tags[i]
 				if tag then
 					client.focus:move_to_tag(tag)
-					tag:view_only()
+					--tag:view_only()
 				end
 			end
 		end),
@@ -512,6 +526,7 @@ clientbuttons = gears.table.join(
 		end
     end),
 	awful.button({ modkey }, 4, function(c)
+		if c.fullscreen or c.maximized then return end
         c:emit_signal("request::activate", "mouse_click", {raise = true})
 		local s = awful.screen.focused()
 		local layout = awful.layout.get(s)
@@ -532,6 +547,7 @@ clientbuttons = gears.table.join(
 		end
 	end),
 	awful.button({ modkey }, 5, function(c)
+		if c.fullscreen or c.maximized then return end
         c:emit_signal("request::activate", "mouse_click", {raise = true})
 		local s = awful.screen.focused()
 		local layout = awful.layout.get(s)
@@ -552,6 +568,7 @@ clientbuttons = gears.table.join(
 		end
 	end),
     awful.button({ modkey, "Shift"   }, 4, function(c) 
+		if c.fullscreen or c.maximized then return end
         c:emit_signal("request::activate", "mouse_click", {raise = true})
 		local s = awful.screen.focused()
 		local layout = awful.layout.get(s)
@@ -568,6 +585,7 @@ clientbuttons = gears.table.join(
 		end
 	end),
     awful.button({ modkey, "Shift"   }, 5, function(c) 
+		if c.fullscreen or c.maximized then return end
         c:emit_signal("request::activate", "mouse_click", {raise = true})
 		local s = awful.screen.focused()
 		local layout = awful.layout.get(s)
@@ -584,6 +602,7 @@ clientbuttons = gears.table.join(
 		end
 	end),
     awful.button({ modkey, "Control" }, 4, function(c) 
+		if c.fullscreen or c.maximized then return end
         c:emit_signal("request::activate", "mouse_click", {raise = true})
 		local s = awful.screen.focused()
 		local layout = awful.layout.get(s)
@@ -600,6 +619,7 @@ clientbuttons = gears.table.join(
 		end
 	end),
     awful.button({ modkey, "Control" }, 5, function(c) 
+		if c.fullscreen or c.maximized then return end
         c:emit_signal("request::activate", "mouse_click", {raise = true})
 		local s = awful.screen.focused()
 		local layout = awful.layout.get(s)
@@ -641,31 +661,53 @@ awful.rules.rules = {
 			screen       = awful.screen.preferred,
 			placement    = awful.placement.centered,
 			maximized	 = false,
-			floating     = false,
+			floating     = true,
 			titlebars_enabled = true,
 			size_hints_honor = true
 		}
     },
     ----------------------------------
+    --{ 
+	--	rule_any = {
+	--		class = {"lxappearance", "Lxappearance", "flameshot", "Jsss"},
+	--	}, 
+	--	properties = {
+	--		titlebars_enabled = true,
+	--		ontop = false,
+	--		floating = true
+	--	}
+    --},
+    ----------------------------------
     { 
 		rule_any = {
-			class = {"lxappearance", "Lxappearance", "flameshot", "Jsss"},
-		}, 
-		properties = {
+			type   = { "dialog" }
+    	},
+		properties = { 
 			titlebars_enabled = true,
-			ontop = false,
-			floating = true
+			floating = true,
+			ontop    = true
 		}
     },
     ----------------------------------
     { 
 		rule_any = {
-			class  = {"Alacritty", "firefox", "Microsoft-edge", "Google-chrome"},
+			class  = {"Alacritty", "firefox", "Microsoft-edge", "Google-chrome", "Xephyr"},
     	},
 		properties = { 
 			titlebars_enabled = false,
 			floating = false,
 			ontop    = false
+		}
+    },
+    ----------------------------------
+    { 
+		rule_any = {
+			name   = { "floating-terminal", "feh", "QuakeDD"},
+    	},
+		properties = { 
+			titlebars_enabled = false,
+			floating = true,
+			ontop    = true
 		}
     },
     ----------------------------------
@@ -690,28 +732,6 @@ awful.rules.rules = {
 			floating = true,
 			ontop    = false,
 			sticky = false
-		}
-    },
-    ----------------------------------
-    { 
-		rule_any = {
-			name   = { "floating-terminal", "feh"},
-    	},
-		properties = { 
-			titlebars_enabled = false,
-			floating = true,
-			ontop    = true
-		}
-    },
-    ----------------------------------
-    { 
-		rule_any = {
-			type   = { "dialog" }
-    	},
-		properties = { 
-			titlebars_enabled = true,
-			floating = true,
-			ontop    = true
 		}
     },
 }
@@ -795,5 +815,16 @@ end)
 
 -- setup topbar
 screen.connect_signal("request::desktop_decoration", function(s)
-	topbar.setup(s) 
+	topbar.setup(s)
+	s.quake = quake({
+		app = "alacritty",
+		argname = "--title %s",
+		extra = "--class QuakeDD -e tmux-attach.sh",
+		vert = "top",
+		horiz = "center",
+		visible = true,
+		height = 0.388,
+		width = 0.510,
+		screen = s
+	})
 end)

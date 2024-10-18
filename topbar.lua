@@ -71,7 +71,7 @@ topbar.setup = function(s)
 					disk.setup(11.5,15,15,11),
 					--vpn.setup(9.5,9,9,9.5),
 					wifi.setup(11,10,10,11),
-					volume.setup(9,10,10,9),
+					volume:setup(9,10,10,9),
 					--battery.setup(9,6,5,9),
 					--clock.setup(_,6,6,_),
 					layoutbox.setup(s,10,10,10,10),

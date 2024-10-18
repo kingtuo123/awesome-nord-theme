@@ -5,7 +5,11 @@ local theme = require("theme")
 local dpi	= require("beautiful.xresources").apply_dpi
 
 
+
+
 local promptbox = {}
+
+
 
 
 promptbox.widget = awful.widget.prompt{
@@ -17,6 +21,8 @@ promptbox.widget = awful.widget.prompt{
 		promptbox.popup.visible = false
 	end
 }
+
+
 
 
 promptbox.popup = awful.popup{
@@ -62,9 +68,13 @@ promptbox.popup = awful.popup{
 }
 
 
-promptbox.setup = function(s)
-	s.promptbox = promptbox
+
+
+function promptbox:setup(s)
+	s.promptbox = self
 end
+
+
 
 
 return promptbox

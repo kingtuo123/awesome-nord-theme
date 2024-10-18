@@ -5,31 +5,30 @@ local theme = require("theme")
 local dpi	= require("beautiful.xresources").apply_dpi
 
 
+
+
 local taglist = {}
 
 
+
+
 taglist.buttons = gears.table.join(
-	awful.button({        }, 1, function(t)
-		t:view_only() 
-	end),
-	awful.button({ "Mod4" }, 1, function(t)
-		if client.focus then
-			client.focus:move_to_tag(t)
-		end
-		t:view_only() 
-	end),
-	awful.button({        }, 4, function(t) awful.tag.viewnext(t.screen) end),
-	awful.button({        }, 5, function(t) awful.tag.viewprev(t.screen) end),
-	awful.button({        }, 9, function(t) awful.tag.viewnext(t.screen) end),
-	awful.button({        }, 8, function(t) awful.tag.viewprev(t.screen) end)
+	awful.button({ "Mod4" }, 1, function(t) if client.focus then client.focus:move_to_tag(t) end t:view_only() end),
+	awful.button({}, 1, function(t) t:view_only() end),
+	awful.button({}, 4, function(t) awful.tag.viewnext(t.screen) end),
+	awful.button({}, 5, function(t) awful.tag.viewprev(t.screen) end),
+	awful.button({}, 9, function(t) awful.tag.viewnext(t.screen) end),
+	awful.button({}, 8, function(t) awful.tag.viewprev(t.screen) end)
 )
 
 
-taglist.setup = function(s)
+
+
+function taglist:setup(s)
 	awful.tag({ "1", "2", "3", "4", "5", "6", "7", "8", "9", "0" }, s, awful.layout.layouts[1])
-	taglist.widget = awful.widget.taglist({
+	self.widget = awful.widget.taglist({
 		screen  = s,
-		buttons = taglist.buttons,
+		buttons = self.buttons,
 		filter  = awful.widget.taglist.filter.all,
 		widget_template = {
 			{
@@ -55,8 +54,10 @@ taglist.setup = function(s)
 			widget = wibox.container.background,
 		}
 	})
-	return taglist.widget
+	return self.widget
 end
+
+
 
 
 return taglist

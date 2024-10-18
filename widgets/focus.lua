@@ -5,7 +5,12 @@ local theme = require("theme")
 local dpi	= require("beautiful.xresources").apply_dpi
 
 
+
+
 local focus = {}
+
+
+
 
 focus_width = dpi(5)
 focus_length = dpi(40)
@@ -14,6 +19,77 @@ focus_floating_color = "#82aaff"
 focus_ontop_color = "#c3e88d"
 focus_maximized_color = "#ff757f"
 focus_sticky_color = "#c099ff"
+
+
+
+
+focus.top_lv = wibox{
+	width = focus_width,
+	height =focus_length,
+	bg = focus_normal_color,
+	type = "normal",
+	visible = false,
+	ontop = true,
+}
+focus.top_lh = wibox{
+	width = focus_length,
+	height =focus_width,
+	bg = focus_normal_color,
+	type = "normal",
+	visible = false,
+	ontop = true,
+}
+focus.top_rv = wibox{
+	width = focus_width,
+	height =focus_length,
+	bg = focus_normal_color,
+	type = "normal",
+	visible = false,
+	ontop = true,
+}
+focus.top_rh = wibox{
+	width = focus_length,
+	height =focus_width,
+	bg = focus_normal_color,
+	type = "normal",
+	visible = false,
+	ontop = true,
+}
+focus.bottom_lv = wibox{
+	width = focus_width,
+	height =focus_length,
+	bg = focus_normal_color,
+	type = "normal",
+	visible = false,
+	ontop = true,
+}
+focus.bottom_lh = wibox{
+	width = focus_length,
+	height =focus_width,
+	bg = focus_normal_color,
+	type = "normal",
+	visible = false,
+	ontop = true,
+}
+focus.bottom_rv = wibox{
+	width = focus_width,
+	height =focus_length,
+	bg = focus_normal_color,
+	type = "normal",
+	visible = false,
+	ontop = true,
+}
+focus.bottom_rh = wibox{
+	width = focus_length,
+	height =focus_width,
+	bg = focus_normal_color,
+	type = "normal",
+	visible = false,
+	ontop = true,
+}
+
+
+
 
 focus.timer = gears.timer {
 	timeout   = 2,
@@ -34,80 +110,9 @@ focus.timer = gears.timer {
 }
 
 
-focus.top_lv = wibox{
-	width = focus_width,
-	height =focus_length,
-	bg = focus_normal_color,
-	type = "normal",
-	visible = false,
-	ontop = true,
-}
-
-focus.top_lh = wibox{
-	width = focus_length,
-	height =focus_width,
-	bg = focus_normal_color,
-	type = "normal",
-	visible = false,
-	ontop = true,
-}
-
-focus.top_rv = wibox{
-	width = focus_width,
-	height =focus_length,
-	bg = focus_normal_color,
-	type = "normal",
-	visible = false,
-	ontop = true,
-}
-
-focus.top_rh = wibox{
-	width = focus_length,
-	height =focus_width,
-	bg = focus_normal_color,
-	type = "normal",
-	visible = false,
-	ontop = true,
-}
-
-focus.bottom_lv = wibox{
-	width = focus_width,
-	height =focus_length,
-	bg = focus_normal_color,
-	type = "normal",
-	visible = false,
-	ontop = true,
-}
-
-focus.bottom_lh = wibox{
-	width = focus_length,
-	height =focus_width,
-	bg = focus_normal_color,
-	type = "normal",
-	visible = false,
-	ontop = true,
-}
-
-focus.bottom_rv = wibox{
-	width = focus_width,
-	height =focus_length,
-	bg = focus_normal_color,
-	type = "normal",
-	visible = false,
-	ontop = true,
-}
-
-focus.bottom_rh = wibox{
-	width = focus_length,
-	height =focus_width,
-	bg = focus_normal_color,
-	type = "normal",
-	visible = false,
-	ontop = true,
-}
 
 
-focus.setup = function(c, visible)
+function focus:update(c, visible)
 	if not visible then
 		focus.top_lv.visible = false
 		focus.top_lh.visible = false
@@ -233,6 +238,8 @@ focus.setup = function(c, visible)
 	focus.timer:again()
 
 end
+
+
 
 
 return focus

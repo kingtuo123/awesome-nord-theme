@@ -5,12 +5,16 @@ local theme = require("theme")
 local dpi	= require("beautiful.xresources").apply_dpi
 
 
+
+
 local wifi = {}
 local device          = "wlp4s0"
 local cmd_get_signal  = "iw dev " ..  device .. " link|grep signal|sed 's/[^0-9]//g'"
 local cmd_get_ssid    = "iw dev " ..  device .. " link|grep SSID|sed 's/.*SSID: //'"
 local cmd_get_gateway = "ip route list|grep default|sed -E 's/^default via (.*) dev.*/\1/'"
 local cmd_get_ip      = "ifconfig wlp4s0 | grep inet"
+
+
 
 
 wifi.widget = wibox.widget{
@@ -58,119 +62,84 @@ wifi.widget = wibox.widget{
 }
 
 
-wifi.dashboard = wibox.widget{
-	{
+
+
+wifi.popup = awful.popup{
+	widget = wibox.widget{
 		{
 			{
 				{
 					{
 						{
-							image		= theme.wifi_signal_3_icon,
-							forced_width  = dpi(14),
-							forced_height = dpi(14),
-							valign		  = "center",
-							halign		  = "center",
-							widget		= wibox.widget.imagebox,
+							{
+								image		= theme.wifi_signal_3_icon,
+								forced_width  = dpi(14),
+								forced_height = dpi(14),
+								valign		  = "center",
+								halign		  = "center",
+								widget		= wibox.widget.imagebox,
+							},
+							left = dpi(-5),
+							right = dpi(10),
+							widget = wibox.container.margin,
 						},
-						left = dpi(-5),
-						right = dpi(10),
+						{
+							text = device,
+							font = theme.wifi_title_font,
+							widget = wibox.widget.textbox,
+						},
+						layout = wibox.layout.fixed.horizontal,
+					},
+					{
+						bottom = dpi(10),
 						widget = wibox.container.margin,
 					},
 					{
-						text = device,
-						font = theme.wifi_title_font,
-						widget = wibox.widget.textbox,
-					},
-					layout = wibox.layout.fixed.horizontal,
-				},
-				{
-					bottom = dpi(10),
-					widget = wibox.container.margin,
-				},
-				{
-					{
-						{
-							{
-								text = "SSID",
-								font = theme.wifi_bold_font,
-								widget = wibox.widget.textbox,
-							},
-							halign = "left",
-							valign = "center",
-							forced_height = dpi(22),
-							widget = wibox.container.place,
-						},
-						{
-							{
-								text = "SIGNAL",
-								font = theme.wifi_bold_font,
-								widget = wibox.widget.textbox,
-							},
-							halign = "left",
-							valign = "center",
-							forced_height = dpi(22),
-							widget = wibox.container.place,
-						},
-						{
-							{
-								text = "IP",
-								font = theme.wifi_bold_font,
-								widget = wibox.widget.textbox,
-							},
-							halign = "left",
-							valign = "center",
-							forced_height = dpi(22),
-							widget = wibox.container.place,
-						},
-						layout = wibox.layout.fixed.vertical,
-					},
-					{
-						right = dpi(35),
-						widget = wibox.container.margin,
-					},
-					{
-						{
-							{
-								id = "ssid",
-								text = "Lost",
-								font = theme.wifi_font,
-								widget = wibox.widget.textbox,
-							},
-							halign = "left",
-							valign = "center",
-							forced_height = dpi(22),
-							widget = wibox.container.place,
-						},
 						{
 							{
 								{
-									id = "signal",
-									color        = theme.wifi_bar_fg,
-									background_color = theme.popup_bg_progressbar,
-									max_value    = 100,
-									value        = 0,
-									ticks        = true,
-									ticks_size   = dpi(2),
-									ticks_gap    = dpi(2),
-									forced_width = dpi(4*25),
-									border_width = 0,
-									widget = wibox.widget.progressbar,
-									--shape = function(cr, width, height) gears.shape.rounded_rect(cr, width, height, dpi(3)) end,
-									--bar_shape = function(cr, width, height) gears.shape.rounded_rect(cr, width, height, dpi(3)) end,
+									text = "SSID",
+									font = theme.wifi_bold_font,
+									widget = wibox.widget.textbox,
 								},
+								halign = "left",
+								valign = "center",
 								forced_height = dpi(22),
-								top = dpi(6),
-								bottom = dpi(7),
-								widget = wibox.container.margin,
-							},
-							{
-								right = dpi(10),
-								widget = wibox.container.margin,
+								widget = wibox.container.place,
 							},
 							{
 								{
-									id = "percent",
-									text = "-- %",
+									text = "SIGNAL",
+									font = theme.wifi_bold_font,
+									widget = wibox.widget.textbox,
+								},
+								halign = "left",
+								valign = "center",
+								forced_height = dpi(22),
+								widget = wibox.container.place,
+							},
+							{
+								{
+									text = "IP",
+									font = theme.wifi_bold_font,
+									widget = wibox.widget.textbox,
+								},
+								halign = "left",
+								valign = "center",
+								forced_height = dpi(22),
+								widget = wibox.container.place,
+							},
+							layout = wibox.layout.fixed.vertical,
+						},
+						{
+							right = dpi(35),
+							widget = wibox.container.margin,
+						},
+						{
+							{
+								{
+									id = "ssid",
+									text = "Lost",
 									font = theme.wifi_font,
 									widget = wibox.widget.textbox,
 								},
@@ -179,86 +148,99 @@ wifi.dashboard = wibox.widget{
 								forced_height = dpi(22),
 								widget = wibox.container.place,
 							},
-							layout = wibox.layout.fixed.horizontal,
-						},
-						{
 							{
-								id = "ip",
-								text = "--",
-								font = theme.wifi_font,
-								widget = wibox.widget.textbox,
+								{
+									{
+										id = "signal",
+										color        = theme.wifi_bar_fg,
+										background_color = theme.popup_bg_progressbar,
+										max_value    = 100,
+										value        = 0,
+										ticks        = true,
+										ticks_size   = dpi(2),
+										ticks_gap    = dpi(2),
+										forced_width = dpi(4*25),
+										border_width = 0,
+										widget = wibox.widget.progressbar,
+										--shape = function(cr, width, height) gears.shape.rounded_rect(cr, width, height, dpi(3)) end,
+										--bar_shape = function(cr, width, height) gears.shape.rounded_rect(cr, width, height, dpi(3)) end,
+									},
+									forced_height = dpi(22),
+									top = dpi(6),
+									bottom = dpi(7),
+									widget = wibox.container.margin,
+								},
+								{
+									right = dpi(10),
+									widget = wibox.container.margin,
+								},
+								{
+									{
+										id = "percent",
+										text = "-- %",
+										font = theme.wifi_font,
+										widget = wibox.widget.textbox,
+									},
+									halign = "left",
+									valign = "center",
+									forced_height = dpi(22),
+									widget = wibox.container.place,
+								},
+								layout = wibox.layout.fixed.horizontal,
 							},
-							halign = "left",
-							valign = "center",
-							forced_height = dpi(22),
-							widget = wibox.container.place,
+							{
+								{
+									id = "ip",
+									text = "--",
+									font = theme.wifi_font,
+									widget = wibox.widget.textbox,
+								},
+								halign = "left",
+								valign = "center",
+								forced_height = dpi(22),
+								widget = wibox.container.place,
+							},
+							layout = wibox.layout.fixed.vertical,
 						},
-						layout = wibox.layout.fixed.vertical,
+						layout = wibox.layout.fixed.horizontal,
 					},
-					layout = wibox.layout.fixed.horizontal,
+					--forced_width = dpi(220),
+					layout = wibox.layout.fixed.vertical,
 				},
-				--forced_width = dpi(220),
-				layout = wibox.layout.fixed.vertical,
+				top    = dpi(5),
+				left   = dpi(10),
+				right  = dpi(10),
+				bottom = dpi(5),
+				id     = "margin",
+				widget = wibox.container.margin,
 			},
-			top    = dpi(5),
-			left   = dpi(10),
-			right  = dpi(10),
-			bottom = dpi(5),
-			id     = "margin",
-			widget = wibox.container.margin,
+			bg = theme.popup_bg,
+			widget = wibox.container.background,
 		},
-		bg = theme.popup_bg,
-		widget = wibox.container.background,
+		top    = dpi(10),
+		left   = dpi(10),
+		right  = dpi(10),
+		bottom = dpi(10),
+		id     = "margin",
+		widget = wibox.container.margin,
+		set_signal = function(self, s)
+			local p = math.ceil(100*(110-s)/70)
+			self:get_children_by_id("signal")[1].value = math.ceil(p/4)*4
+			if p < 0 then
+				self:get_children_by_id("percent")[1].text = "0 %"
+			elseif p > 100 then
+				self:get_children_by_id("percent")[1].text = "100 %"
+			else
+				self:get_children_by_id("percent")[1].text = p .. " %"
+			end
+		end,
+		set_ssid = function(self, str)
+			self:get_children_by_id("ssid")[1].text = str
+		end,
+		set_ip = function(self, str)
+			self:get_children_by_id("ip")[1].text = str
+		end,
 	},
-	top    = dpi(10),
-	left   = dpi(10),
-	right  = dpi(10),
-	bottom = dpi(10),
-	id     = "margin",
-	widget = wibox.container.margin,
-	set_signal = function(self, s)
-		local p = math.ceil(100*(110-s)/70)
-		self:get_children_by_id("signal")[1].value = math.ceil(p/4)*4
-		if p < 0 then
-			self:get_children_by_id("percent")[1].text = "0 %"
-		elseif p > 100 then
-			self:get_children_by_id("percent")[1].text = "100 %"
-		else
-			self:get_children_by_id("percent")[1].text = p .. " %"
-		end
-	end,
-	set_ssid = function(self, str)
-		self:get_children_by_id("ssid")[1].text = str
-	end,
-	set_ip = function(self, str)
-		self:get_children_by_id("ip")[1].text = str
-	end,
-}
-
-wifi.dashboard.update = function()
-	--print(os.date("%X") .. ": update wifi dashboard")
-	awful.spawn.easy_async_with_shell(cmd_get_signal, function(out)
-		local out = tonumber(out) or 999
-		wifi.widget.signal = out
-		wifi.dashboard.signal = out
-	end)
-	awful.spawn.easy_async_with_shell(cmd_get_ssid, function(out)
-		if #out > 1 then
-			wifi.widget.ssid = out
-			wifi.dashboard.ssid = out
-		else
-			wifi.widget.ssid = "Disconnect"
-			wifi.dashboard.ssid = "--"
-		end
-	end)
-	awful.spawn.easy_async_with_shell(cmd_get_ip, function(out)
-		local ip = string.match(out,"(%d+%.%d+%.%d+%.%d+)") or "--"
-		wifi.dashboard.ip = ip
-	end)
-end
-
-wifi.popup = awful.popup{
-	widget			= wifi.dashboard,
 	border_color	= theme.popup_border_color,
     border_width	= theme.popup_border_width,
 	visible			= false,
@@ -274,98 +256,121 @@ wifi.popup = awful.popup{
 }
 
 
-wifi.update = function()
+
+
+function wifi:update()
+	--print(os.date("%X") .. ": update wifi popup")
 	awful.spawn.easy_async_with_shell(cmd_get_signal, function(out)
-		wifi.widget.signal = tonumber(out) or 999
+		self.widget.signal = tonumber(out) or 999
 	end)
 	awful.spawn.easy_async_with_shell(cmd_get_ssid, function(out)
 		if #out > 1 then
-			wifi.widget.ssid = out
+			self.widget.ssid = out
 		else
-			wifi.widget.ssid = "Disconnect"
+			self.widget.ssid = "Disconnect"
 		end
 	end)
+	if self.popup.visible then
+		awful.spawn.easy_async_with_shell(cmd_get_signal, function(out)
+			local out = tonumber(out) or 999
+			self.widget.signal = out
+			self.popup.widget.signal = out
+		end)
+		awful.spawn.easy_async_with_shell(cmd_get_ssid, function(out)
+			if #out > 1 then
+				self.widget.ssid = out
+				self.popup.widget.ssid = out
+			else
+				self.widget.ssid = "Disconnect"
+				self.popup.widget.ssid = "--"
+			end
+		end)
+		awful.spawn.easy_async_with_shell(cmd_get_ip, function(out)
+			local ip = string.match(out,"(%d+%.%d+%.%d+%.%d+)") or "--"
+			self.popup.widget.ip = ip
+		end)
+	end
 end
 
 
-local popup_timer = gears.timer {
-	timeout   = 3,
-	call_now  = false,
-	autostart = false,
-	callback  = function(self)
-		if wifi.popup.visible then
-			wifi.dashboard.update()
-			self:again()
-		else
-			self:stop()
-		end
-	end
-}
 
 
+function wifi:setup(mt,ml,mr,mb)
+	self.widget.margin.top    = dpi(mt or 0)
+	self.widget.margin.left   = dpi(ml or 0)
+	self.widget.margin.right  = dpi(mr or 0)
+	self.widget.margin.bottom = dpi(mb or 0)
 
-
-wifi.setup = function(mt,ml,mr,mb)
-	wifi.widget.margin.top    = dpi(mt or 0)
-	wifi.widget.margin.left   = dpi(ml or 0)
-	wifi.widget.margin.right  = dpi(mr or 0)
-	wifi.widget.margin.bottom = dpi(mb or 0)
-
-	wifi.widget:buttons(awful.util.table.join(
+	self.widget:buttons(awful.util.table.join(
 		awful.button({}, 1, function()
-			if wifi.popup.visible then
-				wifi.popup.visible = false
-				wifi.widget.bg = theme.widget_bg_press
+			if self.popup.visible then
+				self.popup.visible = false
+				self.widget.bg = theme.widget_bg_press
 			else
-				wifi.popup.visible = true
-				wifi.widget.bg = theme.widget_bg_hover
-				wifi.dashboard.update()
-				popup_timer:again()
+				self.popup.visible = true
+				self.widget.bg = theme.widget_bg_hover
+				self:update()
+				self.popup.timer:again()
 			end
 		end),
 		awful.button({}, 3, function() 
-			local wdg = wifi.widget:get_children_by_id("ssid")[1]
+			local wdg = self.widget:get_children_by_id("ssid")[1]
 			wdg.visible = not wdg.visible
 		end)
 	))
 
-	wifi.popup:buttons(gears.table.join(
+	self.popup:buttons(gears.table.join(
 		awful.button({ }, 3, function ()
-			wifi.popup.visible = false
-			wifi.widget.bg = theme.topbar_bg
-			wifi.widget.shape_border_color = theme.topbar_bg
+			self.popup.visible = false
+			self.widget.bg = theme.topbar_bg
+			self.widget.shape_border_color = theme.topbar_bg
 		end)
 	))
 
-	wifi.widget:connect_signal('mouse::enter',function() 
-		if wifi.popup.visible then
-			wifi.widget.bg = theme.widget_bg_press
+	self.widget:connect_signal('mouse::enter',function() 
+		if self.popup.visible then
+			self.widget.bg = theme.widget_bg_press
 		else
-			wifi.widget.bg = theme.widget_bg_hover
+			self.widget.bg = theme.widget_bg_hover
 		end
-		wifi.widget.shape_border_color = theme.widget_border_color
+		self.widget.shape_border_color = theme.widget_border_color
 	end)
 
-	wifi.widget:connect_signal('mouse::leave',function() 
-		if wifi.popup.visible then
-			wifi.widget.bg = theme.widget_bg_press
-			wifi.widget.shape_border_color = theme.widget_border_color
+	self.widget:connect_signal('mouse::leave',function() 
+		if self.popup.visible then
+			self.widget.bg = theme.widget_bg_press
+			self.widget.shape_border_color = theme.widget_border_color
 		else
-			wifi.widget.bg = theme.topbar_bg
-			wifi.widget.shape_border_color = theme.topbar_bg
+			self.widget.bg = theme.topbar_bg
+			self.widget.shape_border_color = theme.topbar_bg
 		end
 	end)
 
-	gears.timer({
+	self.timer = gears.timer({
 		timeout   = 10,
 		call_now  = true,
 		autostart = true,
-		callback  = wifi.update
+		callback  = function()
+			self:update()
+		end
 	})
 
-	return wifi.widget
-end
+	self.popup.timer = gears.timer {
+		timeout   = 4,
+		call_now  = false,
+		autostart = false,
+		callback  = function()
+			if self.popup.visible then
+				self:update()
+				self.popup.timer:again()
+			else
+				self.popup.timer:stop()
+			end
+		end
+	}
 
+	return self.widget
+end
 
 
 

@@ -5,8 +5,12 @@ local theme = require("theme")
 local dpi	= require("beautiful.xresources").apply_dpi
 
 
+
+
 local clock  = {}
 local calendar = {}
+
+
 
 
 calendar.month   = { 
@@ -40,6 +44,8 @@ calendar.weekday = {
 }
 
 
+
+
 local function decorate_cell(widget, flag, date)
 	if flag == "monthheader" and not calendar.monthheader then
 		flag = "header"
@@ -71,21 +77,52 @@ local function decorate_cell(widget, flag, date)
 end
 
 
-calendar.widget = function()
-	return wibox.widget {
-		{
-			id              = "calendar",
-			date			= os.date("*t"),
-			fn_embed		= decorate_cell,
-			font			= theme.cal_font,
-			spacing			= dpi(5),
-			long_weekdays	= true,
-			widget			= wibox.widget.calendar.month,
-		},
-		margins = {top = dpi(-5), bottom = dpi(0)},
-		widget  = wibox.container.margin,
-	}
-end
+
+
+setmetatable(calendar, { __index = function(self, key) 
+	--print("update calendar")
+	if key == "widget" then
+		return wibox.widget {
+			{
+				id              = "calendar",
+				date			= os.date("*t"),
+				fn_embed		= decorate_cell,
+				font			= theme.cal_font,
+				spacing			= dpi(5),
+				long_weekdays	= true,
+				widget			= wibox.widget.calendar.month,
+			},
+			margins = {top = dpi(-5), bottom = dpi(0)},
+			widget  = wibox.container.margin,
+		}
+	else
+		return nil
+	end
+end })
+
+
+
+
+clock.popup = awful.popup{
+	widget			= calendar.widget,
+	border_color	= theme.popup_border_color,
+    border_width	= theme.popup_border_width,
+	visible			= false,
+	bg				= theme.popup_bg,
+	fg				= theme.popup_fg,
+	ontop			= true,
+	shape			= function(cr, width, height)
+		gears.shape.rounded_rect(cr, width, height, theme.popup_rounded)
+	end,
+    placement		= function(d,args)
+		awful.placement.top(d, {
+			margins = {top = theme.popup_margin_top}, 
+			parent  = awful.screen.focused()
+		}) 
+	end,
+}
+
+
 
 
 clock.widget = wibox.widget {
@@ -115,87 +152,71 @@ clock.widget = wibox.widget {
 }
 
 
-clock.update = function()
+
+
+function clock:update()
 	awful.spawn.easy_async_with_shell("date +'%H:%M %-m/%-d %a'", function(out)
-		clock.widget.date = out
-		clock.widget.date = string.gsub(out, "\n", "")
+		self.widget.date = out
+		self.widget.date = string.gsub(out, "\n", "")
 	end)
 	--weeks = {"日","一","二","三","四","五","六"}
 	--awful.spawn.easy_async_with_shell("date +'%H:%M  %-m月%-d日  周%w'", function(out)
-	--	clock.widget.date = string.gsub(out, "(%d)\n", weeks[tonumber(string.match(out, "(%d)\n")) + 1])
+	--	self.widget.date = string.gsub(out, "(%d)\n", weeks[tonumber(string.match(out, "(%d)\n")) + 1])
 	--end)
 end
 
 
-clock.popup = awful.popup{
-	widget			= calendar.widget(),
-	border_color	= theme.popup_border_color,
-    border_width	= theme.popup_border_width,
-	visible			= false,
-	bg				= theme.popup_bg,
-	fg				= theme.popup_fg,
-	ontop			= true,
-	shape			= function(cr, width, height)
-		gears.shape.rounded_rect(cr, width, height, theme.popup_rounded)
-	end,
-    placement		= function(d,args)
-		awful.placement.top(d, {
-			margins = {top = theme.popup_margin_top}, 
-			parent  = awful.screen.focused()
-		}) 
-	end,
-}
 
 
-clock.setup = function(mt,ml,mr,mb)
-	clock.widget.margin.top    = dpi(mt or 0)
-	clock.widget.margin.left   = dpi(ml or 0)
-	clock.widget.margin.right  = dpi(mr or 0)
-	clock.widget.margin.bottom = dpi(mb or 0)
+function clock:setup(mt,ml,mr,mb)
+	self.widget.margin.top    = dpi(mt or 0)
+	self.widget.margin.left   = dpi(ml or 0)
+	self.widget.margin.right  = dpi(mr or 0)
+	self.widget.margin.bottom = dpi(mb or 0)
 
-	clock.widget:connect_signal('mouse::enter',function() 
-		if clock.popup.visible then
-			clock.widget.bg = theme.widget_bg_press
-			clock.widget.fg = theme.widget_fg_press
+	self.widget:connect_signal('mouse::enter',function() 
+		if self.popup.visible then
+			self.widget.bg = theme.widget_bg_press
+			self.widget.fg = theme.widget_fg_press
 		else
-			clock.widget.bg = theme.widget_bg_hover
+			self.widget.bg = theme.widget_bg_hover
 		end
-		clock.widget.shape_border_color = theme.widget_border_color
+		self.widget.shape_border_color = theme.widget_border_color
 	end)
 
-	clock.widget:connect_signal('mouse::leave',function() 
-		if clock.popup.visible then
-			clock.widget.bg = theme.widget_bg_press
-			clock.widget.fg = theme.widget_fg_press
-			clock.widget.shape_border_color = theme.widget_border_color
+	self.widget:connect_signal('mouse::leave',function() 
+		if self.popup.visible then
+			self.widget.bg = theme.widget_bg_press
+			self.widget.fg = theme.widget_fg_press
+			self.widget.shape_border_color = theme.widget_border_color
 		else
-			clock.widget.bg = theme.topbar_bg
-			clock.widget.fg = theme.topbar_fg
-			clock.widget.shape_border_color = theme.topbar_bg
+			self.widget.bg = theme.topbar_bg
+			self.widget.fg = theme.topbar_fg
+			self.widget.shape_border_color = theme.topbar_bg
 		end
 	end)
 
-	clock.popup:buttons(gears.table.join(
+	self.popup:buttons(gears.table.join(
 		awful.button({ }, 3, function ()
-			clock.popup.visible = false
-			clock.widget.fg = theme.topbar_fg
-			clock.widget.bg = theme.topbar_bg
-			clock.widget.shape_border_color = theme.topbar_bg
+			self.popup.visible = false
+			self.widget.fg = theme.topbar_fg
+			self.widget.bg = theme.topbar_bg
+			self.widget.shape_border_color = theme.topbar_bg
 		end)
 	))
 
-	clock.widget:buttons(gears.table.join(
+	self.widget:buttons(gears.table.join(
 		awful.button({ }, 1, function ()
-			clock.popup.visible = not clock.popup.visible
-			clock.popup:set_widget(calendar.widget())
-			if clock.popup.visible then
-				clock.widget.bg = theme.widget_bg_press
-				clock.widget.fg = theme.widget_fg_press
+			self.popup.visible = not self.popup.visible
+			if self.popup.visible then
+				self.popup:set_widget(calendar.widget)
+				self.widget.bg = theme.widget_bg_press
+				self.widget.fg = theme.widget_fg_press
 			else
-				clock.widget.bg = theme.widget_bg_hover
-				clock.widget.fg = theme.topbar_fg
+				self.widget.bg = theme.widget_bg_hover
+				self.widget.fg = theme.topbar_fg
 			end
-			clock.widget.shape_border_color = theme.widget_border_color
+			self.widget.shape_border_color = theme.widget_border_color
 		end)
 	))
 	
@@ -203,11 +224,15 @@ clock.setup = function(mt,ml,mr,mb)
 		timeout   = 60,
 		call_now  = true,
 		autostart = true,
-		callback  = clock.update
+		callback  = function()
+			self:update()
+		end
 	})
 
-	return clock.widget
+	return self.widget
 end
+
+
 
 
 return clock

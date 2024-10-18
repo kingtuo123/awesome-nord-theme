@@ -5,12 +5,6 @@ local theme = require("theme")
 local dpi	= require("beautiful.xresources").apply_dpi
 
 
-local get_line = function(file)
-    file = io.open(file,"r")
-    line = file:read()
-    file:close()
-    return line
-end
 
 
 local netspeed = {}
@@ -18,6 +12,8 @@ local update_timeout = 2
 local device = "wlp4s0"
 local tx_path = "/sys/class/net/" .. device .. "/statistics/tx_bytes"
 local rx_path = "/sys/class/net/" .. device .. "/statistics/rx_bytes"
+
+
 
 
 netspeed.widget = wibox.widget{
@@ -118,51 +114,55 @@ netspeed.widget = wibox.widget{
 
 
 
+
+local function get_line(file)
+    file = io.open(file,"r")
+    line = file:read()
+    file:close()
+    return line
+end
+
+
+
+
 local sent_old   = tonumber(get_line(tx_path)) 
 local recive_old = tonumber(get_line(rx_path)) 
 local status_old = 0
 
-netspeed.update	= function()
+
+
+
+function netspeed:update()
 	local sent    = tonumber(get_line(tx_path))
 	local recive  = tonumber(get_line(rx_path))
 	local dsent   = (sent - sent_old) / update_timeout
 	local drecive = (recive - recive_old) / update_timeout
 	recive_old    = recive
 	sent_old      = sent
-	netspeed.widget.sent = dsent
-	netspeed.widget.recv = drecive
+	self.widget.sent = dsent
+	self.widget.recv = drecive
 end
 
 
-netspeed.setup = function(mt,ml,mr,mb)
-	netspeed.widget.margin.top    = dpi(mt or 0)
-	netspeed.widget.margin.left   = dpi(ml or 0)
-	netspeed.widget.margin.right  = dpi(mr or 0)
-	netspeed.widget.margin.bottom = dpi(mb or 0)
 
-	--netspeed.widget:connect_signal('mouse::enter',function(self) 
-	--	self.bg = theme.widget_bg_hover
-	--	netspeed.widget.shape_border_color = theme.widget_border_color
-	--end)
 
-	--netspeed.widget:connect_signal('mouse::leave',function(self) 
-	--	self.bg = ""
-	--	netspeed.widget.shape_border_color = ""
-	--end)
+function netspeed:setup(mt,ml,mr,mb)
+	self.widget.margin.top    = dpi(mt or 0)
+	self.widget.margin.left   = dpi(ml or 0)
+	self.widget.margin.right  = dpi(mr or 0)
+	self.widget.margin.bottom = dpi(mb or 0)
 
 	gears.timer({
 		timeout   = update_timeout,
 		call_now  = false,
 		autostart = true,
-		callback  = netspeed.update
+		callback  = function()
+			self:update()
+		end
 	})
 
-	return netspeed.widget
+	return self.widget
 end
-
-
-
-
 
 
 

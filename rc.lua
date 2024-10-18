@@ -18,7 +18,7 @@ beautiful.init(os.getenv("HOME") .. "/.config/awesome/theme.lua")
 
 local topbar   = require("topbar")
 local volume   = require("widgets.volume")
-local battery  = require("widgets.battery")
+--local battery  = require("widgets.battery")
 local titlebar = require("widgets.titlebar")
 local focus    = require("widgets.focus")
 local quake    = require("lib.quake")
@@ -254,8 +254,8 @@ globalkeys = gears.table.join(
 	awful.key({                   }, "XF86AudioRaiseVolume" , function() volume:up() end),
 	awful.key({                   }, "XF86AudioLowerVolume" , function() volume:down() end),
 	awful.key({                   }, "XF86AudioMute"        , function() volume:toggle() end),
-	awful.key({                   }, "XF86MonBrightnessUp"  , function() battery.brightness_up() end),
-	awful.key({                   }, "XF86MonBrightnessDown", function() battery.brightness_down() end),
+	--awful.key({                   }, "XF86MonBrightnessUp"  , function() battery.brightness_up() end),
+	--awful.key({                   }, "XF86MonBrightnessDown", function() battery.brightness_down() end),
     awful.key({ modkey, "Control" }, "r"     , awesome.restart),
     awful.key({ modkey, "Shift"   }, "q"     , awesome.quit),
     awful.key({ modkey,           }, "["     , awful.tag.viewprev),
@@ -281,15 +281,15 @@ clientkeys = gears.table.join(
     awful.key({ modkey, "Shift"   }, "c"     , function(c) c:kill() end),
     awful.key({ modkey, "Control" }, "space" , function(c) awful.client.floating.toggle(c) end),
     awful.key({ modkey, "Control" }, "Return", function(c) c:swap(awful.client.getmaster()) end),
-    awful.key({ modkey,           }, "s"     , function(c) c.sticky = not c.sticky focus.setup(c, true) end),
-    awful.key({ modkey,           }, "t"     , function(c) c.ontop = not c.ontop focus.setup(c, true) end),
-    awful.key({ modkey,           }, "m"     , function(c) c.maximized = not c.maximized c:raise() focus.setup(c, true)  end),
+    awful.key({ modkey,           }, "s"     , function(c) c.sticky = not c.sticky focus:update(c, true) end),
+    awful.key({ modkey,           }, "t"     , function(c) c.ontop = not c.ontop focus:update(c, true) end),
+    awful.key({ modkey,           }, "m"     , function(c) c.maximized = not c.maximized c:raise() focus:update(c, true)  end),
     awful.key({ modkey,           }, "n"     , function(c) c.minimized = true end),
     awful.key({ modkey,           }, "h"     , function(c) awful.client.focus.bydirection("left", client.focus) end),
     awful.key({ modkey,           }, "l"     , function(c) awful.client.focus.bydirection("right", client.focus) end),
 	awful.key({ modkey,           }, "j"     , function(c) awful.client.focus.bydirection("down", client.focus) end),
     awful.key({ modkey,           }, "k"     , function(c) awful.client.focus.bydirection("up", client.focus) end),
-    awful.key({ modkey,           }, "`"     , function(c) if focus.top_lv.visible then awful.titlebar.toggle(c) end focus.setup(c, true) end),
+    awful.key({ modkey,           }, "`"     , function(c) if focus.top_lv.visible then awful.titlebar.toggle(c) end focus:update(c, true) end),
     awful.key({ modkey,           }, "c"     , function(c) 
 		local s = awful.screen.focused() 
 		if s.topbar.visible then
@@ -750,13 +750,13 @@ local current_focus = 0
 
 -- Add a titlebar if titlebars_enabled is set to true in the rules.
 client.connect_signal("request::titlebars", function(c)
-	titlebar.setup(c)
+	titlebar:setup(c)
 end)
 
 client.connect_signal("property::size", function(c) 
 	--print("size")
 	if c.pid == current_focus then
-		focus.setup(c, true)
+		focus:update(c, true)
 	end
 end)
 
@@ -770,14 +770,14 @@ client.connect_signal("property::position", function(c)
 		
 	end
 	if c.pid == current_focus then
-		focus.setup(c, true)
+		focus:update(c, true)
 	end
 end)
 
 client.connect_signal("unfocus", function(c) 
 	--print("unfocus ")
 	if #awful.screen.focused().clients <= 1 then
-		focus.setup(c, false)
+		focus:update(c, false)
 	end
 	c.border_color = beautiful.border_normal
 end)
@@ -787,10 +787,10 @@ client.connect_signal("focus", function(c)
 	current_focus = c.pid
 	if #awful.screen.focused().clients > 1 then
 		c.border_color = theme.border_focus
-		focus.setup(c, true)
+		focus:update(c, true)
 	else
 		c.border_color = theme.border_normal
-		focus.setup(c, false)
+		focus:update(c, false)
 	end
 	c.border_width = beautiful.border_width
 end)
@@ -815,7 +815,7 @@ end)
 
 -- setup topbar
 screen.connect_signal("request::desktop_decoration", function(s)
-	topbar.setup(s)
+	topbar:setup(s)
 	s.quake = quake({
 		app = "alacritty",
 		argname = "--title %s",

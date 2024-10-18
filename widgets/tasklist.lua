@@ -6,7 +6,11 @@ local menubar = require("menubar")
 local dpi	  = require("beautiful.xresources").apply_dpi
 
 
+
+
 local tasklist = {}
+
+
 
 
 tasklist.buttons = gears.table.join(
@@ -23,11 +27,13 @@ tasklist.buttons = gears.table.join(
 )
 
 
-tasklist.setup = function(s)
-	tasklist.widget = awful.widget.tasklist {
+
+
+function tasklist:setup(s)
+	self.widget = awful.widget.tasklist {
 		screen   = s,
 		filter   = awful.widget.tasklist.filter.currenttags,
-		buttons  = tasklist.buttons,
+		buttons  = self.buttons,
 		widget_template = {
 			{
 				{
@@ -51,11 +57,10 @@ tasklist.setup = function(s)
 			end,
 			shape_border_width = theme.widget_border_width,
 			shape_border_color = theme.widget_border_color,
-
 			create_callback = function(self, c)
 				local my_icon_role = self:get_children_by_id('my_icon_role')[1]
 				local lookup       = menubar.utils.lookup_icon
-				 if c.instance == nil then
+				if c.instance == nil then
 					my_icon_role.image = lookup("application-default-icon") or lookup("setting")
 				else
 					my_icon_role.image = lookup(c.instance) or lookup(c.class) or lookup(c.class:lower()) or lookup("application-default-icon") or lookup("setting")
@@ -63,8 +68,10 @@ tasklist.setup = function(s)
 			end
 		}
 	}
-	return tasklist.widget
+	return self.widget
 end
+
+
 
 
 return tasklist

@@ -70,11 +70,11 @@ volume.widget = wibox.widget {
 	set_value = function(self,vol)
 		vol = tonumber(vol or 0)
 		if vol >=0 and vol <= 100 then
-			if vol >= 80 then
+			if vol >= 65 then
 				self.backup_icon = theme.vol_100_icon
-			elseif vol >= 40 then
+			elseif vol >= 35 then
 				self.backup_icon = theme.vol_70_icon
-			elseif vol >= 20 then
+			elseif vol >= 5 then
 				self.backup_icon = theme.vol_40_icon
 			else
 				self.backup_icon = theme.vol_10_icon
@@ -243,7 +243,7 @@ volume.popup_outputdevice = awful.popup{
 				buttons	= awful.util.table.join(
 					awful.button({}, 1, function()
 						awful.spawn.easy_async_with_shell(cmd_set_def_sink(args.name), function(out)
-							volume.timer:again()
+							volume:update()
 						end)
 					end),
 					awful.button({}, 2, function()

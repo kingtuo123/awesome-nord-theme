@@ -5,16 +5,24 @@ local theme = require("theme")
 local dpi	= require("beautiful.xresources").apply_dpi
 
 
+
+
 awful.titlebar.enable_tooltip = false
+
+
+
+
 local titlebar = {}
 
 
-titlebar.setup = function(c)
-	titlebar.widget = awful.titlebar(c, {
+
+
+function titlebar:setup(c)
+	self.widget = awful.titlebar(c, {
 		size = theme.titlebar_height,
 	})
 
-	titlebar.buttons = gears.table.join(
+	self.buttons = gears.table.join(
 		awful.button({ }, 1, function()
 			c:emit_signal("request::activate", "titlebar", {raise = true})
 			awful.mouse.client.move(c)
@@ -33,7 +41,7 @@ titlebar.setup = function(c)
 		end)
 	)
 
-	titlebar.widget:setup{
+	self.widget:setup{
 		{ -- Left
 			{
 				awful.titlebar.widget.floatingbutton (c),
@@ -52,7 +60,7 @@ titlebar.setup = function(c)
 				align  = 'center',
 				widget = awful.titlebar.widget.titlewidget(c),
 			},
-			buttons = titlebar.buttons,
+			buttons = self.buttons,
 			layout  = wibox.layout.flex.horizontal
 		},
 
@@ -70,9 +78,8 @@ titlebar.setup = function(c)
 		},
 		layout = wibox.layout.align.horizontal
 	}
-	return titlebar.widget
+	return self.widget
 end
-
 
 
 

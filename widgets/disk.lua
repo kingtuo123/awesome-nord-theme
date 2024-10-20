@@ -2,7 +2,7 @@ local awful = require("awful")
 local wibox = require("wibox")
 local gears = require("gears")
 local theme = require("theme")
-local json  = require("lib.json")
+local json  = require("libs.json")
 local dpi	= require("beautiful.xresources").apply_dpi
 local naughty = require("naughty")
 

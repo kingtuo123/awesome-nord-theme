@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
+
+<svg
+   width="800px"
+   height="800px"
+   viewBox="0 0 1024 1024"
+   class="icon"
+   version="1.1"
+   id="svg2"
+   sodipodi:docname="music-off.svg"
+   inkscape:version="1.4 (e7c3feb100, 2024-10-09)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs2" />
+  <sodipodi:namedview
+     id="namedview2"
+     pagecolor="#505050"
+     bordercolor="#eeeeee"
+     borderopacity="1"
+     inkscape:showpageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#505050"
+     showguides="true"
+     inkscape:zoom="0.13"
+     inkscape:cx="1415.3846"
+     inkscape:cy="1365.3846"
+     inkscape:window-width="1918"
+     inkscape:window-height="1135"
+     inkscape:window-x="0"
+     inkscape:window-y="33"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg2"
+     showgrid="false" />
+  <path
+     d="M405.333333 704m-192 0a192 192 0 1 0 384 0 192 192 0 1 0-384 0Z"
+     fill="#E91E63"
+     id="path1"
+     style="fill:#c8d3f5;fill-opacity:1" />
+  <path
+     d="M512 128v576h85.333333V298.666667l234.666667 64v-149.333334z"
+     fill="#E91E63"
+     id="path2"
+     style="fill:#c8d3f5;fill-opacity:1" />
+</svg>

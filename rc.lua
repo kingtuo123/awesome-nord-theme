@@ -21,7 +21,7 @@ local volume   = require("widgets.volume")
 --local battery  = require("widgets.battery")
 local titlebar = require("widgets.titlebar")
 local focus    = require("widgets.focus")
-local quake    = require("lib.quake")
+local quake    = require("libs.quake")
 
 
 

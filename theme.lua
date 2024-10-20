@@ -126,6 +126,22 @@ theme.cal_default_padding = {top = dpi(6), bottom = dpi(6), left = dpi(8), right
 
 
 ---------------------------------------------------------------------------------------
+----------------------------------- cpu -----------------------------------------------
+---------------------------------------------------------------------------------------
+theme.mpc_icon = theme.icon_dir .. "mpc/music.svg"
+theme.mpc_off_icon = theme.icon_dir .. "mpc/music-off.svg"
+theme.mpc_next_icon = theme.icon_dir .. "mpc/next.svg"
+theme.mpc_prev_icon = theme.icon_dir .. "mpc/prev.svg"
+theme.mpc_play_icon = theme.icon_dir .. "mpc/play.svg"
+theme.mpc_pause_icon = theme.icon_dir .. "mpc/pause.svg"
+theme.mpc_cover_image = theme.icon_dir .. "mpc/cover.svg"
+theme.mpc_lyric_icon = theme.icon_dir .. "mpc/lyric.svg"
+theme.mpc_lyric_press_icon = theme.icon_dir .. "mpc/lyric-press.svg"
+theme.mpc_playlist_icon = theme.icon_dir .. "mpc/playlist.svg"
+
+
+
+---------------------------------------------------------------------------------------
 ----------------------------------- netspeed ------------------------------------------
 ---------------------------------------------------------------------------------------
 theme.netspeed_up_icon			= theme.icon_dir .. "netspeed/netspeed-up.svg"

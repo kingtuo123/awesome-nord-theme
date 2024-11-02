@@ -42,6 +42,7 @@ disk.widget = wibox.widget{
 		{
 			id    = "icon",
 			image = theme.disk_icon,
+			--image = theme.eject_icon,
 			widget = wibox.widget.imagebox,
 		},
 		id      = "margin",
@@ -265,7 +266,7 @@ disk.popup = awful.popup{
 						end,
 						widget = wibox.container.background,
 						buttons	= awful.util.table.join(
-						awful.button({}, 1, function()
+						awful.button({}, 1, nil, function()
 							if not self.backup_args[index].mounted then
 								self:mount(self.backup_args[index].name)
 							end
@@ -300,7 +301,7 @@ disk.popup = awful.popup{
 									halign = "right",
 									widget = wibox.container.place,
 									buttons	= awful.util.table.join(
-									awful.button({}, 1, function()
+									awful.button({}, 1, nil, function()
 										if self.backup_args[index].mounted then
 											awful.spawn.with_shell(cmd_open(self.backup_args[index].mountpoints[#self.backup_args[index].mountpoints]))
 										end
@@ -339,7 +340,7 @@ disk.popup = awful.popup{
 									halign = "left",
 									widget = wibox.container.place,
 									buttons	= awful.util.table.join(
-									awful.button({}, 1, function()
+									awful.button({}, 1, nil, function()
 										if self.backup_args[index].mounted then
 											self:umount(self.backup_args[index].name, self.backup_args[index].hotplug)
 										end
@@ -466,9 +467,9 @@ disk.popup = awful.popup{
 	shape			= function(cr, width, height)
 		gears.shape.rounded_rect(cr, width, height, theme.popup_rounded)
 	end,
-    placement		= function(wdg,args)  
-		awful.placement.top_right(wdg, {margins = { top = theme.popup_margin_top ,right = theme.popup_margin_right}}) 
-	end,
+    --placement		= function(wdg,args)  
+	--	awful.placement.top_right(wdg, {margins = { top = theme.popup_margin_top ,right = theme.popup_margin_right}}) 
+	--end,
 }
 
 
@@ -517,30 +518,75 @@ function disk:setup(mt,ml,mr,mb)
 		call_now  = false,
 		autostart = false,
 		callback  = function()
+			--print("disk popup timer")
 			if self.popup.visible then
 				self:update()
-				self.popup.timer:again()
+				--self.popup.timer:again()
 			else
 				self.popup.timer:stop()
 			end
 		end
 	})
 
+	--self.widget:buttons(awful.util.table.join (
+	--	awful.button({}, 1, function() 
+	--		self.popup.visible = not self.popup.visible
+	--		if self.popup.visible then
+	--			self.widget.bg = theme.widget_bg_press
+	--		else
+	--			self.widget.bg = theme.widget_bg_hover
+	--		end
+	--		--self.popup.x = mouse.coords().x - dpi(135)
+	--		--self.popup.y = theme.popup_margin_top
+	--		if self.popup.visible then
+	--			self:update()
+	--			self.popup.timer:again()
+	--		end
+	--	end)))
+
+	local function popup_move()	
+		local m = mouse.coords()
+		self.popup.x = m.x - self.popup_offset.x
+		self.popup.y = m.y - self.popup_offset.y
+		mousegrabber.stop()
+	end
+
+	self.popup:buttons(gears.table.join(
+		awful.button({ }, 1, function()
+			self.popup:connect_signal('mouse::move',popup_move)
+			local m = mouse.coords()
+			self.popup_offset = {
+				x = m.x - self.popup.x,
+				y = m.y - self.popup.y
+			}
+			self.popup:emit_signal('mouse::move', popup_move)
+		end,function()
+			self.popup:disconnect_signal ('mouse::move',popup_move)
+		end),
+		awful.button({ }, 3, function ()
+			self.popup:disconnect_signal ('mouse::move',popup_move)
+			self.popup.visible = false
+			self.widget.bg = theme.topbar_bg
+			self.widget.shape_border_color = theme.topbar_bg
+		end)
+	))
+
 	self.widget:buttons(awful.util.table.join (
 		awful.button({}, 1, function() 
-			self.popup.visible = not self.popup.visible
 			if self.popup.visible then
-				self.widget.bg = theme.widget_bg_press
+				self.popup.visible = false
+				--self.widget.bg = theme.widget_bg_press
 			else
-				self.widget.bg = theme.widget_bg_hover
-			end
-			--self.popup.x = mouse.coords().x - dpi(135)
-			--self.popup.y = theme.popup_margin_top
-			if self.popup.visible then
+				self.popup.x = mouse.coords().x - dpi(135)
+				self.popup.y = theme.popup_margin_top
+				self.popup.visible = true
 				self:update()
 				self.popup.timer:again()
+				--self.widget.bg = theme.widget_bg_hover
 			end
-		end)))
+			--self.widget.shape_border_color = theme.widget_border_color
+		end)
+	))
 
 	return self.widget
 end

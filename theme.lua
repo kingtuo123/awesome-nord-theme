@@ -113,6 +113,7 @@ theme.tasklist_bg_image_normal   = theme.icon_dir .. "taglist/tag_sel_occ.svg"
 ---------------------------------------------------------------------------------------
 ---------------------------------- calendar -------------------------------------------
 ---------------------------------------------------------------------------------------
+theme.clock_font	 = "Microsoft YaHei UI 9"
 theme.cal_font       = "JetBrainsMono NFP 9"
 theme.cal_header_fg  = theme.fg
 theme.cal_weekday_fg = sc("#0067c0", "#86e1fc")
@@ -126,18 +127,30 @@ theme.cal_default_padding = {top = dpi(6), bottom = dpi(6), left = dpi(8), right
 
 
 ---------------------------------------------------------------------------------------
------------------------------------ cpu -----------------------------------------------
+----------------------------------- music -----------------------------------------------
 ---------------------------------------------------------------------------------------
-theme.mpc_icon = theme.icon_dir .. "mpc/music.svg"
-theme.mpc_off_icon = theme.icon_dir .. "mpc/music-off.svg"
-theme.mpc_next_icon = theme.icon_dir .. "mpc/next.svg"
-theme.mpc_prev_icon = theme.icon_dir .. "mpc/prev.svg"
-theme.mpc_play_icon = theme.icon_dir .. "mpc/play.svg"
-theme.mpc_pause_icon = theme.icon_dir .. "mpc/pause.svg"
-theme.mpc_cover_image = theme.icon_dir .. "mpc/cover.svg"
-theme.mpc_lyric_icon = theme.icon_dir .. "mpc/lyric.svg"
-theme.mpc_lyric_press_icon = theme.icon_dir .. "mpc/lyric-press.svg"
-theme.mpc_playlist_icon = theme.icon_dir .. "mpc/playlist.svg"
+theme.music_font	 = "Microsoft YaHei UI 9"
+theme.music_font1	 = "Microsoft YaHei UI 8.5"
+theme.music_icon = theme.icon_dir .. "music/music.svg"
+theme.music_off_icon = theme.icon_dir .. "music/music-off.svg"
+theme.music_next_icon = theme.icon_dir .. "music/next.svg"
+theme.music_prev_icon = theme.icon_dir .. "music/prev.svg"
+theme.music_play_icon = theme.icon_dir .. "music/play.svg"
+theme.music_pause_icon = theme.icon_dir .. "music/pause.svg"
+theme.music_cover_image = theme.icon_dir .. "music/cover.svg"
+theme.music_lyric_icon = theme.icon_dir .. "music/lyric.svg"
+theme.music_lyric_press_icon = theme.icon_dir .. "music/lyric-press.svg"
+theme.music_playlist_icon = theme.icon_dir .. "music/playlist.svg"
+
+
+
+---------------------------------------------------------------------------------------
+------------------------------------ weather ------------------------------------------
+---------------------------------------------------------------------------------------
+theme.weather_font	 = "Microsoft YaHei UI 9"
+theme.weather_icon = theme.icon_dir .. "weather/weather.svg"
+theme.temperature_icon = theme.icon_dir .. "weather/temperature.svg"
+theme.humidity_icon = theme.icon_dir .. "weather/humidity.svg"
 
 
 
@@ -197,12 +210,11 @@ theme.serial_icon				 = theme.icon_dir .. "disk/serial.svg"
 
 
 ---------------------------------------------------------------------------------------
------------------------------------ vpn icon ------------------------------------------
+----------------------------------- v2ray icon ----------------------------------------
 ---------------------------------------------------------------------------------------
-theme.vpn_on_icon				= theme.icon_dir .. "vpn/vpn-on.svg"
-theme.vpn_off_icon				= theme.icon_dir .. "vpn/vpn-off.svg"
-theme.switch_on_icon			= theme.icon_dir .. "vpn/switch-on.svg"
-theme.switch_off_icon			= theme.icon_dir .. "vpn/switch-off.svg"
+theme.v2ray_icon			= theme.icon_dir .. "v2ray/v2ray.svg"
+theme.switch_on_icon			= theme.icon_dir .. "v2ray/switch-on.svg"
+theme.switch_off_icon			= theme.icon_dir .. "v2ray/switch-off.svg"
 
 
 

@@ -115,10 +115,11 @@ clock.popup = awful.popup{
 		gears.shape.rounded_rect(cr, width, height, theme.popup_rounded)
 	end,
     placement		= function(d,args)
-		awful.placement.top(d, {
-			margins = {top = theme.popup_margin_top}, 
-			parent  = awful.screen.focused()
-		}) 
+		awful.placement.top_right(d, {margins = { top = theme.popup_margin_top ,right = theme.popup_margin_right}}) 
+		--awful.placement.top(d, {
+		--	margins = {top = theme.popup_margin_top}, 
+		--	parent  = awful.screen.focused()
+		--}) 
 	end,
 }
 
@@ -132,7 +133,7 @@ clock.widget = wibox.widget {
 			text	= "--",
 			align   = "center",
 			valign  = "center",
-			font	= theme.cal_font,
+			font	= theme.clock_font,
 			widget	= wibox.widget.textbox,
 		},
 		id      = "margin",
@@ -155,14 +156,21 @@ clock.widget = wibox.widget {
 
 
 function clock:update()
-	awful.spawn.easy_async_with_shell("date +'%H:%M %-m/%-d %a'", function(out)
-		self.widget.date = out
-		self.widget.date = string.gsub(out, "\n", "")
-	end)
+	--awful.spawn.easy_async_with_shell("date +'%H:%M %-m/%-d %a'", function(out)
+	--	self.widget.date = out
+	--	self.widget.date = string.gsub(out, "\n", "")
+	--end)
+
 	--weeks = {"日","一","二","三","四","五","六"}
 	--awful.spawn.easy_async_with_shell("date +'%H:%M  %-m月%-d日  周%w'", function(out)
 	--	self.widget.date = string.gsub(out, "(%d)\n", weeks[tonumber(string.match(out, "(%d)\n")) + 1])
 	--end)
+
+	weeks = {"日","一","二","三","四","五","六"}
+	awful.spawn.easy_async_with_shell("date +'%-m月%-d日   周%w   %H:%M'", function(out)
+		out = string.gsub(out, "\n", "")
+		self.widget.date = string.gsub(out, "周(%d)", "周" .. weeks[tonumber(string.match(out, "周(%d)")) + 1])
+	end)
 end
 
 

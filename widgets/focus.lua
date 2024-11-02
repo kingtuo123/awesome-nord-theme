@@ -8,6 +8,7 @@ local dpi	= require("beautiful.xresources").apply_dpi
 
 
 local focus = {}
+local always_on = false
 
 
 
@@ -235,7 +236,9 @@ function focus:update(c, visible)
 	focus.bottom_rv.visible = true
 	focus.bottom_rh.visible = true
 
-	focus.timer:again()
+	if not always_on then
+		focus.timer:again()
+	end
 
 end
 

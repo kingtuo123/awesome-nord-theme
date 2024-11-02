@@ -305,9 +305,9 @@ volume.popup_outputdevice = awful.popup{
 	shape			= function(cr, width, height)
 		gears.shape.rounded_rect(cr, width, height, theme.popup_rounded)
 	end,
-    placement		= function(wdg,args)  
-		awful.placement.top_right(wdg, {margins = { top = theme.popup_margin_top ,right = theme.popup_margin_right}}) 
-	end,
+    --placement		= function(wdg,args)  
+	--	awful.placement.top_right(wdg, {margins = { top = theme.popup_margin_top ,right = theme.popup_margin_right}}) 
+	--end,
 }
 
 
@@ -495,26 +495,26 @@ function volume:setup(mt,ml,mr,mb)
 	self.widget.margin.right  = dpi(mr or 0)
 	self.widget.margin.bottom = dpi(mb or 0)
 
-	self.widget:buttons(awful.util.table.join (
-		awful.button({}, 1, function() 
-			self.popup_notification.visible = false
-			self.popup_outputdevice.visible = not self.popup_outputdevice.visible
-			self:update()
-		end),
-		awful.button({}, 2, function() 
-			self:toggle()
-		end),
-		awful.button({}, 3, function() 
-			local wdg = self.widget:get_children_by_id("value")[1]
-			wdg.visible = not wdg.visible
-		end),
-		awful.button({}, 4, function() 
-			self:up()
-		end),
-		awful.button({}, 5, function() 
-			self:down()
-		end)
-	))
+	--self.widget:buttons(awful.util.table.join (
+	--	awful.button({}, 1, function() 
+	--		self.popup_notification.visible = false
+	--		self.popup_outputdevice.visible = not self.popup_outputdevice.visible
+	--		self:update()
+	--	end),
+	--	awful.button({}, 2, function() 
+	--		self:toggle()
+	--	end),
+	--	awful.button({}, 3, function() 
+	--		local wdg = self.widget:get_children_by_id("value")[1]
+	--		wdg.visible = not wdg.visible
+	--	end),
+	--	awful.button({}, 4, function() 
+	--		self:up()
+	--	end),
+	--	awful.button({}, 5, function() 
+	--		self:down()
+	--	end)
+	--))
 
 	self.widget:connect_signal('mouse::enter',function() 
 		if self.popup_outputdevice.visible then
@@ -541,11 +541,69 @@ function volume:setup(mt,ml,mr,mb)
 		end)
 	))
 
+	--self.popup_outputdevice:buttons(gears.table.join(
+	--	awful.button({ }, 3, function ()
+	--		self.popup_outputdevice.visible = false
+	--		self.widget.bg = theme.topbar_bg
+	--		self.widget.shape_border_color = theme.topbar_bg
+	--	end)
+	--))
+
+	local function popup_outputdevice_move()	
+		local m = mouse.coords()
+		self.popup_outputdevice.x = m.x - self.popup_outputdevice_offset.x
+		self.popup_outputdevice.y = m.y - self.popup_outputdevice_offset.y
+		mousegrabber.stop()
+	end
+
 	self.popup_outputdevice:buttons(gears.table.join(
+		awful.button({ }, 1, function()
+			self.popup_outputdevice:connect_signal('mouse::move',popup_outputdevice_move)
+			local m = mouse.coords()
+			self.popup_outputdevice_offset = {
+				x = m.x - self.popup_outputdevice.x,
+				y = m.y - self.popup_outputdevice.y
+			}
+			self.popup_outputdevice:emit_signal('mouse::move', popup_outputdevice_move)
+		end,function()
+			self.popup_outputdevice:disconnect_signal ('mouse::move',popup_outputdevice_move)
+		end),
 		awful.button({ }, 3, function ()
+			self.popup_outputdevice:disconnect_signal ('mouse::move',popup_outputdevice_move)
 			self.popup_outputdevice.visible = false
 			self.widget.bg = theme.topbar_bg
 			self.widget.shape_border_color = theme.topbar_bg
+		end)
+	))
+
+	self.widget:buttons(awful.util.table.join (
+		awful.button({}, 1, function() 
+			if self.popup_outputdevice.visible then
+				self.popup_outputdevice.visible = false
+				--self.widget.bg = theme.widget_bg_press
+			else
+				self.popup_notification.visible = false
+				self.popup_outputdevice.x = mouse.coords().x - dpi(126)
+				self.popup_outputdevice.y = theme.popup_margin_top
+				self.popup_outputdevice.visible = true
+				self:update()
+				self.popup_outputdevice.timer:again()
+				--self.widget.bg = theme.widget_bg_hover
+			end
+			--self.widget.shape_border_color = theme.widget_border_color
+		end),
+		awful.button({}, 2, function() 
+			self:toggle()
+		end),
+		awful.button({}, 3, function() 
+			local wdg = self.widget:get_children_by_id("value")[1]
+			wdg.visible = not wdg.visible
+		end),
+		awful.button({}, 4, function() 
+			self:up()
+		end),
+		awful.button({}, 5, function() 
+			self:down()
 		end)
 	))
 
@@ -555,6 +613,20 @@ function volume:setup(mt,ml,mr,mb)
 		autostart = true,
 		callback  = function()
 			self:update()
+		end
+	})
+
+	self.popup_outputdevice.timer = gears.timer({
+		timeout   = 2,
+		call_now  = false,
+		autostart = false,
+		callback  = function()
+			--print("popup_outputdevice timer")
+			if not self.popup_outputdevice.visible then
+				self.popup_outputdevice.timer:stop()
+			else
+				self:update()
+			end
 		end
 	})
 

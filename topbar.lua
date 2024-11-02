@@ -11,7 +11,9 @@ local taglist   = require("widgets.taglist")
 local tasklist  = require("widgets.tasklist")
 local clock     = require("widgets.clock")
 local promptbox = require("widgets.promptbox")
---local mpc       = require("widgets.mpc")
+local music     = require("widgets.music")
+local v2ray     = require("widgets.v2ray")
+local weather   = require("widgets.weather")
 local netspeed  = require("widgets.netspeed")
 local mem		= require("widgets.mem")
 local cpu		= require("widgets.cpu")
@@ -47,7 +49,7 @@ function topbar:setup(s)
 			layout = wibox.layout.align.horizontal,
 			{
 				layout = wibox.layout.fixed.horizontal,
-				forced_width = dpi(890),
+				--forced_width = dpi(890),
 				taglist:setup(s),
 				{
 					layout = wibox.layout.align.horizontal,
@@ -55,23 +57,27 @@ function topbar:setup(s)
 				},
 				tasklist:setup(s),
 			},
-			clock:setup(),
+			nil,
 			{ 
 				layout = wibox.layout.align.horizontal,
-				forced_width = dpi(890),
+				--forced_width = dpi(890),
 				nil,
 				nil,
 				{
 					layout = wibox.layout.fixed.horizontal,
 					-- margin_top, margin_left, margin_right, margin_bottom
+					music:setup(0,12,8,0),
+					v2ray:setup(8,15,15,8),
+					weather:setup(0,12,18,0),
 					netspeed:setup(6,6,0,6),
-					mem:setup(4,2,5,4),
-					cpu:setup(4,2,11,4),
-					--mpc:setup(7.5,8,8,7.5),
-					disk:setup(11.5,15,15,11),
+					mem:setup(4,2,10,4),
+					cpu:setup(4,10,11,4),
+					--disk:setup(11.5,15,15,11),
+					disk:setup(11,15,15,11),
 					wifi:setup(11,10,10,11),
 					volume:setup(9,10,10,9),
 					layoutbox:setup(s,10,10,10,10),
+					clock:setup(0,12,12,0),
 				}
 			}
 		},

@@ -156,12 +156,21 @@ wifi.popup = awful.popup{
 										background_color = theme.popup_bg_progressbar,
 										max_value    = 100,
 										value        = 0,
-										ticks        = true,
-										ticks_size   = dpi(2),
-										ticks_gap    = dpi(2),
+										--ticks        = true,
+										--ticks_size   = dpi(2),
+										--ticks_gap    = dpi(2),
 										forced_width = dpi(4*25),
 										border_width = 0,
+										margins			 = {top = dpi(0), right = dpi(0), left = dpi(0), bottom = dpi(0)},
+										paddings		 = dpi(0),
+										border_width	 = dpi(0),
 										widget = wibox.widget.progressbar,
+										shape = function(cr, width, height)
+											gears.shape.rounded_rect(cr, width, height, dpi(3))
+										end,
+										bar_shape = function(cr, width, height)
+											gears.shape.rounded_rect(cr, width, height, dpi(3))
+										end,
 										--shape = function(cr, width, height) gears.shape.rounded_rect(cr, width, height, dpi(3)) end,
 										--bar_shape = function(cr, width, height) gears.shape.rounded_rect(cr, width, height, dpi(3)) end,
 									},
@@ -250,9 +259,9 @@ wifi.popup = awful.popup{
 	shape			= function(cr, width, height)
 		gears.shape.rounded_rect(cr, width, height, theme.popup_rounded)
 	end,
-    placement		= function(wdg,args)  
-		awful.placement.top_right(wdg, {margins = { top = theme.popup_margin_top ,right = theme.popup_margin_right}}) 
-	end,
+    --placement		= function(wdg,args)  
+	--	awful.placement.top_right(wdg, {margins = { top = theme.popup_margin_top ,right = theme.popup_margin_right}}) 
+	--end,
 }
 
 
@@ -301,17 +310,73 @@ function wifi:setup(mt,ml,mr,mb)
 	self.widget.margin.right  = dpi(mr or 0)
 	self.widget.margin.bottom = dpi(mb or 0)
 
-	self.widget:buttons(awful.util.table.join(
-		awful.button({}, 1, function()
+	--self.widget:buttons(awful.util.table.join(
+	--	awful.button({}, 1, function()
+	--		if self.popup.visible then
+	--			self.popup.visible = false
+	--			self.widget.bg = theme.widget_bg_press
+	--		else
+	--			self.popup.visible = true
+	--			self.widget.bg = theme.widget_bg_hover
+	--			self:update()
+	--			self.popup.timer:again()
+	--		end
+	--	end),
+	--	awful.button({}, 3, function() 
+	--		local wdg = self.widget:get_children_by_id("ssid")[1]
+	--		wdg.visible = not wdg.visible
+	--	end)
+	--))
+
+	--self.popup:buttons(gears.table.join(
+	--	awful.button({ }, 3, function ()
+	--		self.popup.visible = false
+	--		self.widget.bg = theme.topbar_bg
+	--		self.widget.shape_border_color = theme.topbar_bg
+	--	end)
+	--))
+
+	local function popup_move()	
+		local m = mouse.coords()
+		self.popup.x = m.x - self.popup_offset.x
+		self.popup.y = m.y - self.popup_offset.y
+		mousegrabber.stop()
+	end
+
+	self.popup:buttons(gears.table.join(
+		awful.button({ }, 1, function()
+			self.popup:connect_signal('mouse::move',popup_move)
+			local m = mouse.coords()
+			self.popup_offset = {
+				x = m.x - self.popup.x,
+				y = m.y - self.popup.y
+			}
+			self.popup:emit_signal('mouse::move', popup_move)
+		end,function()
+			self.popup:disconnect_signal ('mouse::move',popup_move)
+		end),
+		awful.button({ }, 3, function ()
+			self.popup:disconnect_signal ('mouse::move',popup_move)
+			self.popup.visible = false
+			self.widget.bg = theme.topbar_bg
+			self.widget.shape_border_color = theme.topbar_bg
+		end)
+	))
+
+	self.widget:buttons(awful.util.table.join (
+		awful.button({}, 1, function() 
 			if self.popup.visible then
 				self.popup.visible = false
-				self.widget.bg = theme.widget_bg_press
+				--self.widget.bg = theme.widget_bg_press
 			else
+				self.popup.x = mouse.coords().x - dpi(135)
+				self.popup.y = theme.popup_margin_top
 				self.popup.visible = true
-				self.widget.bg = theme.widget_bg_hover
 				self:update()
 				self.popup.timer:again()
+				--self.widget.bg = theme.widget_bg_hover
 			end
+			--self.widget.shape_border_color = theme.widget_border_color
 		end),
 		awful.button({}, 3, function() 
 			local wdg = self.widget:get_children_by_id("ssid")[1]
@@ -319,13 +384,6 @@ function wifi:setup(mt,ml,mr,mb)
 		end)
 	))
 
-	self.popup:buttons(gears.table.join(
-		awful.button({ }, 3, function ()
-			self.popup.visible = false
-			self.widget.bg = theme.topbar_bg
-			self.widget.shape_border_color = theme.topbar_bg
-		end)
-	))
 
 	self.widget:connect_signal('mouse::enter',function() 
 		if self.popup.visible then
@@ -360,9 +418,10 @@ function wifi:setup(mt,ml,mr,mb)
 		call_now  = false,
 		autostart = false,
 		callback  = function()
+			--print("wifi popup timer")
 			if self.popup.visible then
 				self:update()
-				self.popup.timer:again()
+				--self.popup.timer:again()
 			else
 				self.popup.timer:stop()
 			end

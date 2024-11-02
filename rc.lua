@@ -42,7 +42,7 @@ tag.connect_signal("request::default_layouts", function()
     awful.layout.append_default_layouts({
         awful.layout.suit.floating,
         awful.layout.suit.tile,
-        --awful.layout.suit.tile.left,
+        awful.layout.suit.tile.left,
         --awful.layout.suit.tile.bottom,
         --awful.layout.suit.tile.top,
         --awful.layout.suit.fair,
@@ -251,6 +251,9 @@ end
 ----------------------------------- Key bindings ---------------------------------------------
 ----------------------------------------------------------------------------------------------
 globalkeys = gears.table.join(
+	awful.key({                   }, "XF86AudioPlay" , function()  awful.spawn.with_shell("mpc toggle &> /dev/null") end),
+	awful.key({ modkey,           }, "XF86AudioPlay" , function()  awful.spawn.with_shell("mpc next &> /dev/null") end),
+	awful.key({ modkey, "Shift"   }, "XF86AudioPlay" , function()  awful.spawn.with_shell("mpc prev &> /dev/null") end),
 	awful.key({                   }, "XF86AudioRaiseVolume" , function() volume:up() end),
 	awful.key({                   }, "XF86AudioLowerVolume" , function() volume:down() end),
 	awful.key({                   }, "XF86AudioMute"        , function() volume:toggle() end),
@@ -719,7 +722,8 @@ awful.rules.rules = {
 			titlebars_enabled = false,
 			ontop = true,
 			floating = true,
-			sticky = true
+			sticky = true,
+			size_hints_honor = false
 		}
     },
     ----------------------------------
@@ -824,7 +828,8 @@ screen.connect_signal("request::desktop_decoration", function(s)
 		horiz = "center",
 		visible = true,
 		height = 0.388,
-		width = 0.510,
+		width = 0.511,
+		border = theme.border_width,
 		screen = s
 	})
 end)

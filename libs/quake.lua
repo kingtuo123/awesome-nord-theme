@@ -105,10 +105,10 @@ function quake:compute_size()
         local x, y
         if     self.horiz == "left"  then x = geom.x
         elseif self.horiz == "right" then x = geom.width + geom.x - width
-        else   x = geom.x + (geom.width - width)/2 end
+        else   x = geom.x + (geom.width - width)/2 - self.border end
         if     self.vert == "top"    then y = geom.y
         elseif self.vert == "bottom" then y = geom.height + geom.y - height
-        else   y = geom.y + (geom.height - height)/2 end
+        else   y = geom.y + (geom.height - height)/2 - self.border end
         self.geometry[self.screen.index] = { x = x, y = y, width = width, height = height }
     end
     return self.geometry[self.screen.index]

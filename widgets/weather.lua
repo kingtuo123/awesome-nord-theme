@@ -10,7 +10,7 @@ local dpi	= require("beautiful.xresources").apply_dpi
 
 local weather = {}
 local update_timeout = 300
-local cmd_get_weather = "curl --connect-timeout 3 \"https://restapi.amap.com/v3/weather/weatherInfo?key=`cat ~/.config/Amap/key`&city=330382\" || echo failed"
+local cmd_get_weather = "curl --connect-timeout 5 \"https://restapi.amap.com/v3/weather/weatherInfo?key=`cat ~/.config/Amap/key`&city=330382\" || echo failed"
 
 
 
@@ -110,7 +110,7 @@ function weather:update()
 	awful.spawn.easy_async_with_shell(cmd_get_weather, function(out)
 		--print(os.date("%X") .. ": update weather")
 		--print(out)
-		if string.match(out,"failed") == "failed" then
+		if string.match(out,"failed") then
 			print("weather: curl failed")
 			self.reconnect_timer:start()
 			return

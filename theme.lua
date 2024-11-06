@@ -257,6 +257,7 @@ theme.vol_sink_mute_line_bg     = "#ff757f"
 theme.vol_sink_sel_line_bg      = "#86e1fc"
 theme.vol_sink_unsel_line_bg    = theme.popup_bg
 theme.vol_sink_unsel_bg         = theme.popup_bg
+theme.vol_mute_icon		        = theme.icon_dir .. "volume/vol_mute.svg"
 theme.vol_100_icon		        = theme.icon_dir .. "volume/vol-100.svg"
 theme.vol_70_icon		        = theme.icon_dir .. "volume/vol-70.svg"
 theme.vol_40_icon		        = theme.icon_dir .. "volume/vol-40.svg"

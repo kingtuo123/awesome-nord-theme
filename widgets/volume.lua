@@ -9,16 +9,16 @@ local dpi	= require("beautiful.xresources").apply_dpi
 
 local volume		    = {}
 local sinks             = {}
-local sink_def_idx      = 1
+local sink_def_idx      = 0
 local cmd_get_sinks     = "pactl list sinks | grep -E 'Name:|alsa.card_name|type:'"
 local cmd_get_def_sink  = "pactl get-default-sink"
 local cmd_set_def_sink  = function(name) return "pactl set-default-sink " .. name end
 local cmd_get_vol	    = function(name) return "pactl get-sink-volume  " .. name end
 local cmd_get_mute	    = function(name) return "pactl get-sink-mute    " .. name end
 local cmd_set_mute	    = "pactl set-sink-mute  `pactl get-default-sink` yes"
-local cmd_unset_mute	= "pactl set-sink-mute  `pactl get-default-sink` no"
+local cmd_set_unmute	= "pactl set-sink-mute  `pactl get-default-sink` no"
 local cmd_toggle_mute	= "pactl set-sink-mute  `pactl get-default-sink` toggle"
-local cmd_set_vol	    = function(vol) return "pactl set-sink-volume `pactl get-default-sink` " .. vol .. "%" end
+local cmd_set_vol	    = function(vol) return string.format("pactl set-sink-volume %s %d%%", sinks[sink_def_idx].name, vol) end
 
 
 
@@ -28,28 +28,16 @@ volume.widget = wibox.widget {
 		{
 			wibox.widget.textbox(" "),
 			{
-				{
-					id		= "mute_icon",
-					resize	= true,
-					image	= theme.vol_0_icon,
-					visible	= false,
-					widget	= wibox.widget.imagebox,
-				},
-				{
-					id		= "volume_icon",
-					resize	= true,
-					visible	= true,
-					image	= theme.vol_70_icon,
-					widget	= wibox.widget.imagebox,
-				},
 				id		= "icon",
-				layout	= wibox.layout.stack,
+				resize	= true,
+				image	= theme.vol_10_icon,
+				widget	= wibox.widget.imagebox,
 			},
 			{
 				id		= "value",
-				text	= "100%  ",
+				text	= " --%",
 				font	= theme.vol_widget_font,
-				visible	= false,
+				visible	= true,
 				widget	= wibox.widget.textbox,
 			},
 			wibox.widget.textbox(" "),
@@ -64,52 +52,12 @@ volume.widget = wibox.widget {
 	shape_border_width = theme.widget_border_width,
 	shape_border_color = theme.widget_border_color,
 	widget = wibox.container.background,
-
-	backup_icon = "",
-
-	set_value = function(self,vol)
-		vol = tonumber(vol or 0)
-		if vol >=0 and vol <= 100 then
-			if vol >= 65 then
-				self.backup_icon = theme.vol_100_icon
-			elseif vol >= 35 then
-				self.backup_icon = theme.vol_70_icon
-			elseif vol >= 5 then
-				self.backup_icon = theme.vol_40_icon
-			else
-				self.backup_icon = theme.vol_10_icon
-			end
-			self:get_children_by_id("volume_icon")[1].image = self.backup_icon
-			self:get_children_by_id("value")[1].text   = " " .. vol .. "%"
-			sinks[sink_def_idx].value = vol
-			awful.spawn.with_shell(cmd_set_vol(vol))
-		end
+	set_icon = function(self, icon)
+		self:get_children_by_id("icon")[1].image = icon
 	end,
-	get_value = function(self)
-		return sinks[sink_def_idx].value
+	set_value = function(self,v)
+		self:get_children_by_id("value")[1].text = " " .. v .. "%"
 	end,
-	set_mute = function(self,mute)
-		sinks[sink_def_idx].mute = mute
-		if mute == true then
-			awful.spawn.with_shell(cmd_set_mute)
-			self:get_children_by_id("mute_icon")[1].visible = true
-			self:get_children_by_id("volume_icon")[1].visible = false
-		else
-			awful.spawn.with_shell(cmd_unset_mute)
-			self:get_children_by_id("mute_icon")[1].visible = false
-			self:get_children_by_id("volume_icon")[1].visible = true
-		end
-	end,
-	get_mute = function(self)
-		return sinks[sink_def_idx].mute
-	end,
-	get_icon = function(self)
-		if self.mute then
-			return theme.vol_0_icon
-		else
-			return self.backup_icon
-		end
-	end
 }
 
 
@@ -241,10 +189,15 @@ volume.popup_outputdevice = awful.popup{
 				bottom = dpi(5),
 				widget = wibox.container.margin,
 				buttons	= awful.util.table.join(
-					awful.button({}, 1, function()
-						awful.spawn.easy_async_with_shell(cmd_set_def_sink(args.name), function(out)
-							volume:update()
-						end)
+					awful.button({}, 1, function() 
+						volume.popup_outputdevice.timer:again()
+						if i ~= sink_def_idx then
+							awful.spawn.with_shell(cmd_set_def_sink(args.name))
+						end
+					end, 
+					function()
+						volume.popup_outputdevice.timer:again()
+						volume:update()
 					end),
 					awful.button({}, 2, function()
 						if i == sink_def_idx then
@@ -377,10 +330,12 @@ volume.popup_notification = awful.popup{
 			widget = wibox.container.margin 
 		},
 		layout = wibox.layout.fixed.vertical,
-		set_value	= function(self,val)
-			self:get_children_by_id('icon')[1].image = volume.widget.icon
+		set_value = function(self, val)
 			self:get_children_by_id('bar')[1].value = val / 100
 			self:get_children_by_id('value')[1].text = val
+		end,
+		set_icon = function(self, icon)
+			self:get_children_by_id('icon')[1].image = icon
 		end,
 	},
 	border_color	= theme.popup_border_color,
@@ -399,11 +354,67 @@ volume.popup_notification = awful.popup{
 
 
 
+function volume:fresh_data()
+	local value = sinks[sink_def_idx].value
+	local mute  = sinks[sink_def_idx].mute
+	local icon
+	if mute then
+		icon = theme.vol_mute_icon
+	elseif value >= 65 then
+		icon = theme.vol_100_icon
+	elseif value >= 35 then
+		icon = theme.vol_70_icon
+	elseif value >= 5 then
+		icon = theme.vol_40_icon
+	else
+		icon = theme.vol_10_icon
+	end
+	self.widget.value = value
+	self.widget.icon = icon
+	self.popup_notification.widget.value = value
+	self.popup_notification.widget.icon = icon
+	self.popup_outputdevice.widget.backup_sinks[sink_def_idx].value = value
+	self.popup_outputdevice.widget.backup_sinks[sink_def_idx].mute = mute
+end
+
+
+
+function volume:increase(value)
+	if sinks[sink_def_idx] == nil then
+		return
+	end
+	value = sinks[sink_def_idx].value + value
+	if value < 0 then
+		value = 0
+	elseif value > 100 then
+		value = 100
+	end
+	awful.spawn.with_shell(cmd_set_vol(value))
+	sinks[sink_def_idx].value = value
+	self:fresh_data()
+	if not self.popup_outputdevice.visible then
+		self.popup_notification.visible = true
+		self.popup_notification.timer:again()
+	end
+end
+
+
+
 
 function volume:toggle()
-	self.widget.mute = not self.widget.mute
-	self.popup_notification.widget.value = self.widget.value
-	self.popup_outputdevice.widget.backup_sinks[sink_def_idx].mute = sinks[sink_def_idx].mute
+	if sinks[sink_def_idx] == nil then
+		return
+	end
+	local mute
+	if sinks[sink_def_idx].mute then
+		awful.spawn.with_shell(cmd_set_unmute)
+		mute = false
+	else
+		awful.spawn.with_shell(cmd_set_mute)
+		mute = true
+	end
+	sinks[sink_def_idx].mute = mute
+	self:fresh_data()
 	if not self.popup_outputdevice.visible then
 		self.popup_notification.visible = true
 		self.popup_notification.timer:again()
@@ -414,26 +425,14 @@ end
 
 
 function volume:up()
-	self.widget.value = self.widget.value + 2
-	self.popup_notification.widget.value = self.widget.value
-	self.popup_outputdevice.widget.backup_sinks[sink_def_idx].value = sinks[sink_def_idx].value
-	if not self.popup_outputdevice.visible then
-		self.popup_notification.visible = true
-		self.popup_notification.timer:again()
-	end
+	self:increase(2)
 end
 
 
 
 
 function volume:down()
-	self.widget.value = self.widget.value - 2
-	self.popup_notification.widget.value = self.widget.value
-	self.popup_outputdevice.widget.backup_sinks[sink_def_idx].value = sinks[sink_def_idx].value
-	if not self.popup_outputdevice.visible then
-		self.popup_notification.visible = true
-		self.popup_notification.timer:again()
-	end
+	self:increase(-2)
 end
 
 
@@ -443,6 +442,12 @@ function volume:update()
 	--print(os.date("%X") .. ": volume update")
 	awful.spawn.easy_async_with_shell(cmd_get_def_sink, function(out)
 		local default_sink = string.match(out, '(.-)%c')
+		--print(default_sink)
+		if default_sink == nil or default_sink == "@DEFAULT_SINK@" then
+			sink_def_idx = 0
+			self.reconnect_timer:start()
+			return
+		end
 		awful.spawn.easy_async_with_shell(cmd_get_sinks, function(out)
 			local n = 1
 			local backup_sinks = {}
@@ -474,10 +479,14 @@ function volume:update()
 							sink_def_idx = i
 						end
 						if i == n - 1 then
-							sinks = backup_sinks
-							self.popup_outputdevice.widget.sinks = sinks
-							self.widget.value = sinks[sink_def_idx].value
-							self.widget.mute = sinks[sink_def_idx].mute
+							if sink_def_idx ~= 0 then
+								sinks = backup_sinks
+								self.popup_outputdevice.widget.sinks = sinks
+								self:fresh_data()
+							else
+								self.reconnect_timer:start()
+								return
+							end
 						end
 					end)
 				end)
@@ -578,6 +587,7 @@ function volume:setup(mt,ml,mr,mb)
 
 	self.widget:buttons(awful.util.table.join (
 		awful.button({}, 1, function() 
+			if sink_def_idx == 0 then return end
 			if self.popup_outputdevice.visible then
 				self.popup_outputdevice.visible = false
 				--self.widget.bg = theme.widget_bg_press
@@ -612,6 +622,17 @@ function volume:setup(mt,ml,mr,mb)
 		call_now  = true,
 		autostart = true,
 		callback  = function()
+			self:update()
+		end
+	})
+
+	self.reconnect_timer = gears.timer({
+		timeout   = 2,
+		call_now  = false,
+		autostart = false,
+		single_shot = true,
+		callback  = function()
+			print(os.date("%X") .. ": volume reconnect")
 			self:update()
 		end
 	})

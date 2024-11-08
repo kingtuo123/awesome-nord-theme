@@ -15,9 +15,9 @@ local cmd_get_def_sink  = "pactl get-default-sink"
 local cmd_set_def_sink  = function(name) return "pactl set-default-sink " .. name end
 local cmd_get_vol	    = function(name) return "pactl get-sink-volume  " .. name end
 local cmd_get_mute	    = function(name) return "pactl get-sink-mute    " .. name end
-local cmd_set_mute	    = "pactl set-sink-mute  `pactl get-default-sink` yes"
-local cmd_set_unmute	= "pactl set-sink-mute  `pactl get-default-sink` no"
-local cmd_toggle_mute	= "pactl set-sink-mute  `pactl get-default-sink` toggle"
+local cmd_set_mute	    = function() return "pactl set-sink-mute  " .. sinks[sink_def_idx].name .. " yes" end
+local cmd_set_unmute	= function() return "pactl set-sink-mute  " .. sinks[sink_def_idx].name .. " no" end
+local cmd_toggle_mute	= function() return "pactl set-sink-mute  " .. sinks[sink_def_idx].name .. " toggle" end
 local cmd_set_vol	    = function(vol) return string.format("pactl set-sink-volume %s %d%%", sinks[sink_def_idx].name, vol) end
 
 
@@ -189,15 +189,13 @@ volume.popup_outputdevice = awful.popup{
 				bottom = dpi(5),
 				widget = wibox.container.margin,
 				buttons	= awful.util.table.join(
-					awful.button({}, 1, function() 
-						volume.popup_outputdevice.timer:again()
+					awful.button({}, 1, nil, function()
 						if i ~= sink_def_idx then
-							awful.spawn.with_shell(cmd_set_def_sink(args.name))
+							volume.popup_outputdevice.timer:again()
+							awful.spawn.easy_async_with_shell(cmd_set_def_sink(args.name), function(out)
+								volume:update()
+							end)
 						end
-					end, 
-					function()
-						volume.popup_outputdevice.timer:again()
-						volume:update()
 					end),
 					awful.button({}, 2, function()
 						if i == sink_def_idx then
@@ -407,10 +405,10 @@ function volume:toggle()
 	end
 	local mute
 	if sinks[sink_def_idx].mute then
-		awful.spawn.with_shell(cmd_set_unmute)
+		awful.spawn.with_shell(cmd_set_unmute())
 		mute = false
 	else
-		awful.spawn.with_shell(cmd_set_mute)
+		awful.spawn.with_shell(cmd_set_mute())
 		mute = true
 	end
 	sinks[sink_def_idx].mute = mute

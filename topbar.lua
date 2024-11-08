@@ -67,7 +67,7 @@ function topbar:setup(s)
 					layout = wibox.layout.fixed.horizontal,
 					-- margin_top, margin_left, margin_right, margin_bottom
 					music:setup(0,12,8,0),
-					v2ray:setup(8,15,15,8),
+					v2ray:setup(9,10,10,9),
 					weather:setup(0,12,18,0),
 					netspeed:setup(6,6,0,6),
 					mem:setup(4,2,10,4),

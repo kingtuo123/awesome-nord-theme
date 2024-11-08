@@ -16,7 +16,7 @@ music.lyrics_next_idx = 1
 
 local music_dir = os.getenv("HOME") .. "/Music/"
 local lyric_dir = os.getenv("HOME") .. "/Music/Lyrics/"
-local music_icon_size = dpi(17)
+local music_icon_size = dpi(14)
 
 local last_id
 local last_state
@@ -177,6 +177,7 @@ end
 function music:update()
 	if self.status.state ~= "play" then
 		self.widget:get_children_by_id("title")[1].text = "  " .. string.upper(self.status.state) .. "  "
+		--self.widget:get_children_by_id("title")[1].text = "  " .. self.status.state.. "  "
 	else
 		--self.widget:get_children_by_id("title")[1].text = "  " .. self.currentsong.title or " -- "
 		self.widget:get_children_by_id("title")[1].text = string.format("  %s - %s", self.currentsong.title or "unknow", self.currentsong.artist or "unknow")

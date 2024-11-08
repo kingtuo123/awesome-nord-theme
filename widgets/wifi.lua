@@ -29,7 +29,7 @@ wifi.widget = wibox.widget{
 				id			= "ssid",
 				text		= "",
 				font        = theme.wifi_widget_font,
-				visible		= false,
+				visible		= true,
 				widget		= wibox.widget.textbox,
 			},
 			layout = wibox.layout.fixed.horizontal,

@@ -22,15 +22,15 @@ weather.widget = wibox.widget{
 				{
 					id   = "weather_icon",
 					image = theme.weather_icon,
-					forced_height = dpi(21),
-					forced_width = dpi(21),
+					forced_height = dpi(14),
+					forced_width = dpi(14),
 					widget = wibox.widget.imagebox,
 				},
 				valign = "center",
 				widget = wibox.container.place,
 			},
 			{
-				left = dpi(3),
+				left = dpi(8),
 				widget	= wibox.container.margin,
 			},
 			{
@@ -56,7 +56,7 @@ weather.widget = wibox.widget{
 				widget = wibox.container.place,
 			},
 			{
-				left = dpi(3),
+				left = dpi(1),
 				widget	= wibox.container.margin,
 			},
 			{
@@ -74,8 +74,8 @@ weather.widget = wibox.widget{
 				{
 					id   = "humidity_icon",
 					image = theme.humidity_icon,
-					forced_height = dpi(17),
-					forced_width = dpi(17),
+					forced_height = dpi(14),
+					forced_width = dpi(14),
 					widget = wibox.widget.imagebox,
 				},
 				valign = "center",

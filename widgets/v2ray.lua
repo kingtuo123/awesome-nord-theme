@@ -14,12 +14,12 @@ v2ray.widget = wibox.widget{
 			{
 				{
 					image = theme.v2ray_icon,
-					--forced_height = dpi(22),
-					--forced_width = dpi(22),
 					widget = wibox.widget.imagebox,
 				},
 				valign = "center",
 				halign = "center",
+				forced_height = dpi(16),
+				forced_width = dpi(16),
 				widget = wibox.container.place,
 			},
 			{
@@ -35,7 +35,7 @@ v2ray.widget = wibox.widget{
 						widget	= wibox.widget.textbox,
 					},
 					valign = "bottom",
-					halign = "center",
+					halign = "left",
 					widget = wibox.container.place,
 				},
 				{
@@ -46,7 +46,7 @@ v2ray.widget = wibox.widget{
 						widget = wibox.widget.imagebox,
 					},
 					valign = "top",
-					halign = "center",
+					halign = "left",
 					widget = wibox.container.place,
 				},
 				layout = wibox.layout.fixed.vertical,

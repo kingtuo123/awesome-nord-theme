@@ -32,7 +32,8 @@ tasklist.buttons = gears.table.join(
 function tasklist:setup(s)
 	self.widget = awful.widget.tasklist {
 		screen   = s,
-		filter   = awful.widget.tasklist.filter.currenttags,
+		--filter   = awful.widget.tasklist.filter.currenttags,
+		filter   = awful.widget.tasklist.filter.minimizedcurrenttags,
 		buttons  = self.buttons,
 		widget_template = {
 			{
@@ -52,11 +53,11 @@ function tasklist:setup(s)
 				widget = wibox.container.background,
 			},
 			widget = wibox.container.background,
-			shape = function(cr, width, height)
-				gears.shape.rounded_rect(cr, width, height, theme.widget_rounded)
-			end,
-			shape_border_width = theme.widget_border_width,
-			shape_border_color = theme.widget_border_color,
+			--shape = function(cr, width, height)
+			--	gears.shape.rounded_rect(cr, width, height, theme.widget_rounded)
+			--end,
+			--shape_border_width = theme.widget_border_width,
+			--shape_border_color = theme.widget_border_color,
 			create_callback = function(self, c)
 				local my_icon_role = self:get_children_by_id('my_icon_role')[1]
 				local lookup       = menubar.utils.lookup_icon
@@ -68,7 +69,16 @@ function tasklist:setup(s)
 			end
 		}
 	}
-	return self.widget
+	return wibox.widget{
+		self.widget,
+		bg = theme.tasklist_bg_minimize,
+		shape = function(cr, width, height)
+			gears.shape.rounded_rect(cr, width, height, theme.widget_rounded)
+		end,
+		shape_border_width = theme.widget_border_width,
+		shape_border_color = theme.widget_border_color,
+		widget = wibox.container.background,
+	}
 end
 
 

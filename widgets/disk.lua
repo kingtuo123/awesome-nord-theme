@@ -53,6 +53,7 @@ disk.widget = wibox.widget{
 	end,
 	shape_border_width = theme.widget_border_width,
 	shape_border_color = theme.widget_border_color,
+	bg = theme.widget_bg,
 	widget = wibox.container.background,
 }
 
@@ -215,18 +216,18 @@ disk.popup = awful.popup{
 										value         	 = self.backup_args[index].fsuse,
 										color			 = self.backup_args[index].bar_color,
 										background_color = theme.disk_bg_progressbar_normal,
-										forced_height	 = dpi(10),
+										forced_height	 = dpi(14),
 										forced_width	 = dpi(50),
 										border_width	 = 0,
 										opacity          = self.backup_args[index].bar_opacity,
 										margins			 = {top = dpi(0), right = dpi(0), left = dpi(0), bottom = dpi(0)},
-										paddings		 = dpi(0),
+										paddings		 = dpi(3),
 										border_width	 = dpi(0),
 										shape = function(cr, width, height)
-											gears.shape.rounded_rect(cr, width, height, dpi(3))
+											gears.shape.rounded_rect(cr, width, height, dpi(10))
 										end,
 										bar_shape = function(cr, width, height)
-											gears.shape.rounded_rect(cr, width, height, dpi(3))
+											gears.shape.rounded_rect(cr, width, height, dpi(10))
 										end,
 										widget = wibox.widget.progressbar,
 									},
@@ -503,7 +504,7 @@ function disk:setup(mt,ml,mr,mb)
 		if self.popup.visible then
 			self.widget.bg = theme.widget_bg_press
 		else
-			self.widget.bg = theme.topbar_bg
+			self.widget.bg = theme.widget_bg
 		end
 	end)
 
@@ -514,7 +515,7 @@ function disk:setup(mt,ml,mr,mb)
 		end)))
 
 	self.popup.timer = gears.timer({
-		timeout   = 2,
+		timeout   = 3,
 		call_now  = false,
 		autostart = false,
 		callback  = function()
@@ -566,8 +567,8 @@ function disk:setup(mt,ml,mr,mb)
 		awful.button({ }, 3, function ()
 			self.popup:disconnect_signal ('mouse::move',popup_move)
 			self.popup.visible = false
-			self.widget.bg = theme.topbar_bg
-			self.widget.shape_border_color = theme.topbar_bg
+			self.widget.bg = theme.widget_bg
+			self.widget.shape_border_color = theme.widget_border_color
 		end)
 	))
 
@@ -588,7 +589,12 @@ function disk:setup(mt,ml,mr,mb)
 		end)
 	))
 
-	return self.widget
+	--return self.widget
+	return wibox.widget{
+		self.widget,
+		left = dpi(0-theme.widget_border_width/2),
+		widget = wibox.container.margin
+	}
 end
 
 

@@ -109,7 +109,7 @@ function quake:compute_size()
         if     self.vert == "top"    then y = geom.y
         elseif self.vert == "bottom" then y = geom.height + geom.y - height
         else   y = geom.y + (geom.height - height)/2 - self.border end
-        self.geometry[self.screen.index] = { x = x, y = y, width = width, height = height }
+        self.geometry[self.screen.index] = { x = x, y = y + self.margin_top, width = width, height = height }
     end
     return self.geometry[self.screen.index]
 end
@@ -129,10 +129,11 @@ function quake:new(config)
     conf.settings   = conf.settings
 
     -- If width or height <= 1 this is a proportion of the workspace
-    conf.height     = conf.height    or 0.25       -- height
-    conf.width      = conf.width     or 1          -- width
-    conf.vert       = conf.vert      or "top"      -- top, bottom or center
-    conf.horiz      = conf.horiz     or "left"     -- left, right or center
+    conf.margin_top = conf.margin_top or 0       -- height
+    conf.height     = conf.height     or 0.25       -- height
+    conf.width      = conf.width      or 1          -- width
+    conf.vert       = conf.vert       or "top"      -- top, bottom or center
+    conf.horiz      = conf.horiz      or "left"     -- left, right or center
     conf.geometry   = {}                           -- internal use
 
     local dropdown = setmetatable(conf, { __index = quake })

@@ -101,7 +101,8 @@ weather.widget = wibox.widget{
 		gears.shape.rounded_rect(cr, width, height, theme.widget_rounded)
 	end,
 	shape_border_width = theme.widget_border_width,
-	shape_border_color = "",
+	shape_border_color = theme.widget_border_color,
+	bg = theme.widget_bg,
 	widget = wibox.container.background,
 }
 
@@ -141,6 +142,13 @@ function weather:setup(mt,ml,mr,mb)
 	self.widget.margin.right  = dpi(mr or 0)
 	self.widget.margin.bottom = dpi(mb or 0)
 
+	self.widget:connect_signal('mouse::enter',function() 
+		self.widget.bg = theme.widget_bg_hover
+	end)
+	self.widget:connect_signal('mouse::leave',function() 
+		self.widget.bg = theme.widget_bg
+	end)
+
 	self.timer = gears.timer({
 		timeout   = update_timeout,
 		call_now  = false,
@@ -162,7 +170,12 @@ function weather:setup(mt,ml,mr,mb)
 		end
 	})
 
-	return self.widget
+	--return self.widget
+	return wibox.widget{
+		self.widget,
+		left = dpi(0-theme.widget_border_width/2),
+		widget = wibox.container.margin
+	}
 end
 
 

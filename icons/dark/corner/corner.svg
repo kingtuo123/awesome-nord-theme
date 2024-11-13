@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="15mm"
+   height="15mm"
+   viewBox="0 0 15 15.000001"
+   version="1.1"
+   id="svg1"
+   inkscape:version="1.4 (e7c3feb, 2024-10-09)"
+   sodipodi:docname="corner.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     inkscape:zoom="5.6568543"
+     inkscape:cx="72.124891"
+     inkscape:cy="16.705398"
+     inkscape:window-width="1904"
+     inkscape:window-height="1151"
+     inkscape:window-x="8"
+     inkscape:window-y="41"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg1" />
+  <defs
+     id="defs1">
+    <inkscape:path-effect
+       effect="powerclip"
+       message=""
+       id="path-effect4"
+       is_visible="true"
+       lpeversion="1"
+       inverse="true"
+       flatten="false"
+       hide_clip="false" />
+    <filter
+       id="mask-powermask-path-effect4_inverse"
+       inkscape:label="filtermask-powermask-path-effect4"
+       style="color-interpolation-filters:sRGB"
+       height="100"
+       width="100"
+       x="-50"
+       y="-50">
+      <feColorMatrix
+         id="mask-powermask-path-effect4_primitive1"
+         values="1"
+         type="saturate"
+         result="fbSourceGraphic" />
+      <feColorMatrix
+         id="mask-powermask-path-effect4_primitive2"
+         values="-1 0 0 0 1 0 -1 0 0 1 0 0 -1 0 1 0 0 0 1 0 "
+         in="fbSourceGraphic" />
+    </filter>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath4">
+      <path
+         id="lpe_path-effect4"
+         style="fill:#6700ff;fill-opacity:1;stroke:#24283b;stroke-width:0;stroke-dasharray:none"
+         class="powerclip"
+         d="M -5,-5 H 31.458334 V 31.458334 H -5 Z M 13.229167,0 C 5.9002085,0 0,5.9002085 0,13.229167 c 0,7.328958 5.9002085,13.229167 13.229167,13.229167 7.328958,0 13.229167,-5.900209 13.229167,-13.229167 C 26.458334,5.9002085 20.558125,0 13.229167,0 Z" />
+    </clipPath>
+  </defs>
+  <path
+     id="rect3"
+     clip-path="url(#clipPath4)"
+     style="fill:#191724;fill-opacity:1;stroke:#24283b;stroke-width:0;stroke-dasharray:none"
+     d="m 0,0 v 13.067936 c 0.00605586,0.0011 0.01280577,0.0021 0.02067057,0.0031 0.05848992,-0.0072 0.06368,-0.02205 0.06407878,0.0031 v 0.0098 c 4.2e-7,0.02885 1.25e-6,0.05745 0,0.0863 v 0.06821 c -1.005e-5,0.0215 -1.2473e-4,0.0431 0,0.0646 4.421e-5,0.01512 -1.4892e-4,0.03037 -5.1677e-4,0.04548 6.3125e-4,0.01047 0.0011936,0.02069 5.1677e-4,0.03101 4.3049e-4,0.0085 0.0016124,0.01686 0.0015503,0.02532 -1.02e-5,0.0055 1.43e-5,0.01104 0,0.01654 0.02905667,8.12e-4 0.06206434,0.0015 0.06562907,0.0015 0.0227112,0.0015 0.0667848,0.0026 0.10697022,0.0078 C 0.75074253,12.962502 0.88850237,12.789574 1.6086873,12.090218 1.8168452,11.88808 2.0402248,11.702133 2.2489583,11.50059 2.4667148,11.290335 2.6747826,11.070326 2.887679,10.855151 3.30465,10.44675 3.9838405,9.7745145 4.3909465,9.4113118 4.7743168,9.0692848 7.4876283,6.7793193 7.5674967,6.7112183 8.3660311,6.0303366 9.1572261,5.3405252 9.9575317,4.661731 11.414442,3.3034828 12.872749,1.9471984 14.320056,0.57877604 c -0.0026,-0.0291065 -0.0052,-0.0582155 -0.0078,-0.0873332 -0.0044,0.003893 -0.0086,0.008022 -0.01344,0.0113688 -0.07821,0.0539546 -0.141254,0.072266 -0.234094,0.0232544 -0.03386,-0.017875 -0.05704,-0.0522805 -0.07648,-0.0852661 -0.01686,-0.0286153 -0.02713,-0.0609803 -0.03411,-0.0945679 -0.02221,-0.001938 -0.04146,-0.00544 -0.05219,-0.0124024 -0.08984,-0.0582853 -0.126541,-0.11180156 -0.120406,-0.18086751 h -0.02532 -0.182418 -0.122989 c -0.02714,-0.001915 -0.05627,0.002589 -0.0832,0 -0.0325,-0.003126 -0.04063,-0.005226 -0.0677,-0.0108521 -0.0021,-9.368e-5 -0.0042,-0.001071 -0.0062,-5.1677e-4 -0.0016,4.3726e-4 0.0063,0.001233 0.0047,0.00155 -0.0147,0.002861 -0.03007,0.001967 -0.04496,0.002067 -0.0371,-0.001064 -0.07451,-5.9653e-4 -0.111622,-5.1676e-4 -0.02964,8.91e-5 -0.05924,-3.3e-7 -0.08888,0 -0.0021,6.93e-6 -0.004,-2.12e-6 -0.0062,0 C 12.908824,0.14482893 12.846248,0.06914646 12.85813,0 Z" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1" />
+</svg>

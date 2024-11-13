@@ -40,21 +40,47 @@ function taglist:setup(s)
 					},
 					valign = 'center',
 					halign = 'center',
-					forced_width = theme.taglist_width,
 					widget = wibox.container.place,
 				},
 				id     = "background_role",
+				forced_width = theme.taglist_width - dpi(2),
+				forced_height = theme.taglist_width,
 				widget = wibox.container.background,
 			},
+			--shape = function(cr, width, height)
+			--	 gears.shape.circle(cr, width, height, dpi(10))
+			--end,
 			shape = function(cr, width, height)
 				gears.shape.rounded_rect(cr, width, height, theme.widget_rounded)
 			end,
-			shape_border_width = theme.widget_border_width,
-			shape_border_color = theme.widget_border_color,
 			widget = wibox.container.background,
 		}
 	})
-	return self.widget
+	local t = wibox.widget{
+		{
+			{
+				{
+					widget = self.widget,
+				},
+				top = dpi(3),
+				bottom = dpi(3),
+				left = dpi(3),
+				right = dpi(3),
+				widget = wibox.container.margin,
+			},
+			bg = theme.taglist_bg_empty,
+			shape = function(cr, width, height)
+				gears.shape.rounded_rect(cr, width, height, theme.widget_rounded)
+			end,
+			widget = wibox.container.background,
+		},
+		top = dpi(3),
+		bottom = dpi(3),
+		left = dpi(3),
+		right = dpi(3),
+		widget = wibox.container.margin,
+	}
+	return t
 end
 
 

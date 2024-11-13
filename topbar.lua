@@ -21,6 +21,9 @@ local disk      = require("widgets.disk")
 local wifi      = require("widgets.wifi")
 local volume    = require("widgets.volume")
 local layoutbox = require("widgets.layoutbox")
+local caps = require("widgets.caps")
+local indicator = require("widgets.indicator")
+local close = require("widgets.close")
 
 
 
@@ -46,41 +49,81 @@ function topbar:setup(s)
 		layout = wibox.layout.align.vertical,
 		nil,
 		{
-			layout = wibox.layout.align.horizontal,
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 			{
-				layout = wibox.layout.fixed.horizontal,
-				--forced_width = dpi(890),
-				taglist:setup(s),
 				{
-					layout = wibox.layout.align.horizontal,
-					forced_width = dpi(3)
-				},
-				tasklist:setup(s),
-			},
-			nil,
-			{ 
-				layout = wibox.layout.align.horizontal,
-				--forced_width = dpi(890),
-				nil,
-				nil,
-				{
-					layout = wibox.layout.fixed.horizontal,
-					-- margin_top, margin_left, margin_right, margin_bottom
+					{
+						wifi:setup(11.5,13,13,11.5),
+						left = theme.widget_border_width,
+						widget = wibox.container.margin,
+					},
+					netspeed:setup(7.5,12,0,7.5),
+					mem:setup(4,8,10,4),
+					cpu:setup(4,8,9,4),
 					music:setup(0,12,8,0),
+					layout = wibox.layout.fixed.horizontal,
+				},
+				nil,
+				{
+					caps:setup(0,13,13,0),
+					indicator:setup(0,13,13,0),
+					{
+						layoutbox:setup(s,10,11,11,10),
+						right = 0 - theme.widget_border_width,
+						widget = wibox.container.margin,
+					},
+					layout = wibox.layout.fixed.horizontal,
+				},
+				forced_width = dpi(835),
+				layout = wibox.layout.align.horizontal,
+			},
+			taglist:setup(s),
+			{ 
+				{
+					clock:setup(0,15,15,0),
+					disk:setup(11,15,15,11),
+					volume:setup(9,10,10,9),
+					layout = wibox.layout.fixed.horizontal,
+				},
+				nil,
+				{
+					tasklist:setup(s),
 					v2ray:setup(9,10,10,9),
 					weather:setup(0,12,18,0),
-					netspeed:setup(6,6,0,6),
-					mem:setup(4,2,10,4),
-					cpu:setup(4,10,11,4),
-					--disk:setup(11.5,15,15,11),
-					disk:setup(11,15,15,11),
-					wifi:setup(11,10,10,11),
-					volume:setup(9,10,10,9),
-					layoutbox:setup(s,10,10,10,10),
-					clock:setup(0,12,12,0),
-				}
-			}
+					close:setup(9,13,13,9),
+					layout = wibox.layout.fixed.horizontal,
+				},
+				forced_width = dpi(835),
+				layout = wibox.layout.align.horizontal,
+			},
+			layout = wibox.layout.align.horizontal,
+
+
+
+
+
+
+
+
+
+
+
 		},
+
 		{
 			{
 				{

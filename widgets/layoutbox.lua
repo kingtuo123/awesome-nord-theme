@@ -24,6 +24,7 @@ function layoutbox:setup(s,mt,ml,mr,mb)
 		end,
 		shape_border_width = theme.widget_border_width,
 		shape_border_color = theme.widget_border_color,
+		bg = theme.widget_bg,
 		widget = wibox.container.background,
 	}
 
@@ -36,7 +37,7 @@ function layoutbox:setup(s,mt,ml,mr,mb)
 		self.widget.bg = theme.widget_bg_hover
 	end)
 	self.widget:connect_signal('mouse::leave',function() 
-		self.widget.bg = ""
+		self.widget.bg = theme.widget_bg
 	end)
 
 	self.widget:buttons(gears.table.join(
@@ -47,7 +48,12 @@ function layoutbox:setup(s,mt,ml,mr,mb)
 		awful.button({ }, 5, function () awful.layout.inc(-1) end)
 	))
 
-	return self.widget
+	--return self.widget
+	return wibox.widget{
+		self.widget,
+		left = 0-theme.widget_border_width,
+		widget = wibox.container.margin
+	}
 end
 
 

@@ -114,13 +114,13 @@ clock.popup = awful.popup{
 	shape			= function(cr, width, height)
 		gears.shape.rounded_rect(cr, width, height, theme.popup_rounded)
 	end,
-    placement		= function(d,args)
-		awful.placement.top_right(d, {margins = { top = theme.popup_margin_top ,right = theme.popup_margin_right}}) 
-		--awful.placement.top(d, {
-		--	margins = {top = theme.popup_margin_top}, 
-		--	parent  = awful.screen.focused()
-		--}) 
-	end,
+    --placement		= function(d,args)
+	--	awful.placement.top_right(d, {margins = { top = theme.popup_margin_top ,right = theme.popup_margin_right}}) 
+	--	--awful.placement.top(d, {
+	--	--	margins = {top = theme.popup_margin_top}, 
+	--	--	parent  = awful.screen.focused()
+	--	--}) 
+	--end,
 }
 
 
@@ -129,21 +129,43 @@ clock.popup = awful.popup{
 clock.widget = wibox.widget {
 	{
 		{
-			id		= "date",
-			text	= "--",
-			align   = "center",
-			valign  = "center",
-			font	= theme.clock_font,
-			widget	= wibox.widget.textbox,
+			--{
+			--	{
+			--		id			= "icon",
+			--		image		= theme.clock_icon,
+			--		forced_width = dpi(15),
+			--		forced_height = dpi(15),
+			--		widget		= wibox.widget.imagebox,
+			--	},
+			--	valign = "center",
+			--	halign = "center",
+			--	widget	= wibox.container.place,
+			--},
+			--{
+			--	right = dpi(6),
+			--	widget  = wibox.container.margin
+			--},
+			{
+				{
+					id		= "date",
+					text	= "--",
+					font	= theme.clock_font,
+					widget	= wibox.widget.textbox,
+				},
+				valign = "center",
+				halign = "center",
+				widget	= wibox.container.place,
+			},
+			layout = wibox.layout.fixed.horizontal,
 		},
 		id      = "margin",
 		widget	= wibox.container.margin
 	},
-	fg = theme.topbar_fg,
-	bg = theme.topbar_bg,
+	fg = theme.widget_fg,
+	bg = theme.widget_bg,
 	widget = wibox.container.background,
 	shape_border_width = theme.widget_border_width,
-	shape_border_color = "",
+	shape_border_color = theme.widget_border_color,
 	shape = function(cr, width, height)
 		gears.shape.rounded_rect(cr, width, height, theme.widget_rounded)
 	end,
@@ -156,7 +178,17 @@ clock.widget = wibox.widget {
 
 
 function clock:update()
-	--awful.spawn.easy_async_with_shell("date +'%H:%M %-m/%-d %a'", function(out)
+	awful.spawn.easy_async_with_shell("date +'%H:%M  %A  %-02m/%-02d'", function(out)
+		self.widget.date = out
+		self.widget.date = string.gsub(out, "\n", "")
+	end)
+
+	--awful.spawn.easy_async_with_shell("date +'%H:%M %a %-m/%-d'", function(out)
+	--	self.widget.date = out
+	--	self.widget.date = string.gsub(out, "\n", "")
+	--end)
+
+	--awful.spawn.easy_async_with_shell("date +'%-m/%-d  %a  %H:%M'", function(out)
 	--	self.widget.date = out
 	--	self.widget.date = string.gsub(out, "\n", "")
 	--end)
@@ -166,11 +198,11 @@ function clock:update()
 	--	self.widget.date = string.gsub(out, "(%d)\n", weeks[tonumber(string.match(out, "(%d)\n")) + 1])
 	--end)
 
-	weeks = {"日","一","二","三","四","五","六"}
-	awful.spawn.easy_async_with_shell("date +'%-m月%-d日   周%w   %H:%M'", function(out)
-		out = string.gsub(out, "\n", "")
-		self.widget.date = string.gsub(out, "周(%d)", "周" .. weeks[tonumber(string.match(out, "周(%d)")) + 1])
-	end)
+	--weeks = {"日","一","二","三","四","五","六"}
+	--awful.spawn.easy_async_with_shell("date +'%-m月%-d日   周%w   %H:%M'", function(out)
+	--	out = string.gsub(out, "\n", "")
+	--	self.widget.date = string.gsub(out, "周(%d)", "周" .. weeks[tonumber(string.match(out, "周(%d)")) + 1])
+	--end)
 end
 
 
@@ -198,31 +230,75 @@ function clock:setup(mt,ml,mr,mb)
 			self.widget.fg = theme.widget_fg_press
 			self.widget.shape_border_color = theme.widget_border_color
 		else
-			self.widget.bg = theme.topbar_bg
+			self.widget.bg = theme.widget_bg
 			self.widget.fg = theme.topbar_fg
-			self.widget.shape_border_color = theme.topbar_bg
+			self.widget.shape_border_color = theme.widget_bg
+			self.widget.shape_border_color = theme.widget_border_color
 		end
 	end)
 
+	--self.popup:buttons(gears.table.join(
+	--	awful.button({ }, 3, function ()
+	--		self.popup.visible = false
+	--		self.widget.fg = theme.topbar_fg
+	--		self.widget.bg = theme.widget_bg
+	--		self.widget.shape_border_color = theme.widget_border_color
+	--	end)
+	--))
+
+	--self.widget:buttons(gears.table.join(
+	--	awful.button({ }, 1, function ()
+	--		self.popup.visible = not self.popup.visible
+	--		if self.popup.visible then
+	--			self.popup:set_widget(calendar.widget)
+	--			self.widget.bg = theme.widget_bg_press
+	--			self.widget.fg = theme.widget_fg_press
+	--		else
+	--			self.widget.bg = theme.widget_bg_hover
+	--			self.widget.fg = theme.topbar_fg
+	--		end
+	--		self.widget.shape_border_color = theme.widget_border_color
+	--	end)
+	--))
+
+	local function popup_move()	
+		local m = mouse.coords()
+		self.popup.x = m.x - self.popup_offset.x
+		self.popup.y = m.y - self.popup_offset.y
+		mousegrabber.stop()
+	end
+
 	self.popup:buttons(gears.table.join(
+		awful.button({ }, 1, function()
+			self.popup:connect_signal('mouse::move',popup_move)
+			local m = mouse.coords()
+			self.popup_offset = {
+				x = m.x - self.popup.x,
+				y = m.y - self.popup.y
+			}
+			self.popup:emit_signal('mouse::move', popup_move)
+		end,function()
+			self.popup:disconnect_signal ('mouse::move',popup_move)
+		end),
 		awful.button({ }, 3, function ()
+			self.popup:disconnect_signal ('mouse::move',popup_move)
 			self.popup.visible = false
-			self.widget.fg = theme.topbar_fg
-			self.widget.bg = theme.topbar_bg
-			self.widget.shape_border_color = theme.topbar_bg
+			self.widget.bg = theme.widget_bg
+			self.widget.shape_border_color = theme.widget_border_color
 		end)
 	))
 
-	self.widget:buttons(gears.table.join(
-		awful.button({ }, 1, function ()
-			self.popup.visible = not self.popup.visible
+	self.widget:buttons(awful.util.table.join (
+		awful.button({}, 1, function() 
 			if self.popup.visible then
-				self.popup:set_widget(calendar.widget)
-				self.widget.bg = theme.widget_bg_press
-				self.widget.fg = theme.widget_fg_press
+				self.popup.visible = false
+				--self.widget.bg = theme.widget_bg_press
 			else
-				self.widget.bg = theme.widget_bg_hover
-				self.widget.fg = theme.topbar_fg
+				self.popup.x = mouse.coords().x - dpi(160)
+				self.popup.y = theme.popup_margin_top
+				self.popup.visible = true
+				self:update()
+				--self.widget.bg = theme.widget_bg
 			end
 			self.widget.shape_border_color = theme.widget_border_color
 		end)
@@ -237,7 +313,11 @@ function clock:setup(mt,ml,mr,mb)
 		end
 	})
 
-	return self.widget
+	return wibox.widget{
+		self.widget,
+		left = dpi(0-theme.widget_border_width/2),
+		widget = wibox.container.margin
+	}
 end
 
 

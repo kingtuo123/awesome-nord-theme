@@ -34,6 +34,25 @@ volume.widget = wibox.widget {
 				widget	= wibox.widget.imagebox,
 			},
 			{
+				id					= "bar",
+				value				= 0.5,
+				forced_height		= dpi(10),
+				forced_width		= dpi(80),
+				margins             = {top = dpi(1), left = dpi(5), right = dpi(5), bottom = dpi(1)},
+				color				= theme.vol_widget_bar_fg,
+				background_color	= theme.vol_widget_bar_bg,
+				paddings			= dpi(3),
+				border_width		= dpi(0),
+				border_color 		= theme.popup_progress_border_color,
+				widget				= wibox.widget.progressbar,
+				shape			= function(cr, width, height)
+					gears.shape.rounded_rect(cr, width, height, dpi(10))
+				end,
+				bar_shape			= function(cr, width, height)
+					gears.shape.rounded_rect(cr, width, height, dpi(10))
+				end,
+			},
+			{
 				id		= "value",
 				text	= " --%",
 				font	= theme.vol_widget_font,
@@ -51,12 +70,15 @@ volume.widget = wibox.widget {
 	end,
 	shape_border_width = theme.widget_border_width,
 	shape_border_color = theme.widget_border_color,
+	bg = theme.widget_bg,
 	widget = wibox.container.background,
 	set_icon = function(self, icon)
 		self:get_children_by_id("icon")[1].image = icon
 	end,
 	set_value = function(self,v)
-		self:get_children_by_id("value")[1].text = " " .. v .. "%"
+		--self:get_children_by_id("value")[1].text = " " .. v .. "%"
+		self:get_children_by_id("value")[1].text = v
+		self:get_children_by_id("bar")[1].value = v / 100
 	end,
 }
 
@@ -268,44 +290,6 @@ volume.popup_outputdevice = awful.popup{
 volume.popup_notification = awful.popup{
 	widget = wibox.widget{
 		{
-			top = dpi(12),
-			widget = wibox.container.margin 
-		},
-		{
-			{
-				id		= "value",
-				text	= "100",
-				font = theme.vol_title_font,
-				widget	= wibox.widget.textbox,
-			},
-			valign = "center",
-			halign = "center",
-			widget = wibox.container.place,
-		},
-		{
-			{
-				id					= "bar",
-				value				= 0.5,
-				forced_height		= dpi(45),
-				forced_width		= dpi(150),
-				margins             = {top = dpi(17), left = dpi(10), right = dpi(10), bottom = dpi(17)},
-				color				= theme.popup_fg_progressbar,
-				background_color	= theme.popup_bg_progressbar,
-				paddings			= dpi(0),
-				border_width		= dpi(0),
-				border_color 		= theme.popup_progress_border_color,
-				widget				= wibox.widget.progressbar,
-				shape			= function(cr, width, height)
-					gears.shape.rounded_rect(cr, width, height, dpi(3))
-				end,
-				bar_shape			= function(cr, width, height)
-					gears.shape.rounded_rect(cr, width, height, dpi(3))
-				end,
-			},
-			direction	= "east",
-			widget		= wibox.container.rotate,
-		},
-		{
 			{
 				{
 					id	   = "icon",
@@ -321,13 +305,50 @@ volume.popup_notification = awful.popup{
 				valign = "center",
 				widget = wibox.container.place
 			},
-			top    = dpi(2),
-			left   = dpi(0),
-			right  = dpi(0),
-			bottom = dpi(12),
+			top    = dpi(15),
+			left   = dpi(15),
+			right  = dpi(15),
+			bottom = dpi(15),
 			widget = wibox.container.margin 
 		},
-		layout = wibox.layout.fixed.vertical,
+		{
+			id					= "bar",
+			value				= 0.5,
+			forced_height		= dpi(45),
+			forced_width		= dpi(120),
+			margins             = {top = dpi(16), left = dpi(0), right = dpi(0), bottom = dpi(16)},
+			color				= theme.popup_fg_progressbar,
+			background_color	= theme.popup_bg_progressbar,
+			paddings			= dpi(3),
+			border_width		= dpi(0),
+			border_color 		= theme.popup_progress_border_color,
+			widget				= wibox.widget.progressbar,
+			shape			= function(cr, width, height)
+				gears.shape.rounded_rect(cr, width, height, dpi(10))
+			end,
+			bar_shape			= function(cr, width, height)
+				gears.shape.rounded_rect(cr, width, height, dpi(10))
+			end,
+		},
+		{
+			{
+				{
+					id		= "value",
+					text	= "100",
+					font = theme.vol_title_font,
+					widget	= wibox.widget.textbox,
+				},
+				valign = "center",
+				halign = "center",
+				widget = wibox.container.place,
+			},
+			top    = dpi(15),
+			left   = dpi(15),
+			right  = dpi(15),
+			bottom = dpi(15),
+			widget = wibox.container.margin 
+		},
+		layout = wibox.layout.align.horizontal,
 		set_value = function(self, val)
 			self:get_children_by_id('bar')[1].value = val / 100
 			self:get_children_by_id('value')[1].text = val
@@ -342,11 +363,13 @@ volume.popup_notification = awful.popup{
 	bg				= theme.popup_bg,
 	fg              = theme.popup_fg,
 	ontop			= true,
+	type            = "desktop",
 	shape			= function(cr, width, height)
 		gears.shape.rounded_rect(cr, width, height, theme.popup_rounded)
 	end,
     placement		= function(wdg,args)  
-		awful.placement.top_right(wdg, {margins = { top = theme.popup_margin_top ,right = theme.popup_margin_right}}) 
+		--awful.placement.top_right(wdg, {margins = { top = theme.popup_margin_top ,right = theme.popup_margin_right}}) 
+		awful.placement.top(wdg, {margins = { top = theme.popup_margin_top}}) 
 	end,
 }
 
@@ -366,6 +389,13 @@ function volume:fresh_data()
 		icon = theme.vol_40_icon
 	else
 		icon = theme.vol_10_icon
+	end
+	if mute then
+		self.widget:get_children_by_id("bar")[1].color = theme.vol_widget_bar_mute_fg
+		self.popup_notification.widget:get_children_by_id("bar")[1].color = theme.vol_widget_bar_mute_fg
+	else
+		self.widget:get_children_by_id("bar")[1].color = theme.vol_widget_bar_fg
+		self.popup_notification.widget:get_children_by_id("bar")[1].color = theme.vol_widget_bar_fg
 	end
 	self.widget.value = value
 	self.widget.icon = icon
@@ -434,64 +464,63 @@ function volume:down()
 end
 
 
-
-
 function volume:update()
 	--print(os.date("%X") .. ": volume update")
-	awful.spawn.easy_async_with_shell(cmd_get_def_sink, function(out)
-		local default_sink = string.match(out, '(.-)%c')
-		--print(default_sink)
+	awful.spawn.easy_async_with_shell("echo Default=`pactl get-default-sink` && pactl list sinks | grep -E 'State:|Name:|Mute:|front-left:|alsa.card_name|type:'", function(out)
+		--print(out)
+		local n = 1
+		local backup_sinks = {}
+		local default_sink = string.match(out, 'Default=(.-)%c')
+		--print("default_sink = " .. default_sink)
 		if default_sink == nil or default_sink == "@DEFAULT_SINK@" then
 			sink_def_idx = 0
 			self.reconnect_timer:start()
 			return
 		end
-		awful.spawn.easy_async_with_shell(cmd_get_sinks, function(out)
-			local n = 1
-			local backup_sinks = {}
-			for v in string.gmatch(out, 'Name: (.-)%c') do
-				backup_sinks[n] = {}
-				backup_sinks[n].name = v
-				n = n + 1
+		n = 1
+		for v in string.gmatch(out, 'Name: (.-)%c') do
+			backup_sinks[n] = {}
+			backup_sinks[n].name = v
+			if v == default_sink then
+				sink_def_idx = n
 			end
-			n = 1
-			for v in string.gmatch(out, 'card_name = "(.-)"%c') do
-				backup_sinks[n].card = v
-				n = n + 1
+			--print("name = " .. v)
+			n = n + 1
+		end
+		n = 1
+		for v in string.gmatch(out, 'Mute: (.-)%c') do
+			if v == "yes" then
+				backup_sinks[n].mute = true
+			else
+				backup_sinks[n].mute = false
 			end
-			n = 1
-			for v in string.gmatch(out, 'type: (.-),') do
-				backup_sinks[n].type = v
-				n = n + 1
-			end
-			for i,v in pairs(backup_sinks) do 
-				awful.spawn.easy_async_with_shell(cmd_get_vol(v.name), function(out)
-					v.value = tonumber(string.match(out,"(%d+)%%"))
-					awful.spawn.easy_async_with_shell(cmd_get_mute(v.name), function(out)
-						if string.match(out,": (%a+)") == "yes" then
-							v.mute = true
-						else
-							v.mute = false
-						end
-						if v.name == default_sink then
-							sink_def_idx = i
-						end
-						if i == n - 1 then
-							if sink_def_idx ~= 0 then
-								sinks = backup_sinks
-								self.popup_outputdevice.widget.sinks = sinks
-								self:fresh_data()
-							else
-								self.reconnect_timer:start()
-								return
-							end
-						end
-					end)
-				end)
-			end
-		end)
+			--print("mute = " .. v)
+			n = n + 1
+		end
+		n = 1
+		for v in string.gmatch(out, 'Volume: .-(%d+)%%.- dB%c') do
+			backup_sinks[n].value = tonumber(v)
+			--print("volume = " .. v)
+			n = n + 1
+		end
+		n = 1
+		for v in string.gmatch(out, 'card_name = "(.-)"%c') do
+			backup_sinks[n].card = v
+			--print("card = " .. v)
+			n = n + 1
+		end
+		n = 1
+		for v in string.gmatch(out, 'type: (.-),') do
+			backup_sinks[n].type = v
+			--print("type = " .. v)
+			n = n + 1
+		end
+		sinks = backup_sinks
+		self.popup_outputdevice.widget.sinks = sinks
+		self:fresh_data()
 	end)
 end
+
 
 
 
@@ -530,15 +559,18 @@ function volume:setup(mt,ml,mr,mb)
 			self.widget.bg = theme.widget_bg_hover
 		end
 		self.widget.shape_border_color = theme.widget_border_color
+		self.widget:get_children_by_id("bar")[1].background_color = theme.vol_widget_bar_bg_hover
 	end)
 
 	self.widget:connect_signal('mouse::leave',function() 
 		if self.popup_outputdevice.visible then
 			self.widget.bg = theme.widget_bg_press
 			self.widget.shape_border_color = theme.widget_border_color
+			self.widget:get_children_by_id("bar")[1].background_color = theme.vol_widget_bar_bg_hover
 		else
-			self.widget.bg = theme.topbar_bg
-			self.widget.shape_border_color = theme.topbar_bg
+			self.widget.bg = theme.widget_bg
+			self.widget.shape_border_color = theme.widget_border_color
+			self.widget:get_children_by_id("bar")[1].background_color = theme.vol_widget_bar_bg
 		end
 	end)
 
@@ -551,8 +583,8 @@ function volume:setup(mt,ml,mr,mb)
 	--self.popup_outputdevice:buttons(gears.table.join(
 	--	awful.button({ }, 3, function ()
 	--		self.popup_outputdevice.visible = false
-	--		self.widget.bg = theme.topbar_bg
-	--		self.widget.shape_border_color = theme.topbar_bg
+	--		self.widget.bg = theme.widget_bg
+	--		self.widget.shape_border_color = theme.widget_border_color
 	--	end)
 	--))
 
@@ -578,8 +610,9 @@ function volume:setup(mt,ml,mr,mb)
 		awful.button({ }, 3, function ()
 			self.popup_outputdevice:disconnect_signal ('mouse::move',popup_outputdevice_move)
 			self.popup_outputdevice.visible = false
-			self.widget.bg = theme.topbar_bg
-			self.widget.shape_border_color = theme.topbar_bg
+			self.widget.bg = theme.widget_bg
+			self.widget.shape_border_color = theme.widget_border_color
+			self.widget:get_children_by_id("bar")[1].background_color = theme.vol_widget_bar_bg
 		end)
 	))
 
@@ -598,7 +631,7 @@ function volume:setup(mt,ml,mr,mb)
 				self.popup_outputdevice.timer:again()
 				--self.widget.bg = theme.widget_bg_hover
 			end
-			--self.widget.shape_border_color = theme.widget_border_color
+			self.widget.shape_border_color = theme.widget_border_color
 		end),
 		awful.button({}, 2, function() 
 			self:toggle()
@@ -660,7 +693,12 @@ function volume:setup(mt,ml,mr,mb)
 		end
 	})
 
-	return self.widget
+	--return self.widget
+	return wibox.widget{
+		self.widget,
+		left = dpi(0-theme.widget_border_width/2),
+		widget = wibox.container.margin
+	}
 end
 
 

@@ -21,9 +21,14 @@ wifi.widget = wibox.widget{
 	{
 		{
 			{
-				id			= "icon",
-				image		= theme.wifi_signal_0_icon,
-				widget		= wibox.widget.imagebox,
+				{
+					id			= "icon",
+					image		= theme.wifi_signal_0_icon,
+					widget		= wibox.widget.imagebox,
+				},
+				left = dpi(0),
+				right = dpi(2),
+				widget  = wibox.container.margin,
 			},
 			{
 				id			= "ssid",
@@ -42,6 +47,7 @@ wifi.widget = wibox.widget{
 	end,
 	shape_border_width = theme.widget_border_width,
 	shape_border_color = theme.widget_border_color,
+	bg = theme.widget_bg,
 	widget = wibox.container.background,
 
 	set_signal = function(self,value)
@@ -358,7 +364,7 @@ function wifi:setup(mt,ml,mr,mb)
 		awful.button({ }, 3, function ()
 			self.popup:disconnect_signal ('mouse::move',popup_move)
 			self.popup.visible = false
-			self.widget.bg = theme.topbar_bg
+			self.widget.bg = theme.widget_bg
 			self.widget.shape_border_color = theme.topbar_bg
 		end)
 	))
@@ -369,7 +375,7 @@ function wifi:setup(mt,ml,mr,mb)
 				self.popup.visible = false
 				--self.widget.bg = theme.widget_bg_press
 			else
-				self.popup.x = mouse.coords().x - dpi(135)
+				self.popup.x = mouse.coords().x - dpi(20)
 				self.popup.y = theme.popup_margin_top
 				self.popup.visible = true
 				self:update()
@@ -399,8 +405,8 @@ function wifi:setup(mt,ml,mr,mb)
 			self.widget.bg = theme.widget_bg_press
 			self.widget.shape_border_color = theme.widget_border_color
 		else
-			self.widget.bg = theme.topbar_bg
-			self.widget.shape_border_color = theme.topbar_bg
+			self.widget.bg = theme.widget_bg
+			self.widget.shape_border_color = theme.widget_border_color
 		end
 	end)
 
@@ -428,7 +434,12 @@ function wifi:setup(mt,ml,mr,mb)
 		end
 	}
 
-	return self.widget
+	--return self.widget
+	return wibox.widget{
+		self.widget,
+		left = dpi(0-theme.widget_border_width/2),
+		widget = wibox.container.margin
+	}
 end
 
 

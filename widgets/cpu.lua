@@ -86,7 +86,8 @@ cpu.widget = wibox.widget{
 		gears.shape.rounded_rect(cr, width, height, theme.widget_rounded)
 	end,
 	shape_border_width = theme.widget_border_width,
-	shape_border_color = "",
+	shape_border_color = theme.widget_border_color,
+	bg = theme.widget_bg,
 	widget = wibox.container.background,
 }
 
@@ -524,8 +525,8 @@ function cpu:setup(mt,ml,mr,mb)
 		awful.button({ }, 3, function ()
 			self.popup:disconnect_signal ('mouse::move',popup_move)
 			self.popup.visible = false
-			self.widget.bg = ""
-			self.widget.shape_border_color = ""
+			self.widget.bg = theme.widget_bg
+			self.widget.shape_border_color = theme.widget_border_color
 		end)
 	))
 
@@ -533,15 +534,36 @@ function cpu:setup(mt,ml,mr,mb)
 		awful.button({}, 1, function() 
 			if self.popup.visible then
 				self.popup.visible = false
-				--self.widget.bg = theme.widget_bg_press
+				self.widget.bg = theme.widget_bg_press
 			else
-				self.popup.x = mouse.coords().x - dpi(125)
+				self.popup.x = mouse.coords().x - dpi(126)
 				self.popup.y = theme.popup_margin_top
 				self.popup.visible = true
-				--self.widget.bg = theme.widget_bg_hover
+				self.widget.bg = theme.widget_bg_hover
 			end
+			self.widget.shape_border_color = theme.widget_border_color
 		end)
 	))
+
+	self.widget:connect_signal('mouse::enter',function() 
+		if self.popup.visible then
+			self.widget.bg = theme.widget_bg_press
+		else
+			self.widget.bg = theme.widget_bg_hover
+		end
+		self.widget.shape_border_color = theme.widget_border_color
+	end)
+
+	self.widget:connect_signal('mouse::leave',function() 
+		if self.popup.visible then
+			self.widget.bg = theme.widget_bg_press
+			self.widget.shape_border_color = theme.widget_border_color
+		else
+			self.widget.bg = theme.widget_bg
+			self.widget.shape_border_color = theme.widget_border_color
+		end
+	end)
+
 
 	gears.timer({
 		timeout   = update_timeout,
@@ -552,7 +574,12 @@ function cpu:setup(mt,ml,mr,mb)
 		end
 	})
 
-	return self.widget
+	--return self.widget
+	return wibox.widget{
+		self.widget,
+		left = dpi(0-theme.widget_border_width/2),
+		widget = wibox.container.margin
+	}
 end
 
 

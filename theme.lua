@@ -21,20 +21,20 @@ end
 ---------------------------------------------------------------------------------------
 ------------------------------------- basic -------------------------------------------
 ---------------------------------------------------------------------------------------
-theme.useless_gap       = dpi(-0.5)
---theme.gap_single_client = false
-theme.border_width      = dpi(1)
+theme.useless_gap       = dpi(4)
+theme.gap_single_client = true
+theme.border_width      = dpi(2)
 theme.border_rounded    = dpi(8)
 theme.font				= "Microsoft YaHei UI 9"
-theme.fg                = sc("#000000", "#c8d3f5")
-theme.bg                = sc("#eeeeee", "#1b1d2b")
-theme.border_normal     = sc("#bbbbbb", "#3b4261")
-theme.border_focus      = sc("#bbbbbb", "#3b4261")
+theme.fg                = "#e0def4"
+theme.bg                = "#191724"
+theme.border_normal     = "#26233a"
+theme.border_focus      = "#c4a7e7"
 
 awful.mouse.snap.client_enabled = true
 awful.mouse.snap.edge_enabled = false
-awful.mouse.snap.default_distance = dpi(20)
-awful.mouse.snap.aerosnap_distance = dpi(20)
+awful.mouse.snap.default_distance = dpi(5)
+awful.mouse.snap.aerosnap_distance = dpi(5)
 theme.snap_border_width = dpi(2)
 theme.snap_bg           = sc("#86e1fc", "#c099ff")
 theme.snap_shape        = gears.shape.rectangle
@@ -45,16 +45,19 @@ theme.snap_shape        = gears.shape.rectangle
 --------------------------------- topbar widget ---------------------------------------
 ---------------------------------------------------------------------------------------
 theme.topbar_height         = dpi(33)
-theme.topbar_border_width   = dpi(1)
+theme.topbar_border_width   = dpi(0)
 theme.topbar_fg 			= theme.fg
-theme.topbar_bg				= sc(theme.bg, "#1b1d2b")
+theme.topbar_bg				= theme.bg
 theme.topbar_border_color   = sc("#bbbbbb", "#3b4261")
+
 theme.widget_rounded        = dpi(5)
 theme.widget_border_width   = dpi(3)
-theme.widget_border_color   = sc(""       , "")
-theme.widget_bg_hover       = sc("#ffffff", "#222436")
-theme.widget_bg_press       = sc("#ffffff", "#222436")
-theme.widget_fg_press       = sc("#000000", theme.fg)
+theme.widget_border_color   = theme.bg
+theme.widget_fg             = theme.fg
+theme.widget_bg             = "#1f1d2e"
+theme.widget_bg_hover       = "#26233a"
+theme.widget_bg_press       = "#26233a"
+theme.widget_fg_press       = theme.fg
 theme.widget_bg_graph       = sc("#222436", "#12131d")
 
 
@@ -63,16 +66,66 @@ theme.widget_bg_graph       = sc("#222436", "#12131d")
 ------------------------------------ popup --------------------------------------------
 ---------------------------------------------------------------------------------------
 theme.popup_fg 			   = theme.fg
-theme.popup_bg 			   = sc("#f2f2f2", theme.bg)
-theme.popup_rounded		   = dpi(8)
-theme.popup_border_width   = dpi(1)
+theme.popup_bg 			   = theme.bg
+theme.popup_rounded		   = dpi(0)
+theme.popup_border_width   = dpi(2)
 theme.popup_border_color   = theme.border_normal
-theme.popup_margin_top	   = theme.topbar_height + dpi(6)
+theme.popup_margin_top	   = theme.topbar_height + theme.useless_gap * 2
 theme.popup_margin_right   = dpi(5)
-theme.popup_fg_progressbar = sc("#0067c0", "#86e1fc")
-theme.popup_bg_progressbar = sc("#ffffff", "#222436")
+theme.popup_fg_progressbar = "#c4a7e7"
+theme.popup_bg_progressbar = "#1f1d2e"
 theme.popup_bg_graph       = sc("#222436", "#12131d" )
 theme.popup_progress_border_color = sc("#dddddd", "#3b4261")
+
+
+
+---------------------------------------------------------------------------------------
+--------------------------------- corner widget ---------------------------------------
+---------------------------------------------------------------------------------------
+theme.corner_icon = theme.icon_dir .. "corner/corner.svg"
+theme.corner_size = dpi(15)
+
+
+
+---------------------------------------------------------------------------------------
+--------------------------------- caps lock -------------------------------------------
+---------------------------------------------------------------------------------------
+theme.caps_on_icon = theme.icon_dir .. "caps/caps-on.svg"
+theme.caps_off_icon = theme.icon_dir .. "caps/caps-off.svg"
+theme.caps_on_bg = "#c4a7e7"
+theme.caps_on_fg = theme.bg
+theme.caps_widget_on_font  = "JetBrainsMono NFP Bold 8.5"
+theme.caps_widget_off_font  = "JetBrainsMono NFP 8.5"
+
+
+
+
+
+---------------------------------------------------------------------------------------
+--------------------------------- indicator -------------------------------------------
+---------------------------------------------------------------------------------------
+theme.indicator_fg = theme.bg
+theme.indicator_bg = theme.fg
+theme.indicator_bg_inactive = "#6e6a86"
+theme.indicator_rounded = dpi(2)
+theme.indicator_font = "Microsoft YaHei UI Bold 8"
+theme.indicator_width = dpi(16)
+theme.indicator_margin_top = dpi(9)
+theme.indicator_margin_bottom = dpi(9)
+theme.indicator_margin_left = dpi(3)
+theme.indicator_margin_right = dpi(3)
+
+
+
+
+
+---------------------------------------------------------------------------------------
+--------------------------------- close -----------------------------------------------
+---------------------------------------------------------------------------------------
+theme.close_icon = theme.icon_dir .. "close/close.svg"
+theme.close_mask_bg = "#eb6f92"
+theme.close_mask_opacity = 0.3
+
 
 
 
@@ -80,18 +133,18 @@ theme.popup_progress_border_color = sc("#dddddd", "#3b4261")
 --------------------------------- taglist ---------------------------------------------
 ---------------------------------------------------------------------------------------
 theme.taglist_font              = "JetBrainsMono NFP 9"
-theme.taglist_width        		= dpi(33)
-theme.taglist_spacing      		= dpi(0)
-theme.taglist_fg_focus     		= sc("#000000", theme.fg)
-theme.taglist_bg_focus     		= sc("#ffffff", "#222436")
-theme.taglist_fg_occupied  		= sc("#000000", theme.fg)
-theme.taglist_bg_occupied  		= sc("#eeeeee", theme.bg )
-theme.taglist_bg_empty     		= sc("#eeeeee", theme.bg )
-theme.taglist_fg_empty     		= sc("#b9b9b9", "#3b4261")
-theme.taglist_squares_resize	= true
-theme.taglist_squares_sel  		= theme.icon_dir .. "taglist/tag_sel.svg"
-theme.taglist_squares_sel_empty = theme.icon_dir .. "taglist/tag_sel.svg"
-theme.taglist_squares_unsel 	= theme.icon_dir .. "taglist/tag_sel_occ.svg"
+theme.taglist_width        		= dpi(24)
+theme.taglist_spacing      		= dpi(2)
+theme.taglist_fg_focus     		= theme.bg
+theme.taglist_bg_focus     		= "#c4a7e7"
+theme.taglist_fg_occupied  		= theme.fg
+theme.taglist_bg_occupied  		= "#26233a"
+theme.taglist_fg_empty     		= "#6e6a86"
+theme.taglist_bg_empty     		= "#1f1d2e"
+--theme.taglist_squares_resize	= true
+--theme.taglist_squares_sel  		= theme.icon_dir .. "taglist/tag_sel.svg"
+--theme.taglist_squares_sel_empty = theme.icon_dir .. "taglist/tag_sel.svg"
+--theme.taglist_squares_unsel 	= theme.icon_dir .. "taglist/tag_sel_occ.svg"
 
 
 
@@ -102,18 +155,20 @@ theme.icon_theme		         = "Fluent-dark"
 theme.tasklist_icon_size         = dpi(20)
 theme.tasklist_width        	 = dpi(33)
 theme.tasklist_spacing           = dpi(0)
-theme.tasklist_bg_focus          = sc("#ffffff", "#222436")
+theme.tasklist_bg_focus          = theme.bg
 theme.tasklist_bg_normal         = theme.bg
-theme.tasklist_bg_minimize       = theme.bg
-theme.tasklist_bg_image_focus    = theme.icon_dir .. "taglist/tag_sel.svg"
-theme.tasklist_bg_image_normal   = theme.icon_dir .. "taglist/tag_sel_occ.svg"
+theme.tasklist_bg_minimize       = "#1f1d2e"
+--theme.tasklist_bg_image_focus    = theme.icon_dir .. "taglist/tag_sel.svg"
+--theme.tasklist_bg_image_normal   = theme.icon_dir .. "taglist/tag_sel_occ.svg"
 
 
 
 ---------------------------------------------------------------------------------------
 ---------------------------------- calendar -------------------------------------------
 ---------------------------------------------------------------------------------------
-theme.clock_font	 = "Microsoft YaHei UI 9"
+--theme.clock_font	 = "Microsoft YaHei UI 9"
+theme.clock_icon     = theme.icon_dir .. "clock/clock.svg"
+theme.clock_font     = "JetBrainsMono NFP 8.5"
 theme.cal_font       = "JetBrainsMono NFP 9"
 theme.cal_header_fg  = theme.fg
 theme.cal_weekday_fg = sc("#0067c0", "#86e1fc")
@@ -190,14 +245,13 @@ theme.mem_font             = "JetBrainsMono NFP 8"
 theme.disk_title_font            = "JetBrainsMono NFP Bold 9"
 theme.disk_font                  = "JetBrainsMono NFP 8"
 theme.disk_bold_font             = "JetBrainsMono NFP Bold 8"
-theme.disk_part_bg_normal        = sc("#f2f2f2", theme.popup_bg)
-theme.disk_part_bg_hover         = sc("#ffffff", theme.widget_bg_hover)
-theme.disk_part_bg_mounted       = sc("#e8e8e8", "#222436" )
-theme.disk_shape_border_color    = sc("#d9d9d9", "#3b4261")
-theme.disk_bg_progressbar_normal = sc("#ffffff", "#2d3146")
-theme.disk_line_mounted_bg       = "#86e1fc"
-theme.disk_line_unmounted_bg       = theme.popup_bg
-theme.disk_button_bg             = "#222436"
+theme.disk_part_bg_normal        = theme.popup_bg
+theme.disk_part_bg_hover         = theme.widget_bg_hover
+theme.disk_part_bg_mounted       = "#1f1d2e"
+theme.disk_bg_progressbar_normal = "#26233a"
+theme.disk_line_mounted_bg       = "#c4a7e7"
+theme.disk_line_unmounted_bg     = theme.popup_bg
+theme.disk_button_bg             = "#1f1d2e"
 theme.disk_icon					 = theme.icon_dir .. "disk/disk.svg"
 theme.hhd_icon					 = theme.icon_dir .. "disk/hhd.svg"
 theme.usb_icon					 = theme.icon_dir .. "disk/usb.svg"
@@ -252,9 +306,13 @@ theme.vol_widget_font           = "JetBrainsMono NFP 8.5"
 theme.vol_title_font            = "JetBrainsMono NFP Bold 9"
 theme.vol_font                  = "JetBrainsMono NFP 8"
 theme.vol_bold_font             = "JetBrainsMono NFP Bold 8"
-theme.vol_sink_sel_bg           = "#222436"
-theme.vol_sink_mute_line_bg     = "#ff757f"
-theme.vol_sink_sel_line_bg      = "#86e1fc"
+theme.vol_widget_bar_fg         = "#c4a7e7"
+theme.vol_widget_bar_mute_fg    = "#eb6f92"
+theme.vol_widget_bar_bg         = "#26233a"
+theme.vol_widget_bar_bg_hover   = "#393552"
+theme.vol_sink_sel_bg           = "#1f1d2e"
+theme.vol_sink_mute_line_bg     = "#eb6f92"
+theme.vol_sink_sel_line_bg      = "#c4a7e7"
 theme.vol_sink_unsel_line_bg    = theme.popup_bg
 theme.vol_sink_unsel_bg         = theme.popup_bg
 theme.vol_mute_icon		        = theme.icon_dir .. "volume/vol_mute.svg"

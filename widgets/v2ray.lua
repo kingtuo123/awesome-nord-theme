@@ -61,6 +61,7 @@ v2ray.widget = wibox.widget{
 	end,
 	shape_border_width = theme.widget_border_width,
 	shape_border_color = theme.widget_border_color,
+	bg = theme.widget_bg,
 	widget = wibox.container.background,
 
 	backup_status = "off",
@@ -103,7 +104,7 @@ function v2ray:setup(mt,ml,mr,mb)
 		v2ray:update()
 	end)
 	self.widget:connect_signal('mouse::leave',function() 
-		self.widget.bg = ""
+		self.widget.bg = theme.widget_bg
 	end)
 
 	self.widget:buttons(awful.util.table.join(
@@ -127,7 +128,12 @@ function v2ray:setup(mt,ml,mr,mb)
 		end
 	})
 
-	return self.widget
+	--return self.widget
+	return wibox.widget{
+		self.widget,
+		left = 0-theme.widget_border_width,
+		widget = wibox.container.margin
+	}
 end
 
 

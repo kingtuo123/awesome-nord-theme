@@ -41,7 +41,7 @@ disk.widget = wibox.widget{
 	{
 		{
 			id    = "icon",
-			image = theme.disk_icon,
+			image = theme.usb_icon,
 			--image = theme.eject_icon,
 			widget = wibox.widget.imagebox,
 		},
@@ -468,9 +468,9 @@ disk.popup = awful.popup{
 	shape			= function(cr, width, height)
 		gears.shape.rounded_rect(cr, width, height, theme.popup_rounded)
 	end,
-    --placement		= function(wdg,args)  
-	--	awful.placement.top_right(wdg, {margins = { top = theme.popup_margin_top ,right = theme.popup_margin_right}}) 
-	--end,
+    placement		= function(wdg,args)  
+		awful.placement.top_right(wdg, {margins = { top = theme.popup_margin_top ,right = theme.popup_margin_right}}) 
+	end,
 }
 
 
@@ -529,43 +529,28 @@ function disk:setup(mt,ml,mr,mb)
 		end
 	})
 
-	--self.widget:buttons(awful.util.table.join (
-	--	awful.button({}, 1, function() 
-	--		self.popup.visible = not self.popup.visible
-	--		if self.popup.visible then
-	--			self.widget.bg = theme.widget_bg_press
-	--		else
-	--			self.widget.bg = theme.widget_bg_hover
-	--		end
-	--		--self.popup.x = mouse.coords().x - dpi(135)
-	--		--self.popup.y = theme.popup_margin_top
-	--		if self.popup.visible then
-	--			self:update()
-	--			self.popup.timer:again()
-	--		end
-	--	end)))
 
-	local function popup_move()	
-		local m = mouse.coords()
-		self.popup.x = m.x - self.popup_offset.x
-		self.popup.y = m.y - self.popup_offset.y
-		mousegrabber.stop()
-	end
+	--local function popup_move()	
+	--	local m = mouse.coords()
+	--	self.popup.x = m.x - self.popup_offset.x
+	--	self.popup.y = m.y - self.popup_offset.y
+	--	mousegrabber.stop()
+	--end
 
 	self.popup:buttons(gears.table.join(
-		awful.button({ }, 1, function()
-			self.popup:connect_signal('mouse::move',popup_move)
-			local m = mouse.coords()
-			self.popup_offset = {
-				x = m.x - self.popup.x,
-				y = m.y - self.popup.y
-			}
-			self.popup:emit_signal('mouse::move', popup_move)
-		end,function()
-			self.popup:disconnect_signal ('mouse::move',popup_move)
-		end),
+		--awful.button({ }, 1, function()
+		--	self.popup:connect_signal('mouse::move',popup_move)
+		--	local m = mouse.coords()
+		--	self.popup_offset = {
+		--		x = m.x - self.popup.x,
+		--		y = m.y - self.popup.y
+		--	}
+		--	self.popup:emit_signal('mouse::move', popup_move)
+		--end,function()
+		--	self.popup:disconnect_signal ('mouse::move',popup_move)
+		--end),
 		awful.button({ }, 3, function ()
-			self.popup:disconnect_signal ('mouse::move',popup_move)
+			--self.popup:disconnect_signal ('mouse::move',popup_move)
 			self.popup.visible = false
 			self.widget.bg = theme.widget_bg
 			self.widget.shape_border_color = theme.widget_border_color
@@ -578,8 +563,8 @@ function disk:setup(mt,ml,mr,mb)
 				self.popup.visible = false
 				--self.widget.bg = theme.widget_bg_press
 			else
-				self.popup.x = mouse.coords().x - dpi(135)
-				self.popup.y = theme.popup_margin_top
+				--self.popup.x = mouse.coords().x - dpi(135 + 45)
+				--self.popup.y = theme.popup_margin_top
 				self.popup.visible = true
 				self:update()
 				self.popup.timer:again()

@@ -178,12 +178,12 @@ clock.widget = wibox.widget {
 
 
 function clock:update()
-	awful.spawn.easy_async_with_shell("date +'%H:%M  %A  %-02m/%-02d'", function(out)
-		self.widget.date = out
-		self.widget.date = string.gsub(out, "\n", "")
-	end)
+	--awful.spawn.easy_async_with_shell("date +'%H:%M  %A  %-02m/%-02d'", function(out)
+	--	self.widget.date = out
+	--	self.widget.date = string.gsub(out, "\n", "")
+	--end)
 
-	--awful.spawn.easy_async_with_shell("date +'%H:%M %a %-m/%-d'", function(out)
+	--awful.spawn.easy_async_with_shell("date +'%H:%M  %a  %-02m/%-02d'", function(out)
 	--	self.widget.date = out
 	--	self.widget.date = string.gsub(out, "\n", "")
 	--end)
@@ -197,6 +197,12 @@ function clock:update()
 	--awful.spawn.easy_async_with_shell("date +'%H:%M  %-m月%-d日  周%w'", function(out)
 	--	self.widget.date = string.gsub(out, "(%d)\n", weeks[tonumber(string.match(out, "(%d)\n")) + 1])
 	--end)
+
+	weeks = {"日","一","二","三","四","五","六"}
+	awful.spawn.easy_async_with_shell("date +'%H:%M    周%w    %-02m/%-02d'", function(out)
+		out = string.gsub(out, "\n", "")
+		self.widget.date = string.gsub(out, "周(%d)", "周" .. weeks[tonumber(string.match(out, "周(%d)")) + 1])
+	end)
 
 	--weeks = {"日","一","二","三","四","五","六"}
 	--awful.spawn.easy_async_with_shell("date +'%-m月%-d日   周%w   %H:%M'", function(out)

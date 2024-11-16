@@ -9,7 +9,7 @@
    height="133.84285"
    id="svg16936"
    sodipodi:docname="wifi-0.svg"
-   inkscape:version="1.3.2 (091e20e, 2023-11-25)"
+   inkscape:version="1.4 (e7c3feb, 2024-10-09)"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns="http://www.w3.org/2000/svg"
@@ -28,11 +28,11 @@
      showgrid="false"
      inkscape:zoom="4.09"
      inkscape:cx="92.665037"
-     inkscape:cy="66.992665"
-     inkscape:window-width="1918"
-     inkscape:window-height="1166"
+     inkscape:cy="66.870416"
+     inkscape:window-width="1916"
+     inkscape:window-height="1163"
      inkscape:window-x="0"
-     inkscape:window-y="32"
+     inkscape:window-y="33"
      inkscape:window-maximized="1"
      inkscape:current-layer="svg16936" />
   <path
@@ -40,5 +40,5 @@
      p-id="2945"
      fill="#eceff4"
      id="path16934"
-     style="fill:#404666;fill-opacity:1" />
+     style="fill:#393552;fill-opacity:1" />
 </svg>

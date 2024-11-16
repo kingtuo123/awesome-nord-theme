@@ -74,12 +74,12 @@ local function client_resize(c, m, t)
 	c.oldw = c.width
 	c.oldh = c.height
 	if c.width + w  > s.geometry.width - theme.useless_gap * 4 then
-		c.width = s.geometry.width - theme.useless_gap * 4 
+		c.width = s.geometry.width - theme.useless_gap * 4 - theme.border_width * 2
 	else
 		c.width = c.width + w
 	end
 	if c.height + h  > s.geometry.height - margin_top - theme.useless_gap * 2 then
-		c.height = s.geometry.height - margin_top -theme.useless_gap * 2 
+		c.height = s.geometry.height - margin_top -theme.useless_gap * 2  - theme.border_width * 2
 	else
 		c.height = c.height + h
 	end

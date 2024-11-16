@@ -293,7 +293,7 @@ volume.popup_notification = awful.popup{
 			{
 				{
 					id	   = "icon",
-					image  = theme.vol_bar0_icon,
+					image  = theme.vol_10_icon,
 					--resize = true,
 					forced_width = dpi(18),
 					forced_height = dpi(18),
@@ -363,7 +363,6 @@ volume.popup_notification = awful.popup{
 	bg				= theme.popup_bg,
 	fg              = theme.popup_fg,
 	ontop			= true,
-	type            = "desktop",
 	shape			= function(cr, width, height)
 		gears.shape.rounded_rect(cr, width, height, theme.popup_rounded)
 	end,

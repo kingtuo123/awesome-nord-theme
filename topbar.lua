@@ -24,6 +24,7 @@ local layoutbox = require("widgets.layoutbox")
 local caps = require("widgets.caps")
 local indicator = require("widgets.indicator")
 local close = require("widgets.close")
+local fcitx = require("widgets.fcitx")
 
 
 
@@ -74,13 +75,13 @@ function topbar:setup(s)
 					netspeed:setup(7.5,12,0,7.5),
 					mem:setup(4,8,10,4),
 					cpu:setup(4,8,9,4),
-					music:setup(0,12,8,0),
 					layout = wibox.layout.fixed.horizontal,
 				},
 				nil,
 				{
-					caps:setup(0,13,13,0),
-					indicator:setup(0,13,13,0),
+					caps:setup(0,10,10,0),
+					fcitx:setup(0,10,10,0),
+					indicator:setup(0,8,8,0),
 					{
 						layoutbox:setup(s,10,11,11,10),
 						right = 0 - theme.widget_border_width,
@@ -94,16 +95,17 @@ function topbar:setup(s)
 			taglist:setup(s),
 			{ 
 				{
-					clock:setup(0,15,15,0),
-					disk:setup(11,15,15,11),
+					clock:setup(0,12,12,0),
+					weather:setup(0,12,12,0),
 					volume:setup(9,10,10,9),
 					layout = wibox.layout.fixed.horizontal,
 				},
 				nil,
 				{
 					tasklist:setup(s),
+					music:setup(0,10,10,0),
+					disk:setup(8,10,10,8),
 					v2ray:setup(9,10,10,9),
-					weather:setup(0,12,18,0),
 					close:setup(9,13,13,9),
 					layout = wibox.layout.fixed.horizontal,
 				},

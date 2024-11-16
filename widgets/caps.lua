@@ -21,14 +21,10 @@ caps.widget = wibox.widget{
 				forced_height = dpi(15),
 				widget  = wibox.container.place,
 			},
-			{
-				left = dpi(0),
-				right = dpi(7),
-				widget  = wibox.container.margin,
-			},
+			wibox.container.margin(_,dpi(5)),
 			{
 				id			= "status",
-				text		= "Unlock",
+				text		= " -- ",
 				font        = theme.caps_widget_off_font,
 				visible		= true,
 				widget		= wibox.widget.textbox,
@@ -52,22 +48,20 @@ caps.widget = wibox.widget{
 
 
 function caps:update()
-	awful.spawn.easy_async_with_shell("xset q | grep Caps | awk -F ':' '{print $3}'", function(out)
+	awful.spawn.easy_async_with_shell("sleep 0.2 && xset q | grep Caps | awk -F ':' '{print $3}'", function(out)
 		if string.match(out, "off") then
-			self.widget:get_children_by_id("status")[1].text = "Unlock"
+			self.widget:get_children_by_id("status")[1].text = "小写"
 			self.widget:get_children_by_id("status")[1].font = theme.caps_widget_off_font
 			self.widget.bg = theme.widget_bg
 			self.widget.fg = theme.widget_fg
 			self.widget.icon = theme.caps_off_icon
-			--self.widget.shape_border_width = theme.widget_border_width
 			caps.lock = false
 		else
-			self.widget:get_children_by_id("status")[1].text = "Locked"
+			self.widget:get_children_by_id("status")[1].text = "大写"
 			self.widget:get_children_by_id("status")[1].font = theme.caps_widget_on_font
 			self.widget.bg = theme.caps_on_bg
 			self.widget.fg = theme.caps_on_fg
 			self.widget.icon = theme.caps_on_icon
-			--self.widget.shape_border_width = theme.widget_border_width + dpi(2)
 			caps.lock = true
 		end
 	end)
@@ -105,15 +99,15 @@ function caps:setup(mt,ml,mr,mb)
 		end)
 	))
 
-	--gears.timer({
-	--	timeout   = 10,
-	--	call_now  = true,
-	--	autostart = true,
-	--	single_shot = true,
-	--	callback  = function()
-	--		self:update()
-	--	end
-	--})
+	gears.timer({
+		timeout   = 2,
+		call_now  = false,
+		autostart = true,
+		single_shot = true,
+		callback  = function()
+			self:update()
+		end
+	})
 
 	return wibox.widget{
 		self.widget,

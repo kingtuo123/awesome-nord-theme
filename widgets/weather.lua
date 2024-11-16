@@ -18,21 +18,21 @@ local cmd_get_weather = "curl --connect-timeout 5 \"https://restapi.amap.com/v3/
 weather.widget = wibox.widget{
 	{
 		{
-			{
-				{
-					id   = "weather_icon",
-					image = theme.weather_icon,
-					forced_height = dpi(14),
-					forced_width = dpi(14),
-					widget = wibox.widget.imagebox,
-				},
-				valign = "center",
-				widget = wibox.container.place,
-			},
-			{
-				left = dpi(8),
-				widget	= wibox.container.margin,
-			},
+			--{
+			--	{
+			--		id   = "weather_icon",
+			--		image = theme.weather_icon,
+			--		forced_height = dpi(14),
+			--		forced_width = dpi(14),
+			--		widget = wibox.widget.imagebox,
+			--	},
+			--	valign = "center",
+			--	widget = wibox.container.place,
+			--},
+			--{
+			--	left = dpi(8),
+			--	widget	= wibox.container.margin,
+			--},
 			{
 				id   = "weather",
 				text = " -- ",
@@ -41,24 +41,24 @@ weather.widget = wibox.widget{
 				widget = wibox.widget.textbox,
 			},
 			{
-				left = dpi(20),
+				left = dpi(10),
 				widget	= wibox.container.margin,
 			},
-			{
-				{
-					id   = "temperature_icon",
-					image = theme.temperature_icon,
-					forced_height = dpi(16),
-					forced_width = dpi(16),
-					widget = wibox.widget.imagebox,
-				},
-				valign = "center",
-				widget = wibox.container.place,
-			},
-			{
-				left = dpi(1),
-				widget	= wibox.container.margin,
-			},
+			--{
+			--	{
+			--		id   = "temperature_icon",
+			--		image = theme.temperature_icon,
+			--		forced_height = dpi(16),
+			--		forced_width = dpi(16),
+			--		widget = wibox.widget.imagebox,
+			--	},
+			--	valign = "center",
+			--	widget = wibox.container.place,
+			--},
+			--{
+			--	left = dpi(1),
+			--	widget	= wibox.container.margin,
+			--},
 			{
 				id   = "temperature",
 				text = " -- ",
@@ -67,24 +67,24 @@ weather.widget = wibox.widget{
 				widget = wibox.widget.textbox,
 			},
 			{
-				left = dpi(15),
+				left = dpi(10),
 				widget	= wibox.container.margin,
 			},
-			{
-				{
-					id   = "humidity_icon",
-					image = theme.humidity_icon,
-					forced_height = dpi(14),
-					forced_width = dpi(14),
-					widget = wibox.widget.imagebox,
-				},
-				valign = "center",
-				widget = wibox.container.place,
-			},
-			{
-				left = dpi(3),
-				widget	= wibox.container.margin,
-			},
+			--{
+			--	{
+			--		id   = "humidity_icon",
+			--		image = theme.humidity_icon,
+			--		forced_height = dpi(14),
+			--		forced_width = dpi(14),
+			--		widget = wibox.widget.imagebox,
+			--	},
+			--	valign = "center",
+			--	widget = wibox.container.place,
+			--},
+			--{
+			--	left = dpi(3),
+			--	widget	= wibox.container.margin,
+			--},
 			{
 				id   = "humidity",
 				text = " -- ",
@@ -122,7 +122,7 @@ function weather:update()
 			return
 		end
 		if data.lives[1].weather ~= nil then
-			self.widget:get_children_by_id("weather")[1].text = data.lives[1].weather
+			self.widget:get_children_by_id("weather")[1].text = data.lives[1].weather .. " "
 			--self.widget:get_children_by_id("weather")[1].text = string.format("%s • %s℃  • %s%%", data.lives[1].weather, data.lives[1].temperature, data.lives[1].humidity)
 		end
 		if data.lives[1].temperature ~= nil then

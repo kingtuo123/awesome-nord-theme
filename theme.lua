@@ -71,7 +71,7 @@ theme.popup_rounded		   = dpi(0)
 theme.popup_border_width   = dpi(2)
 theme.popup_border_color   = theme.border_normal
 theme.popup_margin_top	   = theme.topbar_height + theme.useless_gap * 2
-theme.popup_margin_right   = dpi(5)
+theme.popup_margin_right   = theme.useless_gap * 2
 theme.popup_fg_progressbar = "#c4a7e7"
 theme.popup_bg_progressbar = "#1f1d2e"
 theme.popup_bg_graph       = sc("#222436", "#12131d" )
@@ -92,7 +92,7 @@ theme.corner_size = dpi(15)
 ---------------------------------------------------------------------------------------
 theme.caps_on_icon = theme.icon_dir .. "caps/caps-on.svg"
 theme.caps_off_icon = theme.icon_dir .. "caps/caps-off.svg"
-theme.caps_on_bg = "#c4a7e7"
+theme.caps_on_bg = "#eb6f92"
 theme.caps_on_fg = theme.bg
 theme.caps_widget_on_font  = "JetBrainsMono NFP Bold 8.5"
 theme.caps_widget_off_font  = "JetBrainsMono NFP 8.5"
@@ -106,8 +106,8 @@ theme.caps_widget_off_font  = "JetBrainsMono NFP 8.5"
 ---------------------------------------------------------------------------------------
 theme.indicator_fg = theme.bg
 theme.indicator_bg = theme.fg
-theme.indicator_bg_inactive = "#6e6a86"
-theme.indicator_rounded = dpi(2)
+theme.indicator_bg_inactive = "#393552"
+theme.indicator_rounded = dpi(3)
 theme.indicator_font = "Microsoft YaHei UI Bold 8"
 theme.indicator_width = dpi(16)
 theme.indicator_margin_top = dpi(9)
@@ -139,7 +139,7 @@ theme.taglist_fg_focus     		= theme.bg
 theme.taglist_bg_focus     		= "#c4a7e7"
 theme.taglist_fg_occupied  		= theme.fg
 theme.taglist_bg_occupied  		= "#26233a"
-theme.taglist_fg_empty     		= "#6e6a86"
+theme.taglist_fg_empty     		= "#393552"
 theme.taglist_bg_empty     		= "#1f1d2e"
 --theme.taglist_squares_resize	= true
 --theme.taglist_squares_sel  		= theme.icon_dir .. "taglist/tag_sel.svg"
@@ -166,16 +166,16 @@ theme.tasklist_bg_minimize       = "#1f1d2e"
 ---------------------------------------------------------------------------------------
 ---------------------------------- calendar -------------------------------------------
 ---------------------------------------------------------------------------------------
---theme.clock_font	 = "Microsoft YaHei UI 9"
+theme.clock_font	 = "Microsoft YaHei UI 9"
 theme.clock_icon     = theme.icon_dir .. "clock/clock.svg"
-theme.clock_font     = "JetBrainsMono NFP 8.5"
+--theme.clock_font     = "JetBrainsMono NFP 8.5"
 theme.cal_font       = "JetBrainsMono NFP 9"
 theme.cal_header_fg  = theme.fg
-theme.cal_weekday_fg = sc("#0067c0", "#86e1fc")
+theme.cal_weekday_fg = "#c4a7e7"
 theme.cal_fg_normal  = theme.fg
 theme.cal_fg_focus   = theme.popup_bg
-theme.cal_bg_focus   = sc("#0067c0", "#86e1fc") 
-theme.cal_week_06_bg = sc("#ffffff", "#222436" ) 
+theme.cal_bg_focus   = "#c4a7e7"
+theme.cal_week_06_bg = "#1f1d2e"
 theme.cal_rounded    = dpi(5)
 theme.cal_default_padding = {top = dpi(6), bottom = dpi(6), left = dpi(8), right = dpi(8)}
 
@@ -184,8 +184,11 @@ theme.cal_default_padding = {top = dpi(6), bottom = dpi(6), left = dpi(8), right
 ---------------------------------------------------------------------------------------
 ----------------------------------- music -----------------------------------------------
 ---------------------------------------------------------------------------------------
-theme.music_font	 = "Microsoft YaHei UI 9"
-theme.music_font1	 = "Microsoft YaHei UI 8.5"
+theme.music_title_font = "Microsoft YaHei UI 10"
+theme.music_artist_font = "Microsoft YaHei UI 9"
+theme.music_popup_width = dpi(250)
+theme.music_popup_height = dpi(80)
+theme.music_popup_margin = dpi(0)
 theme.music_icon = theme.icon_dir .. "music/music.svg"
 theme.music_off_icon = theme.icon_dir .. "music/music-off.svg"
 theme.music_next_icon = theme.icon_dir .. "music/next.svg"
@@ -193,9 +196,32 @@ theme.music_prev_icon = theme.icon_dir .. "music/prev.svg"
 theme.music_play_icon = theme.icon_dir .. "music/play.svg"
 theme.music_pause_icon = theme.icon_dir .. "music/pause.svg"
 theme.music_cover_image = theme.icon_dir .. "music/cover.svg"
-theme.music_lyric_icon = theme.icon_dir .. "music/lyric.svg"
-theme.music_lyric_press_icon = theme.icon_dir .. "music/lyric-press.svg"
-theme.music_playlist_icon = theme.icon_dir .. "music/playlist.svg"
+theme.music_random_icon = theme.icon_dir .. "music/random.svg"
+theme.music_repeat_icon = theme.icon_dir .. "music/repeat.svg"
+theme.music_single_icon = theme.icon_dir .. "music/single.svg"
+theme.music_icon_opacity = 0.7
+theme.music_title_opacity = 0.8
+theme.music_artist_opacity = 0.5
+theme.music_bg_opacity = 0.5
+theme.music_cover_round = dpi(0)
+theme.music_cover_margin = dpi(0)
+theme.music_notify_timeout = 5
+
+
+
+
+---------------------------------------------------------------------------------------
+------------------------------------ fcitx --------------------------------------------
+---------------------------------------------------------------------------------------
+theme.fcitx_icon = theme.icon_dir .. "fcitx/keyboard.svg"
+--theme.fcitx_font = "JetBrainsMono NFP 8.5"
+theme.fcitx_font = "Microsoft YaHei UI 9"
+theme.fcitx_bg = theme.widget_bg
+theme.fcitx_fg = theme.fg
+theme.fcitx_pinyin_icon = theme.icon_dir .. "fcitx/pinyin.svg"
+theme.fcitx_pinyin_font = "Microsoft YaHei UI Bold 9"
+theme.fcitx_pinyin_bg = "#f6c177"
+theme.fcitx_pinyin_fg = theme.bg
 
 
 

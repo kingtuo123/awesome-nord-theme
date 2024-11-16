@@ -26,6 +26,8 @@ local indicator = require("widgets.indicator")
 local smart_move = require("widgets.move")
 local smart_resize = require("widgets.resize")
 local close = require("widgets.close")
+local fcitx = require("widgets.fcitx")
+local caps= require("widgets.caps")
 
 
 
@@ -88,11 +90,19 @@ globalkeys = gears.table.join(
 	awful.key({                   }, "XF86AudioRaiseVolume" , function() volume:up() end),
 	awful.key({                   }, "XF86AudioLowerVolume" , function() volume:down() end),
 	awful.key({                   }, "XF86AudioMute"        , function() volume:toggle() end),
-    --awful.key({ nil   , "Control" }, "space"     , function() volume:toggle()end),
+	awful.key({ modkey,           }, "XF86AudioMute"        , function() awful.spawn.with_shell("mpc toggle &> /dev/null") end),
+	awful.key({ modkey,           }, "XF86AudioRaiseVolume" , function() awful.spawn.with_shell("mpc next &> /dev/null") end),
+	awful.key({ modkey,           }, "XF86AudioLowerVolume" , function() awful.spawn.with_shell("mpc prev &> /dev/null") end),
+    awful.key({ nil   , "Control" }, "space"                , function() fcitx:toggle()end),
+	awful.key({                   }, "Caps_Lock"            , function() caps:update() end),
+	awful.key({ modkey,           }, "Caps_Lock"            , function() caps:update() end),
+	awful.key({ "Mod1",           }, "Caps_Lock"            , function() caps:update() end),
     awful.key({ modkey, "Control" }, "r"     , awesome.restart),
     awful.key({ modkey, "Shift"   }, "q"     , awesome.quit),
     awful.key({ modkey,           }, "["     , awful.tag.viewprev),
     awful.key({ modkey,           }, "]"     , awful.tag.viewnext),
+    awful.key({ modkey,           }, "q"     , awful.tag.viewprev),
+    awful.key({ modkey,           }, "e"     , awful.tag.viewnext),
     awful.key({ modkey,           }, "Escape", awful.tag.history.restore),
     awful.key({ modkey,           }, "Tab"   , function() awful.client.focus.byidx(1) end),
     awful.key({ modkey,           }, "Return", function() awful.spawn(terminal) end),
@@ -102,6 +112,8 @@ globalkeys = gears.table.join(
     awful.key({ modkey, "Shift"   }, "space" , function() awful.layout.inc(-1) end),
 	awful.key({ modkey,           }, "r"     , function() s = awful.screen.focused() s.promptbox.popup.visible = not s.promptbox.popup.visible s.promptbox.widget:run() end),
     awful.key({ modkey, "Control" }, "n"     , function() local c = awful.client.restore() if c then c:emit_signal( "request::activate", "key.unminimize", {raise = true}) end end),
+    awful.key({ modkey, "Shift"   }, "d"     , function() local c = awful.client.restore() if c then c:emit_signal( "request::activate", "key.unminimize", {raise = true}) end end),
+    awful.key({ modkey,           }, "a"     , function() local c = awful.client.restore() if c then c:emit_signal( "request::activate", "key.unminimize", {raise = true}) end end),
     awful.key({ modkey,           }, "b"	 , function() local s = awful.screen.focused() s.topbar.visible = not s.topbar.visible end),
 	awful.key({ modkey,           }, "z"     , function() awful.screen.focused().quake:toggle() end)
 )
@@ -115,6 +127,7 @@ clientkeys = gears.table.join(
     awful.key({ modkey,           }, "t"     , function(c) c.ontop = not c.ontop  indicator:update() end),
     awful.key({ modkey,           }, "m"     , function(c) c.maximized = not c.maximized c:raise() indicator:update() end),
     awful.key({ modkey,           }, "n"     , function(c) if c.class ~= "QuakeDD" then c.minimized = true else awful.screen.focused().quake:toggle() end end),
+    awful.key({ modkey,           }, "d"     , function(c) if c.class ~= "QuakeDD" then c.minimized = true else awful.screen.focused().quake:toggle() end end),
     awful.key({ modkey,           }, "h"     , function(c) awful.client.focus.bydirection("left", client.focus) end),
     awful.key({ modkey,           }, "l"     , function(c) awful.client.focus.bydirection("right", client.focus) end),
 	awful.key({ modkey,           }, "j"     , function(c) awful.client.focus.bydirection("down", client.focus) end),
@@ -354,11 +367,12 @@ end)
 
 client.connect_signal("unfocus", function(c) 
 	c.border_color = theme.border_normal
-	--c.border_width = theme.border_width
+	c.border_width = theme.border_width
 end)
 
 client.connect_signal("focus", function(c) 
 	c.border_color = theme.border_focus
+	c.border_width = theme.border_width
 	local s = awful.screen.focused()
 	if #s.clients == 1 then
 		c.border_color = theme.border_normal

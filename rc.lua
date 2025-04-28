@@ -25,16 +25,16 @@ local indicator = require("widgets.indicator")
 
 local smart_move = require("widgets.move")
 local smart_resize = require("widgets.resize")
-local close = require("widgets.close")
-local fcitx = require("widgets.fcitx")
-local caps= require("widgets.caps")
+--local close = require("widgets.close")
+--local fcitx = require("widgets.fcitx")
+--local caps= require("widgets.caps")
 
 
 
 
 terminal          = "alacritty"
 floating_terminal = "alacritty --title='floating-terminal'"
-modkey            = "Mod4"
+modkey            = "Mod4"  --win=Mod4, alt=Mod1
 
 
 
@@ -93,10 +93,10 @@ globalkeys = gears.table.join(
 	awful.key({ modkey,           }, "XF86AudioMute"        , function() awful.spawn.with_shell("mpc toggle &> /dev/null") end),
 	awful.key({ modkey,           }, "XF86AudioRaiseVolume" , function() awful.spawn.with_shell("mpc next &> /dev/null") end),
 	awful.key({ modkey,           }, "XF86AudioLowerVolume" , function() awful.spawn.with_shell("mpc prev &> /dev/null") end),
-    awful.key({ nil   , "Control" }, "space"                , function() fcitx:toggle()end),
-	awful.key({                   }, "Caps_Lock"            , function() caps:update() end),
-	awful.key({ modkey,           }, "Caps_Lock"            , function() caps:update() end),
-	awful.key({ "Mod1",           }, "Caps_Lock"            , function() caps:update() end),
+    --awful.key({ nil   , "Control" }, "space"                , function() fcitx:toggle()end),
+	--awful.key({                   }, "Caps_Lock"            , function() caps:update() end),
+	--awful.key({ modkey,           }, "Caps_Lock"            , function() caps:update() end),
+	--awful.key({ "Mod1",           }, "Caps_Lock"            , function() caps:update() end),
     awful.key({ modkey, "Control" }, "r"     , awesome.restart),
     awful.key({ modkey, "Shift"   }, "q"     , awesome.quit),
     awful.key({ modkey,           }, "["     , awful.tag.viewprev),
@@ -105,6 +105,7 @@ globalkeys = gears.table.join(
     awful.key({ modkey,           }, "e"     , awful.tag.viewnext),
     awful.key({ modkey,           }, "Escape", awful.tag.history.restore),
     awful.key({ modkey,           }, "Tab"   , function() awful.client.focus.byidx(1) end),
+    awful.key({ "Mod1",           }, "Tab"   , function() awful.client.focus.byidx(-1) end),
     awful.key({ modkey,           }, "Return", function() awful.spawn(terminal) end),
     awful.key({ modkey, "Shift"   }, "Return", function() awful.spawn(floating_terminal) end),
     awful.key({ modkey, "Control" }, "s"     , function() awful.spawn("flameshot gui") end),
@@ -153,7 +154,10 @@ clientkeys = gears.table.join(
     awful.key({ modkey, "Shift"   }, "h"     , function(c) smart_move(c, "left") end),
     awful.key({ modkey, "Shift"   }, "l"     , function(c) smart_move(c, "right") end),
     awful.key({ modkey, "Shift"   }, "j"     , function(c) smart_move(c, "down") end),
-    awful.key({ modkey, "Shift"   }, "k"     , function(c) smart_move(c, "up") end)
+    awful.key({ modkey, "Shift"   }, "k"     , function(c) smart_move(c, "up") end),
+
+    awful.key({ modkey, "Shift"   }, "["     , function(c) local s = awful.screen.focused() local t = client.focus and client.focus.first_tag or nil  local i = {10,1,2,3,4,5,6,7,8,9} client.focus:move_to_tag(s.tags[i[t.index]]) s.tags[i[t.index]]:view_only() end),
+    awful.key({ modkey, "Shift"   }, "]"     , function(c) local s = awful.screen.focused() local t = client.focus and client.focus.first_tag or nil  local i = {2,3,4,5,6,7,8,9,10,1} client.focus:move_to_tag(s.tags[i[t.index]]) s.tags[i[t.index]]:view_only() end)
 )
 
 -- Bind all key numbers to tags.
@@ -383,10 +387,11 @@ client.connect_signal("focus", function(c)
 		--	c.border_width = 0
 		--end
 	end
+	--fcitx.timer:again()
 	indicator:update()
-	if close.hover then
-		close.widget:emit_signal("mouse::enter")
-	end
+	--if close.hover then
+	--	close.widget:emit_signal("mouse::enter")
+	--end
 end)
 
 -- client.connect_signal("mouse::enter", function(c)

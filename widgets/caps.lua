@@ -34,6 +34,7 @@ caps.widget = wibox.widget{
 		id      = "margin",
 		widget	= wibox.container.margin
 	},
+	visible = false,
 	set_icon = function(self, image)
 		self:get_children_by_id("icon")[1].image = image
 	end,
@@ -56,7 +57,9 @@ function caps:update()
 			self.widget.fg = theme.widget_fg
 			self.widget.icon = theme.caps_off_icon
 			caps.lock = false
+			self.widget.visible = false
 		else
+			self.widget.visible = true
 			self.widget:get_children_by_id("status")[1].text = "大写"
 			self.widget:get_children_by_id("status")[1].font = theme.caps_widget_on_font
 			self.widget.bg = theme.caps_on_bg

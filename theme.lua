@@ -48,9 +48,9 @@ theme.topbar_height         = dpi(33)
 theme.topbar_border_width   = dpi(0)
 theme.topbar_fg 			= theme.fg
 theme.topbar_bg				= theme.bg
-theme.topbar_border_color   = sc("#bbbbbb", "#3b4261")
+theme.topbar_border_color   = "#3b4261"
 
-theme.widget_rounded        = dpi(5)
+theme.widget_rounded        = dpi(4)
 theme.widget_border_width   = dpi(3)
 theme.widget_border_color   = theme.bg
 theme.widget_fg             = theme.fg
@@ -58,7 +58,7 @@ theme.widget_bg             = "#1f1d2e"
 theme.widget_bg_hover       = "#26233a"
 theme.widget_bg_press       = "#26233a"
 theme.widget_fg_press       = theme.fg
-theme.widget_bg_graph       = sc("#222436", "#12131d")
+theme.widget_bg_graph       = "#131415"
 
 
 
@@ -74,8 +74,9 @@ theme.popup_margin_top	   = theme.topbar_height + theme.useless_gap * 2
 theme.popup_margin_right   = theme.useless_gap * 2
 theme.popup_fg_progressbar = "#c4a7e7"
 theme.popup_bg_progressbar = "#1f1d2e"
-theme.popup_bg_graph       = sc("#222436", "#12131d" )
-theme.popup_progress_border_color = sc("#dddddd", "#3b4261")
+theme.popup_bg_graph       = "#131415"
+theme.popup_graph_border_color = "#26233a66"
+theme.popup_progress_border_color = "#26233a"
 
 
 
@@ -122,9 +123,9 @@ theme.indicator_margin_right = dpi(3)
 ---------------------------------------------------------------------------------------
 --------------------------------- close -----------------------------------------------
 ---------------------------------------------------------------------------------------
-theme.close_icon = theme.icon_dir .. "close/close.svg"
-theme.close_mask_bg = "#eb6f92"
-theme.close_mask_opacity = 0.3
+--theme.close_icon = theme.icon_dir .. "close/close.svg"
+--theme.close_mask_bg = "#eb6f92"
+--theme.close_mask_opacity = 0.3
 
 
 
@@ -152,12 +153,12 @@ theme.taglist_bg_empty     		= "#1f1d2e"
 --------------------------------- tasklist --------------------------------------------
 ---------------------------------------------------------------------------------------
 theme.icon_theme		         = "Fluent-dark"
-theme.tasklist_icon_size         = dpi(20)
+theme.tasklist_icon_size         = dpi(22)
 theme.tasklist_width        	 = dpi(33)
 theme.tasklist_spacing           = dpi(0)
 theme.tasklist_bg_focus          = theme.bg
 theme.tasklist_bg_normal         = theme.bg
-theme.tasklist_bg_minimize       = "#1f1d2e"
+theme.tasklist_bg_minimize       = theme.bg --"#1f1d2e"
 --theme.tasklist_bg_image_focus    = theme.icon_dir .. "taglist/tag_sel.svg"
 --theme.tasklist_bg_image_normal   = theme.icon_dir .. "taglist/tag_sel_occ.svg"
 
@@ -205,7 +206,7 @@ theme.music_artist_opacity = 0.5
 theme.music_bg_opacity = 0.5
 theme.music_cover_round = dpi(0)
 theme.music_cover_margin = dpi(0)
-theme.music_notify_timeout = 5
+theme.music_notify_timeout = 2
 
 
 
@@ -213,15 +214,15 @@ theme.music_notify_timeout = 5
 ---------------------------------------------------------------------------------------
 ------------------------------------ fcitx --------------------------------------------
 ---------------------------------------------------------------------------------------
-theme.fcitx_icon = theme.icon_dir .. "fcitx/keyboard.svg"
---theme.fcitx_font = "JetBrainsMono NFP 8.5"
-theme.fcitx_font = "Microsoft YaHei UI 9"
-theme.fcitx_bg = theme.widget_bg
-theme.fcitx_fg = theme.fg
-theme.fcitx_pinyin_icon = theme.icon_dir .. "fcitx/pinyin.svg"
-theme.fcitx_pinyin_font = "Microsoft YaHei UI Bold 9"
-theme.fcitx_pinyin_bg = "#f6c177"
-theme.fcitx_pinyin_fg = theme.bg
+--theme.fcitx_icon = theme.icon_dir .. "fcitx/keyboard.svg"
+----theme.fcitx_font = "JetBrainsMono NFP 8.5"
+--theme.fcitx_font = "Microsoft YaHei UI 9"
+--theme.fcitx_bg = theme.widget_bg
+--theme.fcitx_fg = theme.fg
+--theme.fcitx_pinyin_icon = theme.icon_dir .. "fcitx/pinyin.svg"
+--theme.fcitx_pinyin_font = "Microsoft YaHei UI Bold 9"
+--theme.fcitx_pinyin_bg = "#f6c177"
+--theme.fcitx_pinyin_fg = theme.bg
 
 
 
@@ -259,7 +260,7 @@ theme.cpu_font             = "JetBrainsMono NFP 8"
 ----------------------------------- mem -----------------------------------------------
 ---------------------------------------------------------------------------------------
 theme.mem_graph_mask_img   = theme.cpu_graph_mask_img
-theme.mem_buffer_color     = "#3b4261"
+theme.mem_buffer_color     = "#393552"
 theme.mem_title_font       = "JetBrainsMono NFP Bold 9"
 theme.mem_font             = "JetBrainsMono NFP 8"
 
@@ -293,6 +294,7 @@ theme.serial_icon				 = theme.icon_dir .. "disk/serial.svg"
 ----------------------------------- v2ray icon ----------------------------------------
 ---------------------------------------------------------------------------------------
 theme.v2ray_icon			= theme.icon_dir .. "v2ray/v2ray.svg"
+theme.v2ray_off_icon			= theme.icon_dir .. "v2ray/v2ray-off.svg"
 theme.switch_on_icon			= theme.icon_dir .. "v2ray/switch-on.svg"
 theme.switch_off_icon			= theme.icon_dir .. "v2ray/switch-off.svg"
 

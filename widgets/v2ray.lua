@@ -13,44 +13,45 @@ v2ray.widget = wibox.widget{
 		{
 			{
 				{
+					id = "icon",
 					image = theme.v2ray_icon,
 					widget = wibox.widget.imagebox,
 				},
 				valign = "center",
 				halign = "center",
-				forced_height = dpi(16),
-				forced_width = dpi(16),
+				--forced_height = dpi(16),
+				--forced_width = dpi(16),
 				widget = wibox.container.place,
 			},
-			{
-				left = dpi(5),
-				widget	= wibox.container.margin,
-			},
-			{
-				{
-					{
-						id		= "status",
-						text 	= "OFF",
-						font = "Terminus Bold 7",
-						widget	= wibox.widget.textbox,
-					},
-					valign = "bottom",
-					halign = "left",
-					widget = wibox.container.place,
-				},
-				{
-					{
-						id		= "icon",
-						image	= theme.switch_off_icon,
-						forced_width = dpi(15),
-						widget = wibox.widget.imagebox,
-					},
-					valign = "top",
-					halign = "left",
-					widget = wibox.container.place,
-				},
-				layout = wibox.layout.fixed.vertical,
-			},
+			--{
+			--	left = dpi(5),
+			--	widget	= wibox.container.margin,
+			--},
+			--{
+			--	{
+			--		{
+			--			id		= "status",
+			--			text 	= "OFF",
+			--			font = "Terminus Bold 7",
+			--			widget	= wibox.widget.textbox,
+			--		},
+			--		valign = "bottom",
+			--		halign = "left",
+			--		widget = wibox.container.place,
+			--	},
+			--	{
+			--		{
+			--			id		= "icon",
+			--			image	= theme.switch_off_icon,
+			--			forced_width = dpi(15),
+			--			widget = wibox.widget.imagebox,
+			--		},
+			--		valign = "top",
+			--		halign = "left",
+			--		widget = wibox.container.place,
+			--	},
+			--	layout = wibox.layout.fixed.vertical,
+			--},
 			layout = wibox.layout.fixed.horizontal,
 		},
 		id      = "margin",
@@ -67,12 +68,10 @@ v2ray.widget = wibox.widget{
 	backup_status = "off",
 	set_status = function(self,value)
 		if value == "on" then
-			v2ray.widget:get_children_by_id("icon")[1].image = theme.switch_on_icon
-			v2ray.widget:get_children_by_id("status")[1].text = "ON"
+			v2ray.widget:get_children_by_id("icon")[1].image = theme.v2ray_icon
 			self.backup_status = "on"
 		else
-			v2ray.widget:get_children_by_id("icon")[1].image = theme.switch_off_icon
-			v2ray.widget:get_children_by_id("status")[1].text = "OFF"
+			v2ray.widget:get_children_by_id("icon")[1].image = theme.v2ray_off_icon
 			self.backup_status = "off"
 		end
 	end,
@@ -108,7 +107,7 @@ function v2ray:setup(mt,ml,mr,mb)
 	end)
 
 	self.widget:buttons(awful.util.table.join(
-		awful.button({}, 1, nil, function() 
+		awful.button({}, 2, nil, function() 
 			if self.widget.status == "off" then
 				self.widget.status = "on"
 				awful.spawn.with_shell("v2raya --lite > /dev/null&")

@@ -199,10 +199,16 @@ function clock:update()
 	--end)
 
 	weeks = {"日","一","二","三","四","五","六"}
-	awful.spawn.easy_async_with_shell("date +'%H:%M    周%w    %-02m/%-02d'", function(out)
+	awful.spawn.easy_async_with_shell("date +'%H:%M    周%w    %-1m月%-1d日'", function(out)
 		out = string.gsub(out, "\n", "")
 		self.widget.date = string.gsub(out, "周(%d)", "周" .. weeks[tonumber(string.match(out, "周(%d)")) + 1])
 	end)
+
+	--weeks = {"日","一","二","三","四","五","六"}
+	--awful.spawn.easy_async_with_shell("date +'%H:%M    周%w    %-02m/%-02d'", function(out)
+	--	out = string.gsub(out, "\n", "")
+	--	self.widget.date = string.gsub(out, "周(%d)", "周" .. weeks[tonumber(string.match(out, "周(%d)")) + 1])
+	--end)
 
 	--weeks = {"日","一","二","三","四","五","六"}
 	--awful.spawn.easy_async_with_shell("date +'%-m月%-d日   周%w   %H:%M'", function(out)
@@ -227,19 +233,15 @@ function clock:setup(mt,ml,mr,mb)
 		else
 			self.widget.bg = theme.widget_bg_hover
 		end
-		self.widget.shape_border_color = theme.widget_border_color
 	end)
 
 	self.widget:connect_signal('mouse::leave',function() 
 		if self.popup.visible then
 			self.widget.bg = theme.widget_bg_press
 			self.widget.fg = theme.widget_fg_press
-			self.widget.shape_border_color = theme.widget_border_color
 		else
 			self.widget.bg = theme.widget_bg
 			self.widget.fg = theme.topbar_fg
-			self.widget.shape_border_color = theme.widget_bg
-			self.widget.shape_border_color = theme.widget_border_color
 		end
 	end)
 
@@ -248,7 +250,6 @@ function clock:setup(mt,ml,mr,mb)
 	--		self.popup.visible = false
 	--		self.widget.fg = theme.topbar_fg
 	--		self.widget.bg = theme.widget_bg
-	--		self.widget.shape_border_color = theme.widget_border_color
 	--	end)
 	--))
 
@@ -263,7 +264,6 @@ function clock:setup(mt,ml,mr,mb)
 	--			self.widget.bg = theme.widget_bg_hover
 	--			self.widget.fg = theme.topbar_fg
 	--		end
-	--		self.widget.shape_border_color = theme.widget_border_color
 	--	end)
 	--))
 
@@ -290,23 +290,30 @@ function clock:setup(mt,ml,mr,mb)
 			self.popup:disconnect_signal ('mouse::move',popup_move)
 			self.popup.visible = false
 			self.widget.bg = theme.widget_bg
-			self.widget.shape_border_color = theme.widget_border_color
 		end)
 	))
 
 	self.widget:buttons(awful.util.table.join (
 		awful.button({}, 1, function() 
-			if self.popup.visible then
-				self.popup.visible = false
-				--self.widget.bg = theme.widget_bg_press
-			else
-				self.popup.x = mouse.coords().x - dpi(160)
-				self.popup.y = theme.popup_margin_top
-				self.popup.visible = true
+			if not self.popup.visible then
+				self.popup.x = -999
+				self.popup.y = -999
 				self:update()
-				--self.widget.bg = theme.widget_bg
 			end
-			self.widget.shape_border_color = theme.widget_border_color
+			self.popup.visible = not self.popup.visible 
+		end,function()
+			if self.popup.visible then
+				local s = awful.screen.focused()
+				local x =  mouse.coords().x - math.ceil(self.popup.width / 2)
+				if x + self.popup.width > s.geometry.width - (theme.useless_gap + theme.border_width)*dpi(1) then
+					x = s.geometry.width - self.popup.width - (theme.useless_gap + theme.border_width)*dpi(1)
+				end
+				if x < theme.useless_gap*dpi(1) then
+					x = theme.useless_gap*dpi(1)
+				end
+				self.popup.x = x
+				self.popup.y = theme.popup_margin_top
+			end
 		end)
 	))
 	

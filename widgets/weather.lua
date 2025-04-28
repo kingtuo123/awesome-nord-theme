@@ -18,21 +18,21 @@ local cmd_get_weather = "curl --connect-timeout 5 \"https://restapi.amap.com/v3/
 weather.widget = wibox.widget{
 	{
 		{
-			--{
-			--	{
-			--		id   = "weather_icon",
-			--		image = theme.weather_icon,
-			--		forced_height = dpi(14),
-			--		forced_width = dpi(14),
-			--		widget = wibox.widget.imagebox,
-			--	},
-			--	valign = "center",
-			--	widget = wibox.container.place,
-			--},
-			--{
-			--	left = dpi(8),
-			--	widget	= wibox.container.margin,
-			--},
+			{
+				{
+					id   = "weather_icon",
+					image = theme.weather_icon,
+					forced_height = dpi(14),
+					forced_width = dpi(14),
+					widget = wibox.widget.imagebox,
+				},
+				valign = "center",
+				widget = wibox.container.place,
+			},
+			{
+				left = dpi(10),
+				widget	= wibox.container.margin,
+			},
 			{
 				id   = "weather",
 				text = " -- ",

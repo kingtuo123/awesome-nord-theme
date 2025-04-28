@@ -252,9 +252,12 @@ music.popup = awful.popup{
 	bg				= theme.popup_bg,
 	fg				= "#ffffff",
 	ontop			= true,
-	--shape			= function(cr, width, height)
-	--	gears.shape.rounded_rect(cr, width, height, theme.popup_rounded)
-	--end
+	shape			= function(cr, width, height)
+		gears.shape.rounded_rect(cr, width, height, theme.popup_rounded)
+	end
+    --placement		= function(wdg,args)  
+	--	awful.placement.top_right(wdg, {margins = { top = theme.popup_margin_top ,right = theme.popup_margin_right}}) 
+	--end,
 }
 
 function music:notify()
@@ -298,10 +301,10 @@ end
 function music:set_icon()
 	if self.status.state == "play" then
 		self.popup.widget:get_children_by_id("play")[1].image = theme.music_pause_icon
-		self.widget:get_children_by_id("icon")[1].opacity = 1
+		self.widget:get_children_by_id("icon")[1].image = theme.music_icon
 	else
 		self.popup.widget:get_children_by_id("play")[1].image = theme.music_play_icon
-		self.widget:get_children_by_id("icon")[1].opacity = 0.8
+		self.widget:get_children_by_id("icon")[1].image = theme.music_off_icon
 	end
 	local mode_button =	self.popup.widget:get_children_by_id("mode")[1]
 	if tonumber(self.status.consume) == 1 then
@@ -343,7 +346,7 @@ function music:setup(mt,ml,mr,mb)
 			self.popup:disconnect_signal ('mouse::move',popup_move)
 		end),
 		awful.button({ }, 3, function ()
-			self.popup:disconnect_signal ('mouse::move',popup_move)
+			--self.popup:disconnect_signal ('mouse::move',popup_move)
 			self.popup.visible = false
 			self.widget.bg = theme.widget_bg
 			self.widget.shape_border_color = theme.widget_border_color
@@ -363,7 +366,7 @@ function music:setup(mt,ml,mr,mb)
 			end
 			self.widget.shape_border_color = theme.widget_border_color
 		end),
-		awful.button({}, 3, nil, function()
+		awful.button({}, 2, nil, function()
 			if self.status.state ~= "stop" then
 				awful.spawn.with_shell("mpc toggle &> /dev/null&")
 			end
@@ -467,6 +470,8 @@ function music:setup(mt,ml,mr,mb)
 		single_shot = true,
 		callback  = function()
 			self.popup.visible = false
+			self.widget.bg = theme.widget_bg
+			self.widget.shape_border_color = theme.widget_border_color
 		end
 	})
 

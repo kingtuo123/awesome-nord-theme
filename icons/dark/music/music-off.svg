@@ -1,23 +1,22 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
+
 <svg
-   t="1731596856372"
-   class="icon"
-   viewBox="0 0 639.94879 639.94879"
+   aria-label="Apple Music"
+   role="img"
+   viewBox="0 0 512 512"
    version="1.1"
-   p-id="133215"
-   width="79.993599"
-   height="79.993599"
-   id="svg3"
-   sodipodi:docname="music.svg"
+   id="svg2"
+   sodipodi:docname="music-off.svg"
    inkscape:version="1.4 (e7c3feb, 2024-10-09)"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns="http://www.w3.org/2000/svg"
    xmlns:svg="http://www.w3.org/2000/svg">
   <defs
-     id="defs3" />
+     id="defs2" />
   <sodipodi:namedview
-     id="namedview3"
+     id="namedview2"
      pagecolor="#ffffff"
      bordercolor="#000000"
      borderopacity="0.25"
@@ -26,28 +25,39 @@
      inkscape:pagecheckerboard="0"
      inkscape:deskcolor="#d1d1d1"
      showgrid="false"
-     inkscape:zoom="7.28125"
-     inkscape:cx="38.454936"
-     inkscape:cy="39.965665"
+     inkscape:zoom="1.2912985"
+     inkscape:cx="278.40193"
+     inkscape:cy="296.21346"
      inkscape:window-width="1916"
      inkscape:window-height="1163"
      inkscape:window-x="0"
      inkscape:window-y="33"
      inkscape:window-maximized="1"
-     inkscape:current-layer="svg3" />
+     inkscape:current-layer="svg2" />
+  <rect
+     width="512"
+     height="512"
+     rx="15%"
+     fill="url(#g)"
+     id="rect1"
+     style="fill:#4d4d4d" />
+  <linearGradient
+     id="g"
+     x1=".5"
+     y1=".99"
+     x2=".5"
+     y2=".02">
+    <stop
+       offset="0"
+       stop-color="#FA233B"
+       id="stop1" />
+    <stop
+       offset="1"
+       stop-color="#FB5C74"
+       id="stop2" />
+  </linearGradient>
   <path
-     d="M 532.0192,639.9488 H 107.9296 A 107.9296,107.9296 0 0 1 0,532.0192 V 107.9296 A 107.9296,107.9296 0 0 1 107.9296,0 H 532.0192 A 107.9296,107.9296 0 0 1 639.9488,107.9296 V 532.0192 A 107.9296,107.9296 0 0 1 532.0192,639.9488 Z"
-     fill="#ff7878"
-     p-id="133216"
-     id="path1" />
-  <path
-     d="m 450.304,176.2304 a 21.4016,21.4016 0 0 0 -25.6,-21.0432 L 223.0272,193.024 a 21.4016,21.4016 0 0 0 -17.4592,21.0432 v 192.8704 a 49.92,49.92 0 1 0 32.6656,46.848 V 271.872 l 179.2,-33.5872 V 369.152 A 49.92,49.92 0 1 0 450.0992,416 c 0.2048,-0.9728 0.2048,-239.7696 0.2048,-239.7696 z"
-     fill="#ef5252"
-     p-id="133217"
-     id="path2" />
-  <path
-     d="M 450.304,166.9632 A 21.4016,21.4016 0 0 0 424.704,145.92 L 223.0272,183.7568 A 21.4016,21.4016 0 0 0 205.568,204.8 v 192.8704 a 49.92,49.92 0 1 0 32.6656,46.848 V 262.6048 l 179.2,-33.5872 v 130.8672 a 49.92,49.92 0 1 0 32.6656,46.848 c 0.2048,-0.9728 0.2048,-239.7696 0.2048,-239.7696 z"
      fill="#ffffff"
-     p-id="133218"
-     id="path3" />
+     d="M199 359V199q0-9 10-11l138-28q11-2 12 10v122q0 15-45 20c-57 9-48 105 30 79 30-11 35-40 35-69V88s0-20-17-15l-170 35s-13 2-13 18v203q0 15-45 20c-57 9-48 105 30 79 30-11 35-40 35-69"
+     id="path2" />
 </svg>

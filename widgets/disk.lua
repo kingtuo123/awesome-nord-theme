@@ -468,9 +468,9 @@ disk.popup = awful.popup{
 	shape			= function(cr, width, height)
 		gears.shape.rounded_rect(cr, width, height, theme.popup_rounded)
 	end,
-    placement		= function(wdg,args)  
-		awful.placement.top_right(wdg, {margins = { top = theme.popup_margin_top ,right = theme.popup_margin_right}}) 
-	end,
+    --placement		= function(wdg,args)  
+	--	awful.placement.top_right(wdg, {margins = { top = theme.popup_margin_top ,right = theme.popup_margin_right}}) 
+	--end,
 }
 
 
@@ -530,25 +530,25 @@ function disk:setup(mt,ml,mr,mb)
 	})
 
 
-	--local function popup_move()	
-	--	local m = mouse.coords()
-	--	self.popup.x = m.x - self.popup_offset.x
-	--	self.popup.y = m.y - self.popup_offset.y
-	--	mousegrabber.stop()
-	--end
+	local function popup_move()	
+		local m = mouse.coords()
+		self.popup.x = m.x - self.popup_offset.x
+		self.popup.y = m.y - self.popup_offset.y
+		mousegrabber.stop()
+	end
 
 	self.popup:buttons(gears.table.join(
-		--awful.button({ }, 1, function()
-		--	self.popup:connect_signal('mouse::move',popup_move)
-		--	local m = mouse.coords()
-		--	self.popup_offset = {
-		--		x = m.x - self.popup.x,
-		--		y = m.y - self.popup.y
-		--	}
-		--	self.popup:emit_signal('mouse::move', popup_move)
-		--end,function()
-		--	self.popup:disconnect_signal ('mouse::move',popup_move)
-		--end),
+		awful.button({ }, 1, function()
+			self.popup:connect_signal('mouse::move',popup_move)
+			local m = mouse.coords()
+			self.popup_offset = {
+				x = m.x - self.popup.x,
+				y = m.y - self.popup.y
+			}
+			self.popup:emit_signal('mouse::move', popup_move)
+		end,function()
+			self.popup:disconnect_signal ('mouse::move',popup_move)
+		end),
 		awful.button({ }, 3, function ()
 			--self.popup:disconnect_signal ('mouse::move',popup_move)
 			self.popup.visible = false
@@ -563,8 +563,8 @@ function disk:setup(mt,ml,mr,mb)
 				self.popup.visible = false
 				--self.widget.bg = theme.widget_bg_press
 			else
-				--self.popup.x = mouse.coords().x - dpi(135 + 45)
-				--self.popup.y = theme.popup_margin_top
+				self.popup.x = mouse.coords().x - dpi(135)
+				self.popup.y = theme.popup_margin_top
 				self.popup.visible = true
 				self:update()
 				self.popup.timer:again()

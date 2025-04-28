@@ -58,20 +58,14 @@ end
 
 function fcitx:update()
 	awful.spawn.easy_async_with_shell("fcitx5-remote -n", function(out)
-		if string.match(out, "^keyboard.us.*") then
-			self.widget:get_children_by_id("method")[1].text = "英文"
-			self.widget:get_children_by_id("method")[1].font = theme.fcitx_font
-			self.widget:get_children_by_id("icon")[1].image = theme.fcitx_icon
-			self.widget.bg = theme.fcitx_bg
-			self.widget.fg = theme.fcitx_fg
-		elseif string.match(out, "^pinyin.*") then
+		if string.match(out, "pinyin.*") then
 			self.widget:get_children_by_id("method")[1].text = "拼音"
 			self.widget:get_children_by_id("method")[1].font = theme.fcitx_pinyin_font
 			self.widget:get_children_by_id("icon")[1].image = theme.fcitx_pinyin_icon
 			self.widget.bg = theme.fcitx_pinyin_bg
 			self.widget.fg = theme.fcitx_pinyin_fg
 		else
-			self.widget:get_children_by_id("method")[1].text = "Unknow"
+			self.widget:get_children_by_id("method")[1].text = "英文"
 			self.widget:get_children_by_id("method")[1].font = theme.fcitx_font
 			self.widget:get_children_by_id("icon")[1].image = theme.fcitx_icon
 			self.widget.bg = theme.fcitx_bg
@@ -90,12 +84,13 @@ function fcitx:setup(mt,ml,mr,mb)
 
 	self.widget:buttons(gears.table.join(
 		awful.button({}, 1, nil, function()
-			self:update()
+			--self:update()
+			self:toggle()
 		end)
 	))
 
 	self.timer = gears.timer({
-		timeout   = 4,
+		timeout   = 0.5,
 		call_now  = false,
 		autostart = true,
 		single_shot = true,

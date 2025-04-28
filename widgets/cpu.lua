@@ -151,7 +151,7 @@ cpu.popup = awful.popup{
 							gears.shape.rounded_rect(cr, width, height, dpi(3))
 						end,
 						shape_border_width = dpi(1),
-						shape_border_color = theme.widget_border_color,
+						shape_border_color = theme.popup_graph_border_color,
 						widget = wibox.container.background,
 					},
 					{
@@ -226,7 +226,7 @@ cpu.popup = awful.popup{
 							gears.shape.rounded_rect(cr, width, height, dpi(3))
 						end,
 						shape_border_width = dpi(1),
-						shape_border_color = theme.widget_border_color,
+						shape_border_color = theme.popup_graph_border_color,
 						visible = temp_enable,
 						widget = wibox.container.background,
 					},
@@ -348,11 +348,12 @@ local function single_horizontal_bar()
 			max_value     = 50,
 			forced_height = dpi(22),
 			forced_width  = dpi(105),
-			margins       = {top = dpi(6), left = dpi(0), right = dpi(5), bottom = dpi(7)},
+			margins       = {top = dpi(5), left = dpi(0), right = dpi(5), bottom = dpi(6)},
 			color         = colors[1],
 			paddings	  = dpi(0),
-			border_width  = dpi(0),
-			border_color  = theme.popup_progress_border_color,
+			border_width  = dpi(2),
+			border_color  = theme.popup_bg_progressbar,
+			--border_color  = theme.popup_progress_border_color,
 			background_color = theme.popup_bg_progressbar,
 			widget = wibox.widget.progressbar,	
 			shape			= function(cr, width, height)
@@ -362,6 +363,26 @@ local function single_horizontal_bar()
 				gears.shape.rounded_rect(cr, width, height, dpi(3))
 			end
 		},
+		--{
+		--	id					= "bar",
+		--	value				= 0,
+		--	max_value           = 50,
+		--	forced_height		= dpi(22),
+		--	forced_width		= dpi(105),
+		--	margins             = {top = dpi(5), left = dpi(5), right = dpi(5), bottom = dpi(5)},
+		--	color               = colors[1],
+		--	background_color    = theme.popup_bg_progressbar,
+		--	paddings			= dpi(3),
+		--	border_width		= dpi(0),
+		--	border_color 		= theme.popup_progress_border_color,
+		--	widget				= wibox.widget.progressbar,
+		--	shape			= function(cr, width, height)
+		--		gears.shape.rounded_rect(cr, width, height, dpi(10))
+		--	end,
+		--	bar_shape			= function(cr, width, height)
+		--		gears.shape.rounded_rect(cr, width, height, dpi(10))
+		--	end,
+		--},
 		{
 			{
 				{

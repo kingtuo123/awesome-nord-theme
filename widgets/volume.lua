@@ -530,27 +530,6 @@ function volume:setup(mt,ml,mr,mb)
 	self.widget.margin.right  = dpi(mr or 0)
 	self.widget.margin.bottom = dpi(mb or 0)
 
-	--self.widget:buttons(awful.util.table.join (
-	--	awful.button({}, 1, function() 
-	--		self.popup_notification.visible = false
-	--		self.popup_outputdevice.visible = not self.popup_outputdevice.visible
-	--		self:update()
-	--	end),
-	--	awful.button({}, 2, function() 
-	--		self:toggle()
-	--	end),
-	--	awful.button({}, 3, function() 
-	--		local wdg = self.widget:get_children_by_id("value")[1]
-	--		wdg.visible = not wdg.visible
-	--	end),
-	--	awful.button({}, 4, function() 
-	--		self:up()
-	--	end),
-	--	awful.button({}, 5, function() 
-	--		self:down()
-	--	end)
-	--))
-
 	self.widget:connect_signal('mouse::enter',function() 
 		if self.popup_outputdevice.visible then
 			self.widget.bg = theme.widget_bg_press
@@ -615,22 +594,30 @@ function volume:setup(mt,ml,mr,mb)
 		end)
 	))
 
+
 	self.widget:buttons(awful.util.table.join (
 		awful.button({}, 1, function() 
-			if sink_def_idx == 0 then return end
+			if not self.popup_outputdevice.visible then
+				self.popup_outputdevice.x = -999
+				self.popup_outputdevice.y = -999
+			end
+			self.popup_notification.visible = false
+			self.popup_outputdevice.visible = not self.popup_outputdevice.visible 
+		end,function()
 			if self.popup_outputdevice.visible then
-				self.popup_outputdevice.visible = false
-				--self.widget.bg = theme.widget_bg_press
-			else
-				self.popup_notification.visible = false
-				self.popup_outputdevice.x = mouse.coords().x - dpi(126)
+				local s = awful.screen.focused()
+				local x =  mouse.coords().x - math.ceil(self.popup_outputdevice.width / 2)
+				if x + self.popup_outputdevice.width > s.geometry.width - (theme.useless_gap + theme.border_width)*dpi(1) then
+					x = s.geometry.width - self.popup_outputdevice.width - (theme.useless_gap + theme.border_width)*dpi(1)
+				end
+				if x < theme.useless_gap*dpi(1) then
+					x = theme.useless_gap*dpi(1)
+				end
+				self.popup_outputdevice.x = x
 				self.popup_outputdevice.y = theme.popup_margin_top
-				self.popup_outputdevice.visible = true
 				self:update()
 				self.popup_outputdevice.timer:again()
-				--self.widget.bg = theme.widget_bg_hover
 			end
-			self.widget.shape_border_color = theme.widget_border_color
 		end),
 		awful.button({}, 2, function() 
 			self:toggle()
@@ -646,6 +633,7 @@ function volume:setup(mt,ml,mr,mb)
 			self:down()
 		end)
 	))
+
 
 	self.timer = gears.timer({
 		timeout   = 60,
@@ -676,6 +664,7 @@ function volume:setup(mt,ml,mr,mb)
 			if not self.popup_outputdevice.visible then
 				self.popup_outputdevice.timer:stop()
 			else
+				--print("update volume")
 				self:update()
 			end
 		end
@@ -695,7 +684,7 @@ function volume:setup(mt,ml,mr,mb)
 	--return self.widget
 	return wibox.widget{
 		self.widget,
-		left = dpi(0-theme.widget_border_width/2),
+		left = dpi(0-theme.widget_border_width/dpi(1)),
 		widget = wibox.container.margin
 	}
 end

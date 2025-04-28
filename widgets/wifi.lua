@@ -156,7 +156,6 @@ wifi.popup = awful.popup{
 							},
 							{
 								{
-									{
 										id = "signal",
 										color        = theme.wifi_bar_fg,
 										background_color = theme.popup_bg_progressbar,
@@ -165,25 +164,21 @@ wifi.popup = awful.popup{
 										--ticks        = true,
 										--ticks_size   = dpi(2),
 										--ticks_gap    = dpi(2),
+										forced_height		= dpi(20),
 										forced_width = dpi(4*25),
 										border_width = 0,
-										margins			 = {top = dpi(0), right = dpi(0), left = dpi(0), bottom = dpi(0)},
-										paddings		 = dpi(0),
+										margins             = {top = dpi(4), left = dpi(0), right = dpi(0), bottom = dpi(4)},
+										paddings		 = dpi(3),
 										border_width	 = dpi(0),
 										widget = wibox.widget.progressbar,
-										shape = function(cr, width, height)
-											gears.shape.rounded_rect(cr, width, height, dpi(3))
+										shape			= function(cr, width, height)
+											gears.shape.rounded_rect(cr, width, height, dpi(10))
 										end,
-										bar_shape = function(cr, width, height)
-											gears.shape.rounded_rect(cr, width, height, dpi(3))
+										bar_shape			= function(cr, width, height)
+											gears.shape.rounded_rect(cr, width, height, dpi(10))
 										end,
 										--shape = function(cr, width, height) gears.shape.rounded_rect(cr, width, height, dpi(3)) end,
 										--bar_shape = function(cr, width, height) gears.shape.rounded_rect(cr, width, height, dpi(3)) end,
-									},
-									forced_height = dpi(22),
-									top = dpi(6),
-									bottom = dpi(7),
-									widget = wibox.container.margin,
 								},
 								{
 									right = dpi(10),
@@ -265,9 +260,9 @@ wifi.popup = awful.popup{
 	shape			= function(cr, width, height)
 		gears.shape.rounded_rect(cr, width, height, theme.popup_rounded)
 	end,
-    placement		= function(wdg,args)  
-		awful.placement.top_left(wdg, {margins = { top = theme.popup_margin_top ,left = theme.popup_margin_right}}) 
-	end,
+    --placement		= function(wdg,args)  
+	--	awful.placement.top_left(wdg, {margins = { top = theme.popup_margin_top ,left = theme.popup_margin_right}}) 
+	--end,
 }
 
 
@@ -316,25 +311,25 @@ function wifi:setup(mt,ml,mr,mb)
 	self.widget.margin.right  = dpi(mr or 0)
 	self.widget.margin.bottom = dpi(mb or 0)
 
-	--local function popup_move()	
-	--	local m = mouse.coords()
-	--	self.popup.x = m.x - self.popup_offset.x
-	--	self.popup.y = m.y - self.popup_offset.y
-	--	mousegrabber.stop()
-	--end
+	local function popup_move()	
+		local m = mouse.coords()
+		self.popup.x = m.x - self.popup_offset.x
+		self.popup.y = m.y - self.popup_offset.y
+		mousegrabber.stop()
+	end
 
 	self.popup:buttons(gears.table.join(
-		--awful.button({ }, 1, function()
-		--	self.popup:connect_signal('mouse::move',popup_move)
-		--	local m = mouse.coords()
-		--	self.popup_offset = {
-		--		x = m.x - self.popup.x,
-		--		y = m.y - self.popup.y
-		--	}
-		--	self.popup:emit_signal('mouse::move', popup_move)
-		--end,function()
-		--	self.popup:disconnect_signal ('mouse::move',popup_move)
-		--end),
+		awful.button({ }, 1, function()
+			self.popup:connect_signal('mouse::move',popup_move)
+			local m = mouse.coords()
+			self.popup_offset = {
+				x = m.x - self.popup.x,
+				y = m.y - self.popup.y
+			}
+			self.popup:emit_signal('mouse::move', popup_move)
+		end,function()
+			self.popup:disconnect_signal ('mouse::move',popup_move)
+		end),
 		awful.button({ }, 3, function ()
 			--self.popup:disconnect_signal ('mouse::move',popup_move)
 			self.popup.visible = false
@@ -345,18 +340,26 @@ function wifi:setup(mt,ml,mr,mb)
 
 	self.widget:buttons(awful.util.table.join (
 		awful.button({}, 1, function() 
+			if not self.popup.visible then
+				self.popup.x = -999
+				self.popup.y = -999
+			end
+			self.popup.visible = not self.popup.visible 
+		end,function()
 			if self.popup.visible then
-				self.popup.visible = false
-				--self.widget.bg = theme.widget_bg_press
-			else
-				--self.popup.x = mouse.coords().x - dpi(20)
-				--self.popup.y = theme.popup_margin_top
-				self.popup.visible = true
+				local s = awful.screen.focused()
+				local x =  mouse.coords().x - math.ceil(self.popup.width / 2)
+				if x + self.popup.width > s.geometry.width - (theme.useless_gap + theme.border_width)*dpi(1) then
+					x = s.geometry.width - self.popup.width - (theme.useless_gap + theme.border_width)*dpi(1)
+				end
+				if x < theme.useless_gap*dpi(1) then
+					x = theme.useless_gap*dpi(1)
+				end
+				self.popup.x = x
+				self.popup.y = theme.popup_margin_top
 				self:update()
 				self.popup.timer:again()
-				--self.widget.bg = theme.widget_bg_hover
 			end
-			--self.widget.shape_border_color = theme.widget_border_color
 		end),
 		awful.button({}, 3, function() 
 			local wdg = self.widget:get_children_by_id("ssid")[1]

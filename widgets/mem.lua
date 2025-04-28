@@ -186,7 +186,7 @@ mem.popup = awful.popup{
 						gears.shape.rounded_rect(cr, width, height, dpi(3))
 					end,
 					shape_border_width = dpi(1),
-					shape_border_color = theme.widget_border_color,
+					shape_border_color = theme.popup_graph_border_color,
 					widget = wibox.container.background,
 				},
 				{

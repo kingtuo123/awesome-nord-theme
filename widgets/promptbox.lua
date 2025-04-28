@@ -51,7 +51,7 @@ promptbox.popup = awful.popup{
 		},
 		layout = wibox.layout.fixed.horizontal,
 	},
-	border_color	= theme.popup_border_color,
+	border_color	= theme.border_focus,
 	bg				= theme.popup_bg,
 	fg              = theme.popup_fg,
 	border_width	= theme.popup_border_width,
